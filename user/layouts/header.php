@@ -1,5 +1,5 @@
 <?php
-const rootDir = '/home/multistream6/domains/dashboard.wnbamerica.com/public_html/';
+const rootDir = '/home/multistream6/domains/dashboard.westbridgetrust.com/public_html/';
 require '../include/vendor/autoload.php';
 require rootDir . 'include/vendor/autoload.php';
 ob_start();
@@ -13,23 +13,23 @@ require_once ("../include/twilioController.php");
 
 
 
-//  session_start();  
-      if(isset($_SESSION["name"]))  
-      {  
-           if((time() - $_SESSION['last_login_timestamp']) > 60) // 900 = 15 * 60  
-           {  
-                header("location:logout.php");  
-           }  
-           else  
-           {  
-                $_SESSION['last_login_timestamp'] = time();  
-                echo "<h1 align='center'>".$_SESSION["name"]."</h1>";  
-                echo '<h1 align="center">'.$_SESSION['last_login_timestamp'].'</h1>';  
-                echo "<p align='center'><a href='logout.php'>Logout</a></p>";  
-           }  
-      }  
-      
-      
+//  session_start();
+      if(isset($_SESSION["name"]))
+      {
+           if((time() - $_SESSION['last_login_timestamp']) > 60) // 900 = 15 * 60
+           {
+                header("location:logout.php");
+           }
+           else
+           {
+                $_SESSION['last_login_timestamp'] = time();
+                echo "<h1 align='center'>".$_SESSION["name"]."</h1>";
+                echo '<h1 align="center">'.$_SESSION['last_login_timestamp'].'</h1>';
+                echo "<p align='center'><a href='logout.php'>Logout</a></p>";
+           }
+      }
+
+
 if(!$_SESSION['acct_no']) {
     header("location:../login.php");
     exit;
@@ -624,7 +624,7 @@ if ($row['acct_currency'] === 'USD') {
                             <li>
                                 <a href="./withdrawal-transaction.php"> All Withdrawal</a>
                             </li>
-                            
+
                         </ul>
                     </li>
 
