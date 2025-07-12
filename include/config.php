@@ -1,6 +1,6 @@
 <?php
-//error_reporting(E_ALL);
-//ini_set('display_errors', 1);
+error_reporting(E_ALL);
+ini_set('display_errors', 1);
 define("WEB_TITLE","Western National Bank of America"); // Change Bank Name
 define("WEB_URL","https://dashboard.wnbamerica.com"); // Change No "/" Ending splash
 define("WEB_EMAIL","contact@wnbamerica.com"); // Change Your Website Email
@@ -12,9 +12,9 @@ function support_plugin(){
 
 function dbConnect(){
     $servername = "localhost";
-    $username = "multistream6_wnbamerica_back";//DATABASE USERNAME
-    $password = "wnbamerica_back";//DATABASE PASSWORD
-    $database = "multistream6_wnbamerica_back";//DATABASE NAME
+    $username = "multistream6_westbridgetrust_back";//DATABASE USERNAME
+    $password = "westbridgetrust_back";//DATABASE PASSWORD
+    $database = "multistream6_westbridgetrust_back";//DATABASE NAME
     $dns = "mysql:host=$servername;dbname=$database";
 
     try {
