@@ -479,4 +479,115 @@ unset($_SESSION['wire_transfer'], $_SESSION['dom_transfer']);
 <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
     <div class="modal-dialog modal-dialog-centered" role="document">
         <div class="modal-content" style="border-radius: 15px; border: none;">
-            <div class="modal-
+            <div class="modal-header" style="border-bottom: none; padding: 25px 25px 0;">
+                <h5 class="modal-title" id="exampleModalLabel" style="font-weight: 600; color: #333;">Quick Transfer</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close" style="background: none; border: none; font-size: 24px; color: #666;">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body" style="padding: 25px;">
+                <div class="transfer-options">
+                    <div class="row">
+                        <div class="col-6">
+                            <a href="domestic-transfer.php" class="transfer-option-card" style="display: block; text-decoration: none; color: inherit;">
+                                <div style="background: linear-gradient(135deg, #43e97b, #38f9d7); border-radius: 15px; padding: 20px; text-align: center; margin-bottom: 15px;">
+                                    <i class="fas fa-university" style="font-size: 24px; color: white; margin-bottom: 10px;"></i>
+                                    <h6 style="color: white; margin: 0; font-weight: 600;">Domestic Transfer</h6>
+                                    <p style="color: rgba(255,255,255,0.8); font-size: 12px; margin: 5px 0 0;">Transfer within country</p>
+                                </div>
+                            </a>
+                        </div>
+                        <div class="col-6">
+                            <a href="wire-transfer.php" class="transfer-option-card" style="display: block; text-decoration: none; color: inherit;">
+                                <div style="background: linear-gradient(135deg, #667eea, #764ba2); border-radius: 15px; padding: 20px; text-align: center; margin-bottom: 15px;">
+                                    <i class="fas fa-globe" style="font-size: 24px; color: white; margin-bottom: 10px;"></i>
+                                    <h6 style="color: white; margin: 0; font-weight: 600;">Wire Transfer</h6>
+                                    <p style="color: rgba(255,255,255,0.8); font-size: 12px; margin: 5px 0 0;">International transfer</p>
+                                </div>
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+// Toggle balance visibility
+document.addEventListener('DOMContentLoaded', function() {
+    const eyeIcon = document.querySelector('.eye-icon');
+    const balanceAmount = document.querySelector('.balance-amount');
+    let balanceVisible = true;
+
+    if (eyeIcon && balanceAmount) {
+        const originalBalance = balanceAmount.textContent;
+
+        eyeIcon.addEventListener('click', function() {
+            if (balanceVisible) {
+                balanceAmount.textContent = '••••••';
+                eyeIcon.innerHTML = '<i class="fas fa-eye-slash"></i>';
+                balanceVisible = false;
+            } else {
+                balanceAmount.textContent = originalBalance;
+                eyeIcon.innerHTML = '<i class="fas fa-eye"></i>';
+                balanceVisible = true;
+            }
+        });
+    }
+
+    // Add click animation to action buttons
+    const actionBtns = document.querySelectorAll('.action-btn');
+    actionBtns.forEach(btn => {
+        btn.addEventListener('click', function(e) {
+            // Add ripple effect
+            const ripple = document.createElement('div');
+            ripple.style.position = 'absolute';
+            ripple.style.borderRadius = '50%';
+            ripple.style.background = 'rgba(102, 126, 234, 0.3)';
+            ripple.style.transform = 'scale(0)';
+            ripple.style.animation = 'ripple 0.6s linear';
+            ripple.style.left = (e.clientX - btn.offsetLeft - 25) + 'px';
+            ripple.style.top = (e.clientY - btn.offsetTop - 25) + 'px';
+            ripple.style.width = '50px';
+            ripple.style.height = '50px';
+
+            btn.style.position = 'relative';
+            btn.appendChild(ripple);
+
+            setTimeout(() => {
+                ripple.remove();
+            }, 600);
+        });
+    });
+
+    // Animate stat cards on load
+    const statCards = document.querySelectorAll('.stat-card');
+    statCards.forEach((card, index) => {
+        setTimeout(() => {
+            card.style.opacity = '0';
+            card.style.transform = 'translateY(20px)';
+            card.style.transition = 'all 0.5s ease';
+
+            setTimeout(() => {
+                card.style.opacity = '1';
+                card.style.transform = 'translateY(0)';
+            }, 100);
+        }, index * 100);
+    });
+});
+
+// Add CSS for ripple animation
+const style = document.createElement('style');
+style.textContent = `
+    @keyframes ripple {
+        to {
+            transform: scale(4);
+            opacity: 0;
+        }
+    }
+`;
+document.head.appendChild(style);
+</script>
+
+<?php include_once('layouts/footer.php'); ?>
