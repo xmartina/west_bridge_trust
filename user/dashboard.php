@@ -15,447 +15,468 @@ unset($_SESSION['wire_transfer'], $_SESSION['dom_transfer']);
 
 ?>
 
+<style>
+/* Modern Mobile Banking Styles */
+.mobile-banking-container {
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    min-height: 100vh;
+    padding: 0;
+    margin: 0;
+}
+
+.banking-header {
+    background: transparent;
+    padding: 20px;
+    color: white;
+}
+
+.user-greeting {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 20px;
+}
+
+.user-info h2 {
+    margin: 0;
+    font-size: 24px;
+    font-weight: 600;
+}
+
+.user-info p {
+    margin: 0;
+    opacity: 0.8;
+    font-size: 14px;
+}
+
+.notification-bell {
+    background: rgba(255,255,255,0.2);
+    border: none;
+    border-radius: 50%;
+    width: 45px;
+    height: 45px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: white;
+}
+
+.balance-card {
+    background: rgba(255,255,255,0.15);
+    backdrop-filter: blur(10px);
+    border-radius: 20px;
+    padding: 25px;
+    margin: 20px;
+    border: 1px solid rgba(255,255,255,0.2);
+}
+
+.balance-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 15px;
+}
+
+.balance-label {
+    color: rgba(255,255,255,0.8);
+    font-size: 14px;
+    margin: 0;
+}
+
+.eye-icon {
+    background: none;
+    border: none;
+    color: white;
+    font-size: 18px;
+}
+
+.balance-amount {
+    font-size: 36px;
+    font-weight: 700;
+    color: white;
+    margin: 10px 0;
+}
+
+.account-number {
+    color: rgba(255,255,255,0.7);
+    font-size: 14px;
+    margin: 0;
+}
+
+.quick-actions {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 15px;
+    padding: 20px;
+}
+
+.action-btn {
+    background: white;
+    border: none;
+    border-radius: 15px;
+    padding: 20px 10px;
+    text-align: center;
+    box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+    transition: transform 0.2s;
+    text-decoration: none;
+    color: #333;
+}
+
+.action-btn:hover {
+    transform: translateY(-2px);
+    text-decoration: none;
+    color: #333;
+}
+
+.action-icon {
+    width: 40px;
+    height: 40px;
+    background: linear-gradient(135deg, #667eea, #764ba2);
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin: 0 auto 10px;
+    color: white;
+}
+
+.action-label {
+    font-size: 12px;
+    font-weight: 500;
+    margin: 0;
+}
+
+.content-section {
+    background: #f8f9fa;
+    border-radius: 25px 25px 0 0;
+    margin-top: 20px;
+    padding: 25px 20px;
+    min-height: 60vh;
+}
+
+.section-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 20px;
+}
+
+.section-title {
+    font-size: 20px;
+    font-weight: 600;
+    color: #333;
+    margin: 0;
+}
+
+.view-all-btn {
+    color: #667eea;
+    text-decoration: none;
+    font-size: 14px;
+    font-weight: 500;
+}
+
+.stats-grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 15px;
+    margin-bottom: 30px;
+}
+
+.stat-card {
+    background: white;
+    border-radius: 15px;
+    padding: 20px;
+    box-shadow: 0 2px 10px rgba(0,0,0,0.05);
+}
+
+.stat-icon {
+    width: 45px;
+    height: 45px;
+    border-radius: 12px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-bottom: 15px;
+    color: white;
+}
+
+.stat-icon.limit {
+    background: linear-gradient(135deg, #4facfe, #00f2fe);
+}
+
+.stat-icon.loan {
+    background: linear-gradient(135deg, #43e97b, #38f9d7);
+}
+
+.stat-icon.expenses {
+    background: linear-gradient(135deg, #fa709a, #fee140);
+}
+
+.stat-icon.available {
+    background: linear-gradient(135deg, #a8edea, #fed6e3);
+}
+
+.stat-value {
+    font-size: 24px;
+    font-weight: 700;
+    color: #333;
+    margin: 0;
+}
+
+.stat-label {
+    font-size: 14px;
+    color: #666;
+    margin: 5px 0 0 0;
+}
+
+.recent-transactions {
+    background: white;
+    border-radius: 15px;
+    padding: 20px;
+    box-shadow: 0 2px 10px rgba(0,0,0,0.05);
+}
+
+.transaction-item {
+    display: flex;
+    align-items: center;
+    padding: 15px 0;
+    border-bottom: 1px solid #f0f0f0;
+}
+
+.transaction-item:last-child {
+    border-bottom: none;
+}
+
+.transaction-icon {
+    width: 45px;
+    height: 45px;
+    border-radius: 12px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-right: 15px;
+    color: white;
+}
+
+.transaction-icon.credit {
+    background: linear-gradient(135deg, #43e97b, #38f9d7);
+}
+
+.transaction-icon.debit {
+    background: linear-gradient(135deg, #fa709a, #fee140);
+}
+
+.transaction-details {
+    flex: 1;
+}
+
+.transaction-title {
+    font-size: 16px;
+    font-weight: 500;
+    color: #333;
+    margin: 0;
+}
+
+.transaction-date {
+    font-size: 12px;
+    color: #666;
+    margin: 2px 0 0 0;
+}
+
+.transaction-amount {
+    font-size: 16px;
+    font-weight: 600;
+}
+
+.transaction-amount.credit {
+    color: #43e97b;
+}
+
+.transaction-amount.debit {
+    color: #fa709a;
+}
+
+@media (max-width: 768px) {
+    .quick-actions {
+        grid-template-columns: repeat(4, 1fr);
+        gap: 10px;
+        padding: 15px;
+    }
+
+    .action-btn {
+        padding: 15px 8px;
+    }
+
+    .action-icon {
+        width: 35px;
+        height: 35px;
+    }
+
+    .action-label {
+        font-size: 11px;
+    }
+
+    .balance-amount {
+        font-size: 28px;
+    }
+
+    .stats-grid {
+        grid-template-columns: 1fr;
+        gap: 10px;
+    }
+}
+</style>
+
 <!--  BEGIN CONTENT AREA  -->
-<div id="content" class="main-content">
-    <div class="layout-px-spacing-dashboard">
-
-        <div class="row layout-top-spacing">
-
-            <div class="col-xl-4 col-lg-4 col-md-4 col-sm-12 layout-spacing">
-                <div class="widget widget-three">
-                    <div class="widget-heading">
-                        <h5 class="">Summary</h5>
-
-
-                        <div class="task-action">
-                            <div class="dropdown">
-                                <a class="dropdown-toggle" href="index.html#" role="button" id="pendingTask" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-more-horizontal"><circle cx="12" cy="12" r="1"></circle><circle cx="19" cy="12" r="1"></circle><circle cx="5" cy="12" r="1"></circle></svg>
-                                </a>
-
-                                <div class="dropdown-menu dropdown-menu-right" aria-labelledby="pendingTask" style="will-change: transform;">
-                                    <a class="dropdown-item" href="javascript:void(0);">View Report</a>
-                                    <a class="dropdown-item" href="javascript:void(0);">Edit Report</a>
-                                    <a class="dropdown-item" href="javascript:void(0);">Mark as Done</a>
-                                </div>
-                            </div>
-                        </div>
-
-                    </div>
-                    <div class="widget-content">
-
-                        <div class="order-summary">
-
-                            <div class="summary-list">
-                                <div class="w-icon">
-                                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-shopping-bag"><path d="M6 2L3 6v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6l-3-4z"></path><line x1="3" y1="6" x2="21" y2="6"></line><path d="M16 10a4 4 0 0 1-8 0"></path></svg>
-                                </div>
-                                <div class="w-summary-details">
-
-                                    <div class="w-summary-info">
-                                        <h6>Limit</h6>
-                                        <p class="summary-count"><?=$currency.$row['acct_limit'] ?></p>
-                                    </div>
-
-                                    <div class="w-summary-stats">
-                                        <div class="progress">
-                                            <div class="progress-bar bg-gradient-secondary" role="progressbar" style="width: 100%" aria-valuenow="90" aria-valuemin="0" aria-valuemax="100"></div>
-                                        </div>
-                                    </div>
-
-                                </div>
-
-                            </div>
-
-                            <div class="summary-list">
-                                <div class="w-icon">
-                                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-tag"><path d="M20.59 13.41l-7.17 7.17a2 2 0 0 1-2.83 0L2 12V2h10l8.59 8.59a2 2 0 0 1 0 2.82z"></path><line x1="7" y1="7" x2="7" y2="7"></line></svg>
-                                </div>
-                                <div class="w-summary-details">
-
-                                    <div class="w-summary-info">
-                                        <h6>Loan Balance</h6>
-                                        <p class="summary-count"><?= $currency.$row['loan_balance']?></p>
-                                    </div>
-
-                                    <div class="w-summary-stats">
-                                        <div class="progress">
-                                            <div class="progress-bar bg-gradient-success" role="progressbar" style="width: 100%" aria-valuenow="65" aria-valuemin="0" aria-valuemax="100"></div>
-                                        </div>
-                                    </div>
-
-                                </div>
-
-                            </div>
-
-                            <div class="summary-list">
-                                <div class="w-icon">
-                                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-credit-card"><rect x="1" y="4" width="22" height="16" rx="2" ry="2"></rect><line x1="1" y1="10" x2="23" y2="10"></line></svg>
-                                </div>
-                                <div class="w-summary-details">
-
-                                    <div class="w-summary-info">
-                                        <h6>Expenses</h6>
-                                        <p class="summary-count"><?=$currency."".$limitRemain ?></p>
-                                    </div>
-
-                                    <div class="w-summary-stats">
-                                        <div class="progress">
-                                            <div class="progress-bar bg-gradient-warning" role="progressbar" style="width: 100%" aria-valuenow="100" aria-valuemin="0" aria-valuemax="100"></div>
-                                        </div>
-                                    </div>
-
-                                </div>
-
-                            </div>
-
-                        </div>
-
-                    </div>
-                    <div class="my-3 w-100 mx-auto d-flex justify-content-center align-items-center">
-                        <script src="https://cdn.logwork.com/widget/clock.js"></script>
-                        <a href="https://logwork.com/clock-widget/" class="clock-time mx-auto" data-style="default-numeral" data-size="210" data-timezone="Africa/Lagos">Current time</a>
-                    </div>
-                </div>
+<div class="mobile-banking-container">
+    <!-- Banking Header -->
+    <div class="banking-header">
+        <div class="user-greeting">
+            <div class="user-info">
+                <h2>Hello, <?php echo explode(' ', $fullName)[0]; ?>!</h2>
+                <p>Welcome back to your account</p>
             </div>
-            <div class="col-xl-4 col-lg-4 col-md-4 col-sm-12 col-4 layout-spacing layout-visible">
-                <div class="widget-two">
-                    <div class="widget-content">
-                        <div class="w-numeric-value">
-                            <div class="w-content">
-                                <span class="w-value">Daily Stats</span>
-                                <span class="w-numeric-title"><a class="text-primary" href="./credit-debit_transaction.php">Go to Transaction for details.</a></span>
-                            </div>
-                            <div class="w-icon">
-                                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-dollar-sign"><line x1="12" y1="1" x2="12" y2="23"></line><path d="M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"></path></svg>
-                            </div>
-                        </div>
-                        <div class="w-chart">
-                            <div id="daily-sales"></div>
-                        </div>
-                    </div>
-                </div>
+            <button class="notification-bell">
+                <i class="fas fa-bell"></i>
+            </button>
+        </div>
+
+        <!-- Balance Card -->
+        <div class="balance-card">
+            <div class="balance-header">
+                <p class="balance-label">Available Balance</p>
+                <button class="eye-icon">
+                    <i class="fas fa-eye"></i>
+                </button>
             </div>
-            <div class="col-xl-4 col-lg-6 col-md-12 col-sm-12 col-12 layout-spacing">
-
-                <div class="widget widget-account-invoice-three">
-
-                    <div class="widget-heading">
-                        <div class="wallet-usr-info">
-                            <div class="usr-name">
-                                <span> <?php echo $fullName ?></span>
-                            </div>
-                            <div class="add" id="homeTransModal">
-                                <span><a  data-toggle="modal" data-target="#exampleModal"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-plus text-white"><line x1="12" y1="5" x2="12" y2="19"></line><line x1="5" y1="12" x2="19" y2="12"></line></svg></a></span>
-                            </div>
-                        </div>
-                        <div class="wallet-balance">
-                            <p>Balance</p>
-                            <h5 class=""><span class="w-currency"><?php echo $currency?></span><?php echo number_format($acct_balance, 2, '.', ','); ?></h5>
-                        </div>
-                        
-                       
-                        
-                     
-                    </div>
-
-                    <div class="widget-amount">
-
-                        <div class="w-a-info funds-received">
-                            <span>Pending<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-chevron-down"><polyline points="6 9 12 15 18 9"></polyline></svg></span>
-
-
-                            <p>
-                                <!--<a  class="btn btn-success btn-sm col-12" data-toggle="modal" data-target="#exampleModal">Deposit</a>-->
-                               
-                                 
-                                <?php echo $currency?><?php echo number_format($avail_balance, 2, '.', ','); ?>
-                                 
-                            </p>
-                        </div>
-
-                        <div class="w-a-info funds-spent">
-                            <span>My Loan <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-chevron-up"><polyline points="18 15 12 9 6 15"></polyline></svg></span>
-                            <p class="text-danger"><?php echo $currency?><?php echo $row['loan_balance'] ?>
-
-                            </p>
-                        </div>
-                    </div>
-
-                    <div class="widget-content">
-
-                        <div class="bills-stats; text-center">
-                            <?php
-                            echo $userStatus
-                            ?>
-                        </div>
-
-                        <div class="invoice-list">
-
-                            <div class="inv-detail">
-                                <div class="info-detail-1">
-                                    <p>Account Limit</p>
-                                    <p><span class="w-currency"><?= $currency ?></span><span class="bill-amount"><?= $limitRemain ?></span></p>
-                                </div>
-                                
-                                
-                                 <?php
-                                $acct_id = userDetails('id');
-
-                                $sql2="SELECT * FROM transactions LEFT JOIN users ON transactions.user_id =users.id WHERE transactions.user_id =:acct_id order by transactions.trans_id DESC LIMIT 1";
-                                $stmt = $conn->prepare($sql2);
-                                $stmt->execute([
-                                    'acct_id'=>$acct_id
-                                ]);
-                                $sn=1;
-                                while ($result = $stmt->fetch(PDO::FETCH_ASSOC)){
-                                    $transStatus = transStatus($result);
-
-                                    if($result['trans_type'] === '1'){
-                                        $trans_type = "<span class='text-success'>Credit</span>";
-                                    }else if($result['trans_type']=== '2'){
-                                        $trans_type = "<span class='text-danger'>Debit</span>
-";
-                                    }
-
-                                    $senderName = $result['sender_name'];
-                                    $description = $result['description'];
-
-                                    ?>
-                              
-                             
-                                <div class="info-detail-3">
-                                    <p>Recent Transaction</p>
-                                    
-                                     <p><span> <?= $currency.$result['amount']    ?></span></p>
-                                </div>
-                          
-                              
-                                 <?php
-                        }
-                        ?>
-                        
-                         <div class="info-detail-2">
-                                    <p>Last Login IP:</p>
-                                    <p class=""><span class="bill-amount text-danger"><?= $logs['ipAddress'] ?> </span></p>
-                                </div>
-                                
-                                <div class="info-detail-2">
-                                    <p>Last Login Date:</p>
-                                    <p class=""><span class="bill-amount text-danger"><?= $logs['datenow'] ?> </span></p>
-                                </div>
-                          
-                          
-                            </div>
-
-                            <div class="inv-action">
-                                <a href="./domestic-transfer.php" class="btn btn-outline-primary view-details">Domestic Transfer</a>
-                                <a href="./wire-transfer.php" class="btn btn-outline-primary pay-now">Wire Transfer</a>
-                            </div>
-                        </div>
-                    </div>
-
-                </div>
-            </div>
+            <h1 class="balance-amount"><?= $currency . number_format($avail_balance, 2) ?></h1>
+            <p class="account-number">Account: <?= $row['acct_no'] ?></p>
         </div>
     </div>
-            <div class="my-4 col-12">
-                <div id="content-custom">
-                        <div class="row layout-top-spacing" id="cancel-row">
-                <div class="h5 text-muted ml-1">Recent Wire Transactions</div>
-                <div class="col-xl-12 col-lg-12 col-sm-12  layout-spacing">
-                    <div class="widget-content widget-content-area br-6 overflow-scroll">
-                        <table id="default-ordering" class="table table-hover" style="width:100%">
 
-                            <thead>
-                            <tr>
-                                <th>S/N</th>
-                                <th>Amount</th>
-                                <th>Reference ID</th>
-                                <th>Bank Name</th>
-                                <th>Account Name</th>
-                                <th>Account Number</th>
-                                <th>Account Type</th>
-                                <th>Transfer Type</th>
-                                <th>Country</th>
-                                <th>Swift Code</th>
-                                <th>Routing Code</th>
-                                <th>Date</th>
-                                <th>Transfer Status</th>
-                            </tr>
-                            </thead>
-                            <tbody>
+    <!-- Quick Actions -->
+    <div class="quick-actions">
+        <a href="wire-transfer.php" class="action-btn">
+            <div class="action-icon">
+                <i class="fas fa-paper-plane"></i>
+            </div>
+            <p class="action-label">Transfer</p>
+        </a>
+        <a href="deposit.php" class="action-btn">
+            <div class="action-icon">
+                <i class="fas fa-plus"></i>
+            </div>
+            <p class="action-label">Deposit</p>
+        </a>
+        <a href="withdrawal.php" class="action-btn">
+            <div class="action-icon">
+                <i class="fas fa-minus"></i>
+            </div>
+            <p class="action-label">Withdraw</p>
+        </a>
+        <a href="loan.php" class="action-btn">
+            <div class="action-icon">
+                <i class="fas fa-hand-holding-usd"></i>
+            </div>
+            <p class="action-label">Loan</p>
+        </a>
+    </div>
 
+    <!-- Content Section -->
+    <div class="content-section">
+        <!-- Account Stats -->
+        <div class="section-header">
+            <h3 class="section-title">Account Overview</h3>
+            <a href="account-details.php" class="view-all-btn">View Details</a>
+        </div>
 
-                            <?php
-                            $acct_id = userDetails('id');
+        <div class="stats-grid">
+            <div class="stat-card">
+                <div class="stat-icon limit">
+                    <i class="fas fa-credit-card"></i>
+                </div>
+                <h4 class="stat-value"><?= $currency . number_format($row['acct_limit'], 0) ?></h4>
+                <p class="stat-label">Credit Limit</p>
+            </div>
 
-                            $sql2 ="SELECT * FROM wire_transfer WHERE acct_id =:acct_id ORDER BY wire_id DESC";
-                            $wire = $conn->prepare($sql2);
-                            $wire->execute([
-                                'acct_id'=>$acct_id
-                            ]);
+            <div class="stat-card">
+                <div class="stat-icon available">
+                    <i class="fas fa-wallet"></i>
+                </div>
+                <h4 class="stat-value"><?= $currency . number_format($acct_balance, 2) ?></h4>
+                <p class="stat-label">Total Balance</p>
+            </div>
 
+            <div class="stat-card">
+                <div class="stat-icon loan">
+                    <i class="fas fa-chart-line"></i>
+                </div>
+                <h4 class="stat-value"><?= $currency . number_format($row['loan_balance'], 2) ?></h4>
+                <p class="stat-label">Loan Balance</p>
+            </div>
 
+            <div class="stat-card">
+                <div class="stat-icon expenses">
+                    <i class="fas fa-shopping-cart"></i>
+                </div>
+                <h4 class="stat-value"><?= $currency . number_format($limitRemain, 2) ?></h4>
+                <p class="stat-label">Available Credit</p>
+            </div>
+        </div>
 
-                            $sn=1;
+        <!-- Recent Transactions -->
+        <div class="section-header">
+            <h3 class="section-title">Recent Transactions</h3>
+            <a href="credit-debit_transaction.php" class="view-all-btn">View All</a>
+        </div>
 
-                            while ($result = $wire->fetch(PDO::FETCH_ASSOC)){
-                                $transStatus = wireStatus($result);
-                                ?>
-                                <tr>
-                                    <td><?= $sn++ ?></td>
-                                    <td><?=$currency. $result['amount'] ?></td>
-                                    <td><?= $result['refrence_id']?></td>
-                                    <td><?= $result['bank_name'] ?></td>
-                                    <td><?= $result['acct_name'] ?></td>
-                                    <td><?= $result['acct_number'] ?></td>
-                                    <td><?= $result['acct_type'] ?></td>
-                                    <td><?= $result['trans_type'] ?></td>
-                                    <td><?= $result['acct_country'] ?></td>
-                                    <td><?= $result['acct_swift'] ?></td>
-                                    <td><?= $result['acct_routing'] ?></td>
-                                    <td><?= $result['createdAt'] ?></td>
-                                    <!--                        <td>--><?php //= $result['created_at'] ?><!--</td>-->
-                                    <td>
-                                        <?php
-                                        if ($result['wire_status']==0){?>
-                                            <span class="badge outline-badge-secondary shadow-none col-md-12">In Progress</span>
-                                            <?php } elseif ($result['wire_status']==1){ ?>
-                                            <span class="badge outline-badge-primary shadow-none col-md-12">Completed</span>
-                                        <?php } elseif ($result['wire_status']==2){ ?>
-                                            <span class="badge outline-badge-danger shadow-none col-md-12">Hold</span>
-                                        <?php } elseif ($result['wire_status']==3){ ?>
-                                        <span class="badge outline-badge-danger shadow-none col-md-12">Cancelled</span>
-                                        <?php } ?>
-                                    </td>
+        <div class="recent-transactions">
+            <?php
+            // Fetch recent transactions
+            $sql = "SELECT * FROM transactions WHERE user_id = :user_id ORDER BY trans_id DESC LIMIT 5";
+            $stmt = $conn->prepare($sql);
+            $stmt->execute([':user_id' => $user_id]);
+            $transactions = $stmt->fetchAll(PDO::FETCH_ASSOC);
 
-                                </tr>
-                                <?php
-                            }
-                            ?>
-                            </tbody>
-                            <tfoot>
-                            <tr>
-                                <th>S/N</th>
-                                <th>Amount</th>
-                                <th>Reference ID</th>
-                                <th>Bank Name</th>
-                                <th>Account Name</th>
-                                <th>Account Number</th>
-                                <th>Account Type</th>
-                                <th>Transfer Type</th>
-                                <th>Country</th>
-                                <th>Swift Code</th>
-                                <th>Routing Code</th>
-                                <th>Date</th>
-                                <th>Transfer Status</th>
-                            </tr>
-                            </tfoot>
-                        </table>
-
-
-                        <div class="d-print-none">
-                            <div class="float-end">
-                                <a href="javascript:window.print()"
-                                   class="btn btn-success waves-effect waves-light me-1"><i
-                                        class="fa fa-print"></i> Print Statement</a>
-                                <div onclick="location.href='./domestic-transaction.php';" class="btn btn-outline-info py-2 px-4 text-muted ml-3">View Domestic Transactions</div>
-                            </div>
-                        </div>
-
-
-                    </div>
+            if(count($transactions) > 0):
+                foreach($transactions as $transaction):
+                    $isCredit = $transaction['trans_type'] == 1;
+                    $iconClass = $isCredit ? 'credit' : 'debit';
+                    $amountClass = $isCredit ? 'credit' : 'debit';
+                    $sign = $isCredit ? '+' : '-';
+            ?>
+            <div class="transaction-item">
+                <div class="transaction-icon <?= $iconClass ?>">
+                    <i class="fas fa-<?= $isCredit ? 'arrow-down' : 'arrow-up' ?>"></i>
+                </div>
+                <div class="transaction-details">
+                    <h5 class="transaction-title"><?= htmlspecialchars($transaction['sender_name']) ?></h5>
+                    <p class="transaction-date"><?= date('M d, Y', strtotime($transaction['created_at'])) ?></p>
+                </div>
+                <div class="transaction-amount <?= $amountClass ?>">
+                    <?= $sign . $currency . number_format($transaction['amount'], 2) ?>
                 </div>
             </div>
-<!--                    Credit / Debit transaction log-->
-                    <div class="py-3">
-                        <span class="h5 d-lg-block d-xl-block d-none">Credit / Debit Transactions</span>
-                        <hr class="w-75 mx-auto my-1 p-0">
-                    </div>
+            <?php
+                endforeach;
+            else:
+            ?>
+            <div class="transaction-item">
+                <div class="transaction-icon credit">
+                    <i class="fas fa-info"></i>
+                </div>
+                <div class="transaction-details">
+                    <h5 class="transaction-title">No transactions yet</h5>
+                    <p class="transaction-date">Start using your account</p>
+                </div>
+            </div>
+            <?php endif; ?>
+        </div>
+    </div>
+</div>
 
-                    <div class="col-xl-12 col-lg-12 col-sm-12  layout-spacing d-lg-block d-xl-block d-none">
-                        <div class="widget-content widget-content-area br-6">
-                            <table id="default-ordering" class="table table-hover" style="width:100%">
-
-                                <thead>
-                                <tr>
-                                    <th>S/N</th>
-                                    <th>AMOUNT</th>
-                                    <th>TYPE</th>
-                                    <th>SENDER / RECEIVER</th>
-                                    <th>DESCRIPTION</th>
-                                    <th>CREATED AT</th>
-                                    <th>TIME CREATED</th>
-                                    <th>STATUS</th>
-                                </tr>
-                                </thead>
-                                <tbody>
-
-
-                                <?php
-
-                                $sql="SELECT * FROM transactions LEFT JOIN users ON transactions.user_id =users.id WHERE transactions.user_id =:acct_id order by transactions.trans_id DESC";
-                                $stmt = $conn->prepare($sql);
-                                $stmt->execute([
-                                    'acct_id'=>$acct_id
-                                ]);
-
-
-
-                                $sn=1;
-
-                                while ($result = $stmt->fetch(PDO::FETCH_ASSOC)){
-                                    $transStatus = transStatus($result);
-
-                                    if($result['trans_type'] === '1'){
-                                        $trans_type = "<span class='text-success'>Credit</span>";
-                                    }else if($result['trans_type']=== '2'){
-                                        $trans_type = "<span class='text-danger'>Debit</span>
-";
-                                    }
-                                    ?>
-                                    <tr>
-                                        <td><?= $sn++ ?></td>
-                                        <td><?=$currency. $result['amount'] ?></td>
-                                        <td><?= $trans_type ?></td>
-                                        <td><?= $result['sender_name'] ?></td>
-                                        <td><?=$result['description'] ?></td>
-                                        <td><?= $result['created_at'] ?></td>
-                                        <td><?= $result['time_created'] ?></td>
-                                        <!--<td><?= $transStatus ?></td>-->
-                                        <td>Completed</td>
-
-                                    </tr>
-                                    <?php
-                                }
-                                ?>
-                                </tbody>
-                                <tfoot>
-                                <tr>
-                                    <th>S/N</th>
-                                    <th>AMOUNT</th>
-                                    <th>TYPE</th>
-                                    <th>SENDER / RECEIVER</th>
-                                    <th>DESCRIPTION</th>
-                                    <th>CREATED AT</th>
-                                    <th>TIME CREATED</th>
-                                    <th>STATUS</th>
-                                </tr>
-                                </tfoot>
-                            </table>
-
-                            <div class="d-print-none">
-                                <div class="float-end">
-                                    <a href="javascript:window.print()"
-                                       class="btn btn-success waves-effect waves-light me-1"><i
-                                            class="fa fa-print"></i> Print Statement</a>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-
-
-                    <?php
-                    include_once('layouts/footer.php')
-                    ?>
+<!-- Quick Transfer Modal -->
+<div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered" role="document">
+        <div class="modal-content" style="border-radius: 15px; border: none;">
+            <div class="modal-
