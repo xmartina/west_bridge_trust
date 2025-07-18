@@ -318,26 +318,6 @@ document.addEventListener('DOMContentLoaded', function() {
             }
         });
     });
-    
-    // Optional: Shuffle the keypad numbers for security
-    function shuffleKeypad() {
-        const keypadNumbers = [0, 1, 2, 3, 4, 5, 6, 7, 8, 9];
-        const shuffleButtons = document.querySelectorAll('.shuffle');
-        
-        // Fisher-Yates shuffle algorithm
-        for (let i = keypadNumbers.length - 1; i > 0; i--) {
-            const j = Math.floor(Math.random() * (i + 1));
-            [keypadNumbers[i], keypadNumbers[j]] = [keypadNumbers[j], keypadNumbers[i]];
-        }
-        
-        // Assign shuffled numbers to buttons
-        shuffleButtons.forEach((button, index) => {
-            button.textContent = keypadNumbers[index];
-        });
-    }
-    
-    // Uncomment the line below if you want to enable keypad shuffling
-    // shuffleKeypad();
 });
 </script>
 

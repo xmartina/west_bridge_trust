@@ -961,6 +961,76 @@ if(isset($_POST['regSubmit'])){
         let currentStep = 1;
         const totalSteps = 3;
 
+        // Initialize on document ready
+        document.addEventListener('DOMContentLoaded', function() {
+            updateProgressSteps();
+            showStep(currentStep);
+            
+            // Next step buttons
+            document.querySelectorAll('.next-step').forEach(btn => {
+                btn.addEventListener('click', function() {
+                    if (validateStep(currentStep) && currentStep < totalSteps) {
+                        currentStep++;
+                        showStep(currentStep);
+                        window.scrollTo(0, 0);
+                    }
+                });
+            });
+
+            // Previous step buttons
+            document.querySelectorAll('.prev-step').forEach(btn => {
+                btn.addEventListener('click', function() {
+                    if (currentStep > 1) {
+                        currentStep--;
+                        showStep(currentStep);
+                        window.scrollTo(0, 0);
+                    }
+                });
+            });
+
+            // File upload preview
+            const fileInput = document.querySelector('input[type="file"]');
+            if (fileInput) {
+                fileInput.addEventListener('change', function(e) {
+                    const file = e.target.files[0];
+                    if (file) {
+                        const label = this.nextElementSibling;
+                        label.innerHTML = `
+                            <div>
+                                <div class="upload-icon">✓</div>
+                                <div><strong>${file.name}</strong></div>
+                                <div style="font-size: 0.9rem; margin-top: 5px;">File selected successfully</div>
+                            </div>
+                        `;
+                        label.style.borderColor = '#afff1a';
+                        label.style.background = 'rgba(175, 255, 26, 0.1)';
+                        label.style.color = '#104042';
+                    }
+                });
+            }
+
+            // Form validation on input
+            document.querySelectorAll('.form-control').forEach(input => {
+                input.addEventListener('input', function() {
+                    if (this.classList.contains('error') && this.value.trim()) {
+                        this.classList.remove('error');
+                        const errorElement = this.parentElement.querySelector('.error-message');
+                        if (errorElement) errorElement.style.display = 'none';
+                    }
+                });
+            });
+
+            // Form submission validation
+            const regForm = document.getElementById('registrationForm');
+            if (regForm) {
+                regForm.addEventListener('submit', function(e) {
+                    if (!validateStep(currentStep)) {
+                        e.preventDefault();
+                    }
+                });
+            }
+        });
+
         function updateProgressSteps() {
             const steps = document.querySelectorAll('.progress-steps li');
             steps.forEach((step, index) => {
@@ -978,13 +1048,25 @@ if(isset($_POST['regSubmit'])){
         }
 
         function showStep(step) {
-            document.querySelectorAll('.form-step').forEach(s => s.classList.remove('active'));
-            document.querySelector(`[data-step="${step}"]`).classList.add('active');
+            const formSteps = document.querySelectorAll('.form-step');
+            formSteps.forEach(s => {
+                s.classList.remove('active');
+                s.style.display = 'none';
+            });
+            
+            const currentStepElement = document.querySelector(`.form-step[data-step="${step}"]`);
+            if (currentStepElement) {
+                currentStepElement.classList.add('active');
+                currentStepElement.style.display = 'block';
+            }
+            
             updateProgressSteps();
         }
 
         function validateStep(step) {
             const currentStepElement = document.querySelector(`[data-step="${step}"]`);
+            if (!currentStepElement) return true;
+            
             const requiredFields = currentStepElement.querySelectorAll('[required]');
             let isValid = true;
 
@@ -1030,26 +1112,6 @@ if(isset($_POST['regSubmit'])){
             return isValid;
         }
 
-        // Next step buttons
-        document.querySelectorAll('.next-step').forEach(btn => {
-            btn.addEventListener('click', () => {
-                if (validateStep(currentStep) && currentStep < totalSteps) {
-                    currentStep++;
-                    showStep(currentStep);
-                }
-            });
-        });
-
-        // Previous step buttons
-        document.querySelectorAll('.prev-step').forEach(btn => {
-            btn.addEventListener('click', () => {
-                if (currentStep > 1) {
-                    currentStep--;
-                    showStep(currentStep);
-                }
-            });
-        });
-
         // Password toggle functionality
         function togglePassword(element) {
             const input = element.previousElementSibling.previousElementSibling;
@@ -1061,45 +1123,6 @@ if(isset($_POST['regSubmit'])){
                 element.textContent = '👁️';
             }
         }
-
-        // File upload preview
-        document.querySelector('input[type="file"]').addEventListener('change', function(e) {
-            const file = e.target.files[0];
-            if (file) {
-                const label = this.nextElementSibling;
-                label.innerHTML = `
-                    <div>
-                        <div class="upload-icon">✓</div>
-                        <div><strong>${file.name}</strong></div>
-                        <div style="font-size: 0.9rem; margin-top: 5px;">File selected successfully</div>
-                    </div>
-                `;
-                label.style.borderColor = '#afff1a';
-                label.style.background = 'rgba(175, 255, 26, 0.1)';
-                label.style.color = '#104042';
-            }
-        });
-
-        // Form validation on input
-        document.querySelectorAll('.form-control').forEach(input => {
-            input.addEventListener('input', function() {
-                if (this.classList.contains('error') && this.value.trim()) {
-                    this.classList.remove('error');
-                    const errorElement = this.parentElement.querySelector('.error-message');
-                    if (errorElement) errorElement.style.display = 'none';
-                }
-            });
-        });
-
-        // Form submission validation
-        document.getElementById('registrationForm').addEventListener('submit', function(e) {
-            if (!validateStep(currentStep)) {
-                e.preventDefault();
-            }
-        });
-
-        // Initialize
-        updateProgressSteps();
     </script>
 </body>
 </html>
