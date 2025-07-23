@@ -67,14 +67,14 @@
 
     });
  </script>
-// <script>
+ <script>
 //     $(function() {
 //         $('#datepicker').keypress(function(event) {
 //             event.preventDefault();
 //             return false;
 //         });
 //     });
-// </script>
+</script>
 <!--tidio support-->
 <?php support_plugin() ?>
 </body>
