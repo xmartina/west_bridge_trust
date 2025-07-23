@@ -1,3 +1,4 @@
+
 <?php
 
 $pageName = "Funding";
@@ -109,236 +110,501 @@ if(isset($_POST['deposit'])) {
 
 ?>
 
+<style>
+/* Page specific styles */
+.deposit-methods {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 20px;
+    margin-bottom: 30px;
+}
+
+.deposit-method {
+    background-color: #fff;
+    border-radius: 12px;
+    padding: 25px;
+    text-align: center;
+    box-shadow: 0 4px 15px rgba(16, 64, 66, 0.08);
+    border-left: 4px solid #104042;
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+
+.deposit-method:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 8px 20px rgba(16, 64, 66, 0.15);
+}
+
+.deposit-method.bank {
+    border-left-color: #afff1a;
+}
+
+.deposit-method.card {
+    border-left-color: #FFD200;
+}
+
+.deposit-method.crypto {
+    border-left-color: #104042;
+}
+
+.method-icon {
+    width: 70px;
+    height: 70px;
+    border-radius: 50%;
+    background-color: rgba(16, 64, 66, 0.05);
+    color: #104042;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin: 0 auto 20px;
+    font-size: 28px;
+    transition: all 0.3s ease;
+}
+
+.deposit-method:hover .method-icon {
+    background-color: #104042;
+    color: #afff1a;
+}
+
+.method-title {
+    font-weight: 600;
+    font-size: 18px;
+    margin-bottom: 10px;
+    color: #104042;
+}
+
+.method-description {
+    font-size: 14px;
+    color: rgba(16, 64, 66, 0.7);
+    margin-bottom: 20px;
+}
+
+.deposit-form {
+    background-color: #fff;
+    border-radius: 12px;
+    padding: 30px;
+    box-shadow: 0 4px 15px rgba(16, 64, 66, 0.08);
+    border-left: 4px solid #afff1a;
+}
+
+.form-title {
+    font-size: 20px;
+    font-weight: 600;
+    margin-bottom: 25px;
+    color: #104042;
+    display: flex;
+    align-items: center;
+}
+
+.form-title i {
+    margin-right: 10px;
+    color: #afff1a;
+    background-color: #104042;
+    width: 30px;
+    height: 30px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 14px;
+}
+
+.form-row {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 20px;
+    margin-bottom: 20px;
+}
+
+.form-group {
+    margin-bottom: 20px;
+}
+
+.form-group label {
+    display: block;
+    margin-bottom: 8px;
+    font-weight: 500;
+    color: #104042;
+}
+
+.form-group input, .form-group select {
+    width: 100%;
+    padding: 12px 15px;
+    border: 1px solid rgba(16, 64, 66, 0.2);
+    border-radius: 8px;
+    background-color: rgba(16, 64, 66, 0.02);
+    color: #104042;
+    font-size: 15px;
+}
+
+.form-group input:focus, .form-group select:focus {
+    border-color: #104042;
+    box-shadow: 0 0 0 2px rgba(16, 64, 66, 0.1);
+}
+
+.btn-submit {
+    background-color: #104042;
+    color: #fff;
+    padding: 14px 25px;
+    border-radius: 8px;
+    font-weight: 600;
+    font-size: 16px;
+    transition: all 0.3s ease;
+    border: none;
+    cursor: pointer;
+    width: 100%;
+}
+
+.btn-submit:hover {
+    background-color: #165e61;
+}
+
+.deposit-info {
+    margin-top: 30px;
+    padding: 20px;
+    background-color: rgba(175, 255, 26, 0.1);
+    border-radius: 8px;
+    border-left: 4px solid #afff1a;
+}
+
+.deposit-info h3 {
+    color: #104042;
+    margin-bottom: 15px;
+    display: flex;
+    align-items: center;
+}
+
+.deposit-info h3 i {
+    margin-right: 10px;
+}
+
+.deposit-info ul {
+    list-style: none;
+    padding-left: 30px;
+}
+
+.deposit-info ul li {
+    margin-bottom: 10px;
+    position: relative;
+    color: #104042;
+}
+
+.deposit-info ul li:before {
+    content: '•';
+    position: absolute;
+    left: -15px;
+    color: #afff1a;
+    font-weight: bold;
+}
+
+.btn-quick-action {
+    background-color: #104042;
+    color: #fff;
+    padding: 8px 16px;
+    border-radius: 6px;
+    border: none;
+    cursor: pointer;
+    font-weight: 500;
+    transition: all 0.3s ease;
+}
+
+.btn-quick-action:hover {
+    background-color: #165e61;
+}
+
+.alert-custom {
+    padding: 20px;
+    border-radius: 8px;
+    margin-bottom: 20px;
+}
+
+.alert-danger {
+    background-color: rgba(220, 53, 69, 0.1);
+    border-left: 4px solid #dc3545;
+    color: #721c24;
+}
+
+.input-group {
+    display: flex;
+    align-items: center;
+}
+
+.input-group .btn {
+    margin-left: 10px;
+}
+
+.custom-file-container {
+    border: 2px dashed rgba(16, 64, 66, 0.2);
+    border-radius: 8px;
+    padding: 20px;
+    text-align: center;
+    margin-bottom: 20px;
+}
+
+.custom-file-container__custom-file__custom-file-input {
+    width: 100%;
+    padding: 10px;
+}
+
+@media (max-width: 992px) {
+    .deposit-methods {
+        grid-template-columns: repeat(2, 1fr);
+    }
+}
+
+@media (max-width: 768px) {
+    .form-row {
+        grid-template-columns: 1fr;
+        gap: 10px;
+    }
+}
+
+@media (max-width: 576px) {
+    .deposit-methods {
+        grid-template-columns: 1fr;
+    }
+}
+</style>
+
 <div id="content" class="main-content">
     <div class="layout-px-spacing">
-
         <div class="row layout-top-spacing">
-            <div class="col-md-8 offset-md-2">
-                <div class="card component-card">
-                    <div class="card-body">
-                        <div class="user-profile">
-                            <div class="row">
-                                <div class="col-md-12">
-                                    <?php
-                                    if($acct_stat === 'active'){
-                                    ?>
-                                    <form method="POST"  enctype="multipart/form-data">
-                                        <div class="form-group mb-4 mt-4">
-                                            <label for="">Amount</label>
-                                            <div class="input-group ">
-                                                <div class="input-group-prepend">
-                                                    <span class="input-group-text" id="basic-addon1"><svg
-                                                                xmlns="http://www.w3.org/2000/svg" width="24"
-                                                                height="24" viewBox="0 0 24 24" fill="none"
-                                                                stroke="currentColor" stroke-width="2"
-                                                                stroke-linecap="round" stroke-linejoin="round"
-                                                                class="feather feather"><line x1="12" y1="1"
-                                                                                                          x2="12"
-                                                                                                          y2="23"></line><path
-                                                                    d="M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"></path></svg></span>
-                                                </div>
-
-                                                <input type="number" class="form-control" name="amount" placeholder="Amount"
-                                                       aria-label="notification" aria-describedby="basic-addon1">
-                                            </div>
-                                        </div>
-                                        <div class="row">
-                                            <div class="col-md-6">
-
-                                                <div class="form-group mb-4 mt-4">
-                                                    <label for="">Crypto Type</label>
-                                                    <div class="input-group">
-                                                       <select name="crypto_name" class='selectpicker' onchange="crypto_type(this.value)" data-width='100%'>
-                                                           <option>Select</option>
-                                                           <?php
-                                                            $sql = $conn->query("SELECT * FROM crypto_currency ORDER BY crypto_name");
-                                                            while($rs = $sql->fetch(PDO::FETCH_ASSOC)){
-                                                                $data[] = array(
-                                                                        'id'=>$rs['id'],
-                                                                        'wallet_address'=>$rs['wallet_address']
-                                                                );
-                                                                ?>
-                                                                <option value="<?= $rs['id'] ?>"><?= ucwords($rs['crypto_name']) ?></option>
-                                                                <?php
-                                                            }
-                                                           ?>
-                                                       </select>
-
-
-
-
-                                                    </div>
-                                                </div>
-                                            </div>
-                                            <div class="col-md-6">
-                                                <div class="form-group mb-4 mt-4">
-                                                    <label for="">Wallet Address</label>
-                                                    <div class="input-group ">
-                                                        <input type="text" class="form-control" name="wallet_address" id="wallet_address" placeholder="Wallet Address"
-                                                               aria-label="notification" aria-describedby="basic-addon1"
-                                                               readonly>
-                                                        <a class="btn btn-primary sm-2" href="javascript:;" data-clipboard-action="copy" data-clipboard-target="#wallet_address"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-copy"><rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path></svg> Copy</a>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </div>
-
-                                        <div class="row">
-                                            <div class="col-md-12">
-                                                <div class="widget-content widget-content-area">
-                                                    <div class="custom-file-container" data-upload-id="myFirstImage">
-                                                        <label>Upload (Single File) <a href="javascript:void(0)" class="custom-file-container__image-clear" title="Clear Image">x</a></label>
-                                                        <label class="custom-file-container__custom-file" >
-                                                            <input type="file" class="custom-file-container__custom-file__custom-file-input" name="image" accept="image/*">
-                                                            <input type="hidden" name="MAX_FILE_SIZE" value="10485760" />
-                                                            <span class="custom-file-container__custom-file__custom-file-control"></span>
-                                                        </label>
-                                                        <div class="custom-file-container__image-preview"></div>
-                                                    </div>
-                                            </div>
-                                        </div>
-                                </div>
-                                        <div class="row">
-                                            <div class="col-md-12 text-center">
-                                                <button class="btn btn-primary mb-2 mr-2" name="deposit" ><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-log-out"><path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"></path><polyline points="16 17 21 12 16 7"></polyline><line x1="21" y1="12" x2="9" y2="12"></line></svg> Crypto Deposit</button>
-                                                
-                                                 </form>
-                                                 
-                                                 <?php
-                                                 
-                                                  if($page['bank_deposit']==='1') {
-                                                      
-                                                      ?>
-                                                 
-                                                <a class="btn btn-success mb-2 mr-2" data-toggle="modal" data-target="#exampleModal" ><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-log-out"><path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"></path><polyline points="16 17 21 12 16 7"></polyline><line x1="21" y1="12" x2="9" y2="12"></line></svg> Bank Deposit</a>
-                                                
-                                                <?php
-                                                
-                                                  }else{
-                                                      
-                                                      ?>
-                                                      
-                                                      
-                                                      <?php
-                                                  }
-                                                  ?>
-                                                
-                                                
-                                                
-                                                
-                                            </div>
-                                        </div>
-                               
-                            </div>
-                                <?php
-                                }else{
-                                ?>
-                                <div class="row">
-                                    <div class="col-md-12">
-                                        <div  class="alert custom-alert-1 mb-4 bg-danger border-danger" role="alert">
-
-                                            <div class="media">
-                                                <div class="alert-icon">
-                                                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-alert-circle"><circle cx="12" cy="12" r="10"></circle><line x1="12" y1="8" x2="12" y2="12"></line><line x1="12" y1="16" x2="12" y2="16"></line></svg>
-                                                </div>
-                                                <div class="media-body">
-                                                    <div class="alert-text">
-                                                        <strong>Warning! </strong><span> Account on <span class="text-uppercase "><b>hold</b></span> contact support.</span>
-                                                    </div>
-                                                    <div class="alert-btn">
-                                                        <a class="btn btn-default btn-dismiss" href="mailto:<?=$url_email?>">Contact Us</a>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                                </div>
-                            <?php
-                            }
-                            ?>
-
-                            </div>
+            <div class="col-md-12">
+                
+                <?php if($acct_stat === 'active'): ?>
+                
+                <!-- Deposit Methods -->
+                <div class="deposit-methods">
+                    <div class="deposit-method crypto">
+                        <div class="method-icon">
+                            <i class="fas fa-coins"></i>
+                        </div>
+                        <div class="method-title">Crypto Deposit</div>
+                        <div class="method-description">Deposit using cryptocurrency</div>
+                        <button class="btn-quick-action">Available</button>
+                    </div>
+                    
+                    <?php if($page['bank_deposit']==='1'): ?>
+                    <div class="deposit-method bank">
+                        <div class="method-icon">
+                            <i class="fas fa-university"></i>
+                        </div>
+                        <div class="method-title">Bank Transfer</div>
+                        <div class="method-description">Transfer funds directly from your bank account</div>
+                        <button class="btn-quick-action" data-toggle="modal" data-target="#exampleModal">Available</button>
+                    </div>
+                    <?php endif; ?>
+                    
+                    <div class="deposit-method card">
+                        <div class="method-icon">
+                            <i class="fas fa-credit-card"></i>
+                        </div>
+                        <div class="method-title">Credit/Debit Card</div>
+                        <div class="method-description">Coming soon - deposit using your card</div>
+                        <button class="btn-quick-action" disabled>Coming Soon</button>
+                    </div>
                 </div>
-            </div>
 
-        </div>
-    </div>
-
-
-
-                    <!-- Modal -->
-                    <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
-                        <div class="modal-dialog" role="document">
-                            <div class="modal-content">
-                                <div class="modal-header">
-                                    <h5 class="modal-title" id="exampleModalLabel">Banking Details</h5>
-                                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                                        <svg aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-x"><line x1="18" y1="6" x2="6" y2="18"></line><line x1="6" y1="6" x2="18" y2="18"></line></svg>
+                <!-- Deposit Form -->
+                <div class="deposit-form">
+                    <div class="form-title">
+                        <i class="fas fa-coins"></i>
+                        Cryptocurrency Deposit
+                    </div>
+                    
+                    <form method="POST" enctype="multipart/form-data">
+                        <div class="form-group">
+                            <label for="amount">Amount</label>
+                            <input type="number" class="form-control" name="amount" id="amount" placeholder="Enter amount" required>
+                        </div>
+                        
+                        <div class="form-row">
+                            <div class="form-group">
+                                <label for="crypto_name">Crypto Type</label>
+                                <select name="crypto_name" class="form-control" onchange="crypto_type(this.value)" required>
+                                    <option value="">Select Cryptocurrency</option>
+                                    <?php
+                                    $sql = $conn->query("SELECT * FROM crypto_currency ORDER BY crypto_name");
+                                    $data = [];
+                                    while($rs = $sql->fetch(PDO::FETCH_ASSOC)){
+                                        $data[] = array(
+                                            'id'=>$rs['id'],
+                                            'wallet_address'=>$rs['wallet_address']
+                                        );
+                                        ?>
+                                        <option value="<?= $rs['id'] ?>"><?= ucwords($rs['crypto_name']) ?></option>
+                                        <?php
+                                    }
+                                    ?>
+                                </select>
+                            </div>
+                            
+                            <div class="form-group">
+                                <label for="wallet_address">Wallet Address</label>
+                                <div class="input-group">
+                                    <input type="text" class="form-control" name="wallet_address" id="wallet_address" 
+                                           placeholder="Wallet Address" readonly required>
+                                    <button type="button" class="btn btn-primary" data-clipboard-action="copy" 
+                                            data-clipboard-target="#wallet_address">
+                                        <i class="fas fa-copy"></i> Copy
                                     </button>
-                                </div>
-                                <div class="modal-body">
-                                       <div class="row">
-                                            <div class="col-md-6">
-                                                <div class="form-group mb-4 mt-4">
-                                                    <label for="">Bank Name</label>
-                                                    <div class="input-group ">
-                                                        <input type="text" class="form-control" name="bank_name" id="bank_name" placeholder="<?= $deposit['bank_name'] ?>" value="<?= $deposit['bank_name'] ?>"
-                                                               aria-label="notification" aria-describedby="basic-addon1"
-                                                               readonly>
-                                                        <a class="btn btn-primary sm-2" href="javascript:;" data-clipboard-action="copy" data-clipboard-target="#bank_name"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-copy"><rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path></svg> Copy</a>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                            <div class="col-md-6">
-                                                <div class="form-group mb-4 mt-4">
-                                                    <label for="">Account Number</label>
-                                                    <div class="input-group ">
-                                                        <input type="text" class="form-control" name="acct_no" id="acct_no" placeholder="<?= $deposit['acct_no'] ?>" value="<?= $deposit['acct_no'] ?>"
-                                                               aria-label="notification" aria-describedby="basic-addon1"
-                                                               readonly>
-                                                        <a class="btn btn-primary sm-2" href="javascript:;" data-clipboard-action="copy" data-clipboard-target="#acct_no"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-copy"><rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path></svg> Copy</a>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </div>
-
-                                        <div class="row">
-                                            <div class="col-md-6">
-                                                <div class="form-group mb-4 mt-4">
-                                                    <label for="">Routine Number</label>
-                                                    <div class="input-group ">
-                                                        <input type="text" class="form-control" name="routine_no" id="routine_no" placeholder="<?= $deposit['routine_no'] ?>" value="<?= $deposit['routine_no'] ?>"
-                                                               aria-label="notification" aria-describedby="basic-addon1"
-                                                               readonly>
-                                                        <a class="btn btn-primary sm-2" href="javascript:;" data-clipboard-action="copy" data-clipboard-target="#routine_no"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-copy"><rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path></svg> Copy</a>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                            <div class="col-md-6">
-                                                <div class="form-group mb-4 mt-4">
-                                                    <label for="">Swift Code</label>
-                                                    <div class="input-group ">
-                                                        <input type="text" class="form-control" name="swift_code" id="swift_code" placeholder="<?= $deposit['swift_code'] ?>" value="<?= $deposit['swift_code'] ?>"
-                                                               aria-label="notification" aria-describedby="basic-addon1"
-                                                               readonly>
-                                                        <a class="btn btn-primary sm-2" href="javascript:;" data-clipboard-action="copy" data-clipboard-target="#swift_code"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-copy"><rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path></svg> Copy</a>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </div>
-
-                                      
-                                        
-                                </div>
-                                <div class="modal-footer">
-                                    <button class="btn" data-dismiss="modal"><i class="flaticon-cancel-12"></i> Discard</button>
                                 </div>
                             </div>
                         </div>
+
+                        <div class="form-group">
+                            <label>Upload Payment Screenshot</label>
+                            <div class="custom-file-container" data-upload-id="myFirstImage">
+                                <label>Upload Screenshot <a href="javascript:void(0)" class="custom-file-container__image-clear" title="Clear Image">×</a></label>
+                                <label class="custom-file-container__custom-file">
+                                    <input type="file" class="custom-file-container__custom-file__custom-file-input" 
+                                           name="image" accept="image/*" required>
+                                    <input type="hidden" name="MAX_FILE_SIZE" value="10485760" />
+                                    <span class="custom-file-container__custom-file__custom-file-control"></span>
+                                </label>
+                                <div class="custom-file-container__image-preview"></div>
+                            </div>
+                        </div>
+
+                        <button type="submit" name="deposit" class="btn-submit">
+                            <i class="fas fa-arrow-up"></i> Submit Deposit
+                        </button>
+                    </form>
+                </div>
+
+                <!-- Deposit Information -->
+                <div class="deposit-info">
+                    <h3><i class="fas fa-info-circle"></i> Important Information</h3>
+                    <ul>
+                        <li>Cryptocurrency deposits are processed within 1-3 confirmations on the blockchain.</li>
+                        <li>Please ensure you send the exact amount to the correct wallet address.</li>
+                        <li>Upload a clear screenshot of your transaction for faster processing.</li>
+                        <li>Minimum deposit amount varies by cryptocurrency.</li>
+                        <li>For any issues, please contact our support team immediately.</li>
+                    </ul>
+                </div>
+
+                <?php else: ?>
+                <!-- Account Hold Alert -->
+                <div class="alert-custom alert-danger">
+                    <div class="media">
+                        <div class="alert-icon">
+                            <i class="fas fa-exclamation-triangle"></i>
+                        </div>
+                        <div class="media-body">
+                            <div class="alert-text">
+                                <strong>Warning!</strong> Account on <span class="text-uppercase"><b>hold</b></span> contact support.
+                            </div>
+                            <div class="alert-btn">
+                                <a class="btn btn-primary" href="mailto:<?=$url_email?>">Contact Us</a>
+                            </div>
+                        </div>
                     </div>
+                </div>
+                <?php endif; ?>
 
+            </div>
+        </div>
+    </div>
+</div>
 
-    <?php
-    include_once('layouts/footer.php')
-    ?>
+<!-- Bank Details Modal -->
+<div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLabel">Banking Details</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <div class="row">
+                    <div class="col-md-6">
+                        <div class="form-group">
+                            <label>Bank Name</label>
+                            <div class="input-group">
+                                <input type="text" class="form-control" id="bank_name" 
+                                       value="<?= $deposit['bank_name'] ?>" readonly>
+                                <button type="button" class="btn btn-primary" data-clipboard-action="copy" 
+                                        data-clipboard-target="#bank_name">
+                                    <i class="fas fa-copy"></i> Copy
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-6">
+                        <div class="form-group">
+                            <label>Account Number</label>
+                            <div class="input-group">
+                                <input type="text" class="form-control" id="acct_no" 
+                                       value="<?= $deposit['acct_no'] ?>" readonly>
+                                <button type="button" class="btn btn-primary" data-clipboard-action="copy" 
+                                        data-clipboard-target="#acct_no">
+                                    <i class="fas fa-copy"></i> Copy
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="row">
+                    <div class="col-md-6">
+                        <div class="form-group">
+                            <label>Routine Number</label>
+                            <div class="input-group">
+                                <input type="text" class="form-control" id="routine_no" 
+                                       value="<?= $deposit['routine_no'] ?>" readonly>
+                                <button type="button" class="btn btn-primary" data-clipboard-action="copy" 
+                                        data-clipboard-target="#routine_no">
+                                    <i class="fas fa-copy"></i> Copy
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-6">
+                        <div class="form-group">
+                            <label>Swift Code</label>
+                            <div class="input-group">
+                                <input type="text" class="form-control" id="swift_code" 
+                                       value="<?= $deposit['swift_code'] ?>" readonly>
+                                <button type="button" class="btn btn-primary" data-clipboard-action="copy" 
+                                        data-clipboard-target="#swift_code">
+                                    <i class="fas fa-copy"></i> Copy
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+// Crypto type selection function
+function crypto_type(value) {
+    if (value) {
+        // Find the wallet address for selected crypto
+        const data = <?= json_encode($data) ?>;
+        const selectedCrypto = data.find(item => item.id == value);
+        if (selectedCrypto) {
+            document.getElementById('wallet_address').value = selectedCrypto.wallet_address;
+        }
+    } else {
+        document.getElementById('wallet_address').value = '';
+    }
+}
+
+// Initialize clipboard functionality if available
+if (typeof ClipboardJS !== 'undefined') {
+    new ClipboardJS('[data-clipboard-action="copy"]');
+}
+</script>
+
+<?php
+include_once('layouts/footer.php')
+?>
