@@ -1,0 +1,315 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>OFSPACE - Banking Dashboard</title>
+    <link rel="stylesheet" href="styles.css">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+</head>
+<body>
+    <div class="dashboard-container">
+        <!-- Sidebar -->
+        <aside class="sidebar">
+            <div class="logo">
+                <h2>OFSPACE</h2>
+            </div>
+            <nav class="nav-menu">
+                <a href="#" class="nav-item active">
+                    <i class="fas fa-th-large"></i>
+                    <span>Dashboard</span>
+                </a>
+                <a href="#" class="nav-item">
+                    <i class="far fa-credit-card"></i>
+                    <span>Cards</span>
+                </a>
+                <a href="#" class="nav-item">
+                    <i class="fas fa-exchange-alt"></i>
+                    <span>Payments</span>
+                </a>
+                <a href="#" class="nav-item">
+                    <i class="fas fa-chart-bar"></i>
+                    <span>Statistics</span>
+                </a>
+                <a href="#" class="nav-item">
+                    <i class="fas fa-list"></i>
+                    <span>Transactions</span>
+                </a>
+                <a href="#" class="nav-item">
+                    <i class="fas fa-cog"></i>
+                    <span>Settings</span>
+                </a>
+                <a href="#" class="nav-item logout">
+                    <i class="fas fa-sign-out-alt"></i>
+                    <span>Log out</span>
+                </a>
+            </nav>
+        </aside>
+
+        <!-- Main Content -->
+        <main class="main-content">
+            <!-- Header -->
+            <header class="header">
+                <div class="search-container">
+                    <i class="fas fa-search"></i>
+                    <input type="text" placeholder="Search" class="search-input">
+                </div>
+                <div class="user-profile">
+                    <i class="fas fa-bell notification-icon"></i>
+                    <div class="user-info">
+                        <img src="https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?w=40&h=40&fit=crop&crop=face" alt="User" class="user-avatar">
+                        <span class="username">Sanjoy_R</span>
+                    </div>
+                </div>
+            </header>
+
+            <!-- Dashboard Content -->
+            <div class="dashboard-content">
+                <h1 class="page-title">Dashboard</h1>
+                
+                <!-- Stats Cards -->
+                <div class="stats-grid">
+                    <div class="stat-card income">
+                        <div class="stat-header">
+                            <span class="stat-label">Income</span>
+                        </div>
+                        <div class="stat-value">$2,502.00</div>
+                        <div class="stat-details">
+                            <span class="stat-count">45 Transaction</span>
+                            <span class="stat-change positive">+12%</span>
+                        </div>
+                    </div>
+                    
+                    <div class="stat-card spending">
+                        <div class="stat-header">
+                            <span class="stat-label">Spending</span>
+                        </div>
+                        <div class="stat-value">$1,143.00</div>
+                        <div class="stat-details">
+                            <span class="stat-count">12 Transaction</span>
+                            <span class="stat-change negative">-4%</span>
+                        </div>
+                    </div>
+                    
+                    <div class="stat-card activity">
+                        <div class="stat-header">
+                            <span class="stat-label">Activity</span>
+                        </div>
+                        <div class="activity-chart">
+                            <svg width="200" height="80" viewBox="0 0 200 80">
+                                <path d="M10,60 Q30,40 50,45 T90,35 T130,40 T170,30 T190,35" stroke="#333" stroke-width="2" fill="none"/>
+                                <circle cx="130" cy="40" r="4" fill="#333"/>
+                                <text x="125" y="25" font-size="10" fill="#fff" text-anchor="middle" class="chart-label">$2k</text>
+                            </svg>
+                        </div>
+                        <div class="stat-details">
+                            <span class="stat-label">Total Profit</span>
+                            <span class="stat-value-small">$12,342</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Overview Chart -->
+                <div class="overview-section">
+                    <h3>Overview</h3>
+                    <div class="chart-container">
+                        <div class="chart-y-axis">
+                            <span>90k</span>
+                            <span>80k</span>
+                            <span>60k</span>
+                            <span>40k</span>
+                            <span>20k</span>
+                            <span>00k</span>
+                        </div>
+                        <div class="chart-area">
+                            <svg width="100%" height="200" viewBox="0 0 600 200">
+                                <path d="M50,150 Q100,120 150,130 T250,110 T350,120 T450,100 T550,110" stroke="#333" stroke-width="2" fill="none"/>
+                                <circle cx="350" cy="120" r="6" fill="#333"/>
+                                <rect x="330" y="95" width="40" height="20" rx="4" fill="#333"/>
+                                <text x="350" y="107" font-size="12" fill="#fff" text-anchor="middle">$2300</text>
+                            </svg>
+                        </div>
+                        <div class="chart-x-axis">
+                            <span>Jan</span>
+                            <span>Feb</span>
+                            <span>Mar</span>
+                            <span>Apr</span>
+                            <span>May</span>
+                            <span>Jun</span>
+                            <span>Jul</span>
+                            <span>Aug</span>
+                            <span>Sep</span>
+                            <span>Oct</span>
+                            <span>Nov</span>
+                            <span>Dec</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Transactions Table -->
+                <div class="transactions-section">
+                    <h3>Transactions</h3>
+                    <div class="table-container">
+                        <table class="transactions-table">
+                            <thead>
+                                <tr>
+                                    <th>Name</th>
+                                    <th>ID</th>
+                                    <th>Amount</th>
+                                    <th>Status</th>
+                                    <th>Date</th>
+                                    <th>Payment</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>
+                                        <div class="user-cell">
+                                            <img src="https://images.unsplash.com/photo-1494790108755-2616b612b786?w=32&h=32&fit=crop&crop=face" alt="Alna_M">
+                                            <span>Alna_M</span>
+                                        </div>
+                                    </td>
+                                    <td>323133</td>
+                                    <td class="amount positive">+$430$</td>
+                                    <td><span class="status pending">Pending</span></td>
+                                    <td>22/03/23</td>
+                                    <td>
+                                        <div class="payment-method">
+                                            <div class="card-icon mastercard"></div>
+                                            <span>5425 2334 3010 ••••</span>
+                                        </div>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>
+                                        <div class="user-cell">
+                                            <img src="https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=32&h=32&fit=crop&crop=face" alt="Jason_A">
+                                            <span>Jason_A</span>
+                                        </div>
+                                    </td>
+                                    <td>134325</td>
+                                    <td class="amount positive">+200$</td>
+                                    <td><span class="status completed">Completed</span></td>
+                                    <td>19/03/23</td>
+                                    <td>
+                                        <div class="payment-method">
+                                            <div class="card-icon visa"></div>
+                                            <span>4263 9826 4026 ••••</span>
+                                        </div>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>
+                                        <div class="user-cell">
+                                            <img src="https://images.unsplash.com/photo-1500648767791-00dcc994a43e?w=32&h=32&fit=crop&crop=face" alt="Alex_D">
+                                            <span>Alex_D</span>
+                                        </div>
+                                    </td>
+                                    <td>433229</td>
+                                    <td class="amount positive">+421$</td>
+                                    <td><span class="status canceled">Canceled</span></td>
+                                    <td>15/03/23</td>
+                                    <td>
+                                        <div class="payment-method">
+                                            <div class="card-icon amex"></div>
+                                            <span>3742 4545 5400••••</span>
+                                        </div>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>
+                                        <div class="user-cell">
+                                            <img src="https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?w=32&h=32&fit=crop&crop=face" alt="Milan_K">
+                                            <span>Milan_K</span>
+                                        </div>
+                                    </td>
+                                    <td>632132</td>
+                                    <td class="amount positive">+1200$</td>
+                                    <td><span class="status completed">Completed</span></td>
+                                    <td>12/03/23</td>
+                                    <td>
+                                        <div class="payment-method">
+                                            <div class="card-icon other"></div>
+                                            <span>5534 4213 4322 ••••</span>
+                                        </div>
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </main>
+
+        <!-- Right Sidebar -->
+        <aside class="right-sidebar">
+            <!-- Balance Section -->
+            <div class="balance-section">
+                <h3>Balance</h3>
+                <div class="balance-amount">$23,240,000</div>
+                <div class="balance-actions">
+                    <button class="btn btn-outline">Send</button>
+                    <button class="btn btn-outline">Withdraw</button>
+                </div>
+            </div>
+
+            <!-- Cards Section -->
+            <div class="cards-section">
+                <div class="section-header">
+                    <h3>Cards</h3>
+                    <i class="fas fa-ellipsis-h"></i>
+                </div>
+                
+                <div class="credit-card">
+                    <div class="card-header">
+                        <div class="card-logos">
+                            <div class="mastercard-logo">
+                                <div class="circle red"></div>
+                                <div class="circle yellow"></div>
+                            </div>
+                        </div>
+                        <i class="fas fa-wifi card-wifi"></i>
+                    </div>
+                    <div class="card-number">63758 4569B 2567 7546</div>
+                    <div class="card-details">
+                        <div class="card-holder">
+                            <span class="label">Name</span>
+                            <span class="value">Sanjoy Roy</span>
+                        </div>
+                        <div class="card-expiry">
+                            <span class="label">Exp Date</span>
+                            <span class="value">08/28</span>
+                        </div>
+                        <div class="card-chip">
+                            <div class="chip"></div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="card-number-display">
+                    <div class="mastercard-mini"></div>
+                    <span>1234 2345 6789</span>
+                </div>
+            </div>
+
+            <!-- Send Money Section -->
+            <div class="send-money-section">
+                <div class="form-group">
+                    <label>Recipient Name</label>
+                    <input type="text" value="Royal Pervej" class="form-input">
+                </div>
+                <div class="form-group">
+                    <label>Amount</label>
+                    <div class="amount-input">
+                        <select class="currency-select">
+                            <option>USD</option>
+                        </select>
+                        <input type="text" value="$140.00" class="amount-field">
+                    </div>
+                </div>
+                <button class="btn btn-primary btn-full">Send Money</button>
+            </div>
+        </aside>
+    </div>
+</body>
+</html>

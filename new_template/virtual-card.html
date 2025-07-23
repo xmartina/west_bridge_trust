@@ -1,0 +1,875 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Virtual Card - Banking Dashboard</title>
+    <link rel="stylesheet" href="style.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        /* Page specific styles */
+        .card-container {
+            display: grid;
+            grid-template-columns: 2fr 1fr;
+            gap: 30px;
+            margin-bottom: 30px;
+        }
+        
+        @media (max-width: 992px) {
+            .card-container {
+                grid-template-columns: 1fr;
+            }
+        }
+        
+        .virtual-card {
+            background: linear-gradient(135deg, #104042 0%, #0a2a2b 100%);
+            border-radius: 16px;
+            padding: 25px;
+            color: #fff;
+            position: relative;
+            overflow: hidden;
+            box-shadow: 0 10px 20px rgba(16, 64, 66, 0.2);
+            margin-bottom: 30px;
+            height: 220px;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+        }
+        
+        .card-chip {
+            position: absolute;
+            right: 25px;
+            top: 25px;
+            font-size: 24px;
+            color: #FFD200;
+        }
+        
+        .card-type {
+            font-size: 14px;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            margin-bottom: 10px;
+            font-weight: 500;
+        }
+        
+        .card-number {
+            font-size: 22px;
+            letter-spacing: 2px;
+            margin-bottom: 20px;
+            font-weight: 600;
+        }
+        
+        .card-details {
+            display: flex;
+            justify-content: space-between;
+        }
+        
+        .card-holder, .card-expiry {
+            display: flex;
+            flex-direction: column;
+        }
+        
+        .detail-label {
+            font-size: 10px;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            margin-bottom: 5px;
+            opacity: 0.7;
+        }
+        
+        .detail-value {
+            font-size: 16px;
+            font-weight: 500;
+        }
+        
+        .card-brand {
+            position: absolute;
+            bottom: 25px;
+            right: 25px;
+            font-size: 24px;
+            font-weight: 700;
+            color: #afff1a;
+        }
+        
+        .card-actions {
+            display: flex;
+            gap: 15px;
+            margin-bottom: 30px;
+        }
+        
+        .card-action-btn {
+            background-color: rgba(16, 64, 66, 0.05);
+            color: #104042;
+            border: 1px solid rgba(16, 64, 66, 0.1);
+            padding: 12px 20px;
+            border-radius: 8px;
+            font-weight: 500;
+            font-size: 15px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+        
+        .card-action-btn:hover {
+            background-color: rgba(16, 64, 66, 0.1);
+        }
+        
+        .card-action-btn i {
+            font-size: 18px;
+        }
+        
+        .card-info-container {
+            background-color: #fff;
+            border-radius: 12px;
+            padding: 25px;
+            box-shadow: 0 4px 15px rgba(16, 64, 66, 0.08);
+        }
+        
+        .card-info-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 20px;
+            padding-bottom: 15px;
+            border-bottom: 1px solid rgba(16, 64, 66, 0.1);
+        }
+        
+        .card-info-title {
+            font-size: 18px;
+            font-weight: 600;
+            color: #104042;
+        }
+        
+        .card-info-actions {
+            display: flex;
+            gap: 10px;
+        }
+        
+        .card-info-btn {
+            background-color: transparent;
+            color: #104042;
+            border: none;
+            font-size: 18px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+        
+        .card-info-btn:hover {
+            color: #afff1a;
+        }
+        
+        .card-info-item {
+            display: flex;
+            justify-content: space-between;
+            padding: 15px 0;
+            border-bottom: 1px solid rgba(16, 64, 66, 0.05);
+        }
+        
+        .card-info-item:last-child {
+            border-bottom: none;
+        }
+        
+        .info-label {
+            color: rgba(16, 64, 66, 0.7);
+            font-size: 14px;
+        }
+        
+        .info-value {
+            font-weight: 500;
+            color: #104042;
+        }
+        
+        .card-status {
+            display: inline-block;
+            padding: 5px 10px;
+            border-radius: 20px;
+            font-size: 12px;
+            font-weight: 500;
+        }
+        
+        .status-active {
+            background-color: rgba(175, 255, 26, 0.2);
+            color: #104042;
+        }
+        
+        .status-inactive {
+            background-color: rgba(255, 210, 0, 0.2);
+            color: #104042;
+        }
+        
+        .status-blocked {
+            background-color: rgba(255, 0, 0, 0.1);
+            color: #d32f2f;
+        }
+        
+        .transaction-section {
+            background-color: #fff;
+            border-radius: 12px;
+            padding: 25px;
+            box-shadow: 0 4px 15px rgba(16, 64, 66, 0.08);
+            margin-bottom: 30px;
+        }
+        
+        .section-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 20px;
+            padding-bottom: 15px;
+            border-bottom: 1px solid rgba(16, 64, 66, 0.1);
+        }
+        
+        .section-title {
+            font-size: 18px;
+            font-weight: 600;
+            color: #104042;
+        }
+        
+        .view-all {
+            font-size: 14px;
+            color: #104042;
+            text-decoration: none;
+            display: flex;
+            align-items: center;
+            gap: 5px;
+            transition: all 0.3s ease;
+        }
+        
+        .view-all:hover {
+            color: #afff1a;
+        }
+        
+        .transaction-item {
+            display: flex;
+            align-items: center;
+            padding: 15px 0;
+            border-bottom: 1px solid rgba(16, 64, 66, 0.05);
+        }
+        
+        .transaction-item:last-child {
+            border-bottom: none;
+        }
+        
+        .transaction-icon {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            background-color: rgba(16, 64, 66, 0.05);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-right: 15px;
+            color: #104042;
+        }
+        
+        .transaction-details {
+            flex-grow: 1;
+        }
+        
+        .transaction-title {
+            font-weight: 500;
+            color: #104042;
+            margin-bottom: 5px;
+        }
+        
+        .transaction-time {
+            font-size: 12px;
+            color: rgba(16, 64, 66, 0.6);
+        }
+        
+        .transaction-amount {
+            font-weight: 600;
+        }
+        
+        .amount-negative {
+            color: #d32f2f;
+        }
+        
+        .amount-positive {
+            color: #2e7d32;
+        }
+        
+        .card-request-container {
+            background-color: #fff;
+            border-radius: 12px;
+            padding: 25px;
+            box-shadow: 0 4px 15px rgba(16, 64, 66, 0.08);
+        }
+        
+        .request-options {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 20px;
+            margin-top: 20px;
+        }
+        
+        @media (max-width: 768px) {
+            .request-options {
+                grid-template-columns: 1fr;
+            }
+        }
+        
+        .request-option {
+            border: 1px solid rgba(16, 64, 66, 0.1);
+            border-radius: 10px;
+            padding: 20px;
+            text-align: center;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+        
+        .request-option:hover {
+            border-color: #104042;
+            background-color: rgba(16, 64, 66, 0.02);
+        }
+        
+        .request-option.active {
+            border-color: #104042;
+            background-color: rgba(16, 64, 66, 0.05);
+        }
+        
+        .option-icon {
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            background-color: rgba(16, 64, 66, 0.05);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 0 auto 15px;
+            color: #104042;
+            font-size: 20px;
+        }
+        
+        .option-title {
+            font-weight: 600;
+            color: #104042;
+            margin-bottom: 5px;
+        }
+        
+        .option-description {
+            font-size: 13px;
+            color: rgba(16, 64, 66, 0.7);
+        }
+        
+        .request-form {
+            margin-top: 30px;
+        }
+        
+        .form-group {
+            margin-bottom: 20px;
+        }
+        
+        .form-group label {
+            display: block;
+            margin-bottom: 8px;
+            font-weight: 500;
+            color: #104042;
+        }
+        
+        .form-group input, .form-group select {
+            width: 100%;
+            padding: 12px 15px;
+            border: 1px solid rgba(16, 64, 66, 0.2);
+            border-radius: 8px;
+            background-color: rgba(16, 64, 66, 0.02);
+            color: #104042;
+            font-size: 15px;
+        }
+        
+        .form-group input:focus, .form-group select:focus {
+            border-color: #104042;
+            box-shadow: 0 0 0 2px rgba(16, 64, 66, 0.1);
+        }
+        
+        .btn-request-card {
+            background-color: #104042;
+            color: #fff;
+            padding: 12px 25px;
+            border-radius: 8px;
+            font-weight: 600;
+            font-size: 16px;
+            transition: all 0.3s ease;
+            border: none;
+            cursor: pointer;
+            width: 100%;
+            margin-top: 10px;
+        }
+        
+        .btn-request-card:hover {
+            background-color: #165e61;
+        }
+
+        @media (max-width: 576px) {
+            .card-actions {
+                flex-direction: column;
+                gap: 10px;
+            }
+            
+            .card-action-btn {
+                width: 100%;
+                justify-content: center;
+            }
+            
+            .virtual-card {
+                height: auto;
+                padding: 20px;
+            }
+            
+            .card-number {
+                font-size: 18px;
+                margin-bottom: 15px;
+            }
+            
+            .card-details {
+                flex-direction: column;
+                gap: 10px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <!-- Sidebar -->
+        <aside class="sidebar">
+            <div class="logo">OFSPACE</div>
+            <nav class="nav-menu">
+                <ul class="menu-list">
+                    <li>
+                        <a href="dash.html">
+                            <i class="fas fa-th-large"></i>
+                            <span>Dashboard</span>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="online-deposit.html">
+                            <i class="fas fa-dollar-sign"></i>
+                            <span>Online Deposit</span>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="domestic-transfer.html">
+                            <i class="fas fa-share"></i>
+                            <span>Domestic Transfer</span>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="wire-transfer.html">
+                            <i class="fas fa-wifi"></i>
+                            <span>Wire Transfer</span>
+                        </a>
+                    </li>
+                    <li class="active">
+                        <a href="virtual-card.html">
+                            <i class="fas fa-credit-card"></i>
+                            <span>Virtual Card</span>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="loan.html">
+                            <i class="fas fa-download"></i>
+                            <span>Loan & Mortgages</span>
+                        </a>
+                    </li>
+                    <li class="has-submenu">
+                        <a href="#" class="submenu-toggle">
+                            <i class="fas fa-credit-card"></i>
+                            <span>All Transaction Logs</span>
+                            <i class="fas fa-chevron-right submenu-arrow"></i>
+                        </a>
+                        <ul class="submenu">
+                            <li><a href="credit-debit-transaction.html">Credit / Debit Transaction</a></li>
+                            <li><a href="wire-transaction.html">Wire Transaction</a></li>
+                            <li><a href="domestic-transaction.html">Domestic Transaction</a></li>
+                            <li><a href="loan-transaction.html">Loan Transaction</a></li>
+                            <li><a href="withdrawal-transaction.html">All Withdrawal</a></li>
+                        </ul>
+                    </li>
+                    <li>
+                        <a href="withdrawal.html">
+                            <i class="fas fa-dollar-sign"></i>
+                            <span>Withdrawal</span>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="account-manager.html">
+                            <i class="fas fa-dollar-sign"></i>
+                            <span>Account Manager</span>
+                        </a>
+                    </li>
+                    <li class="has-submenu">
+                        <a href="#" class="submenu-toggle">
+                            <i class="fas fa-cog"></i>
+                            <span>Settings</span>
+                            <i class="fas fa-chevron-right submenu-arrow"></i>
+                        </a>
+                        <ul class="submenu">
+                            <li><a href="profile.html">Profile</a></li>
+                            <li><a href="account.html">Account</a></li>
+                        </ul>
+                    </li>
+                </ul>
+            </nav>
+            <div class="logout">
+                <a href="#"><i class="fas fa-sign-out-alt"></i> Log out</a>
+            </div>
+        </aside>
+
+        <!-- Main Content -->
+        <main class="main-content">
+            <!-- Header -->
+            <header class="header">
+                <h1>Virtual Card</h1>
+                <div class="search-notification">
+                    <div class="search-bar">
+                        <i class="fas fa-search"></i>
+                        <input type="text" placeholder="Search">
+                    </div>
+                    <div class="user-profile">
+                        <div class="notification">
+                            <i class="far fa-bell"></i>
+                        </div>
+                        <div class="avatar">
+                            <img src="https://via.placeholder.com/40" alt="User avatar">
+                        </div>
+                        <div class="user-name">Sanjoy_R</div>
+                    </div>
+                </div>
+            </header>
+
+            <!-- Dashboard Content -->
+            <div class="dashboard-content">
+                <!-- Virtual Card Display -->
+                <div class="virtual-card">
+                    <div class="card-chip">
+                        <i class="fas fa-wifi"></i>
+                    </div>
+                    <div>
+                        <div class="card-type">Virtual Debit Card</div>
+                        <div class="card-number">**** **** **** 5678</div>
+                    </div>
+                    <div class="card-details">
+                        <div class="card-holder">
+                            <div class="detail-label">Card Holder</div>
+                            <div class="detail-value">Sanjoy Rajbongshi</div>
+                        </div>
+                        <div class="card-expiry">
+                            <div class="detail-label">Expires</div>
+                            <div class="detail-value">12/25</div>
+                        </div>
+                    </div>
+                    <div class="card-brand">VISA</div>
+                </div>
+
+                <!-- Card Actions -->
+                <div class="card-actions">
+                    <button class="card-action-btn">
+                        <i class="fas fa-eye"></i>
+                        <span>View Card Details</span>
+                    </button>
+                    <button class="card-action-btn">
+                        <i class="fas fa-lock"></i>
+                        <span>Freeze Card</span>
+                    </button>
+                    <button class="card-action-btn">
+                        <i class="fas fa-cog"></i>
+                        <span>Card Settings</span>
+                    </button>
+                </div>
+                
+                <!-- Card Info and Transactions Container -->
+                <div class="card-container">
+                    <!-- Left Column - Card Info and Transactions -->
+                    <div class="left-column">
+                        <!-- Card Information -->
+                        <div class="card-info-container">
+                            <div class="card-info-header">
+                                <div class="card-info-title">Card Information</div>
+                                <div class="card-info-actions">
+                                    <button class="card-info-btn"><i class="fas fa-pen"></i></button>
+                                </div>
+                            </div>
+                            <div class="card-info-item">
+                                <div class="info-label">Card Status</div>
+                                <div class="info-value">
+                                    <span class="card-status status-active">Active</span>
+                                </div>
+                            </div>
+                            <div class="card-info-item">
+                                <div class="info-label">Card Type</div>
+                                <div class="info-value">Virtual Debit Card</div>
+                            </div>
+                            <div class="card-info-item">
+                                <div class="info-label">Card Number</div>
+                                <div class="info-value">**** **** **** 5678</div>
+                            </div>
+                            <div class="card-info-item">
+                                <div class="info-label">Expiration Date</div>
+                                <div class="info-value">12/2025</div>
+                            </div>
+                            <div class="card-info-item">
+                                <div class="info-label">CVV</div>
+                                <div class="info-value">***</div>
+                            </div>
+                            <div class="card-info-item">
+                                <div class="info-label">Billing Address</div>
+                                <div class="info-value">123 Main St, New York, NY 10001</div>
+                            </div>
+                            <div class="card-info-item">
+                                <div class="info-label">Daily Limit</div>
+                                <div class="info-value">$5,000</div>
+                            </div>
+                            <div class="card-info-item">
+                                <div class="info-label">Monthly Limit</div>
+                                <div class="info-value">$25,000</div>
+                            </div>
+                        </div>
+
+                        <!-- Recent Transactions -->
+                        <div class="transaction-section">
+                            <div class="section-header">
+                                <div class="section-title">Recent Transactions</div>
+                                <a href="credit-debit-transaction.html" class="view-all">View All <i class="fas fa-chevron-right"></i></a>
+                            </div>
+                            <div class="transaction-item">
+                                <div class="transaction-icon">
+                                    <i class="fas fa-shopping-cart"></i>
+                                </div>
+                                <div class="transaction-details">
+                                    <div class="transaction-title">Amazon.com</div>
+                                    <div class="transaction-time">Today, 10:45 AM</div>
+                                </div>
+                                <div class="transaction-amount amount-negative">-$129.99</div>
+                            </div>
+                            <div class="transaction-item">
+                                <div class="transaction-icon">
+                                    <i class="fas fa-utensils"></i>
+                                </div>
+                                <div class="transaction-details">
+                                    <div class="transaction-title">Starbucks Coffee</div>
+                                    <div class="transaction-time">Yesterday, 8:30 AM</div>
+                                </div>
+                                <div class="transaction-amount amount-negative">-$5.75</div>
+                            </div>
+                            <div class="transaction-item">
+                                <div class="transaction-icon">
+                                    <i class="fas fa-gas-pump"></i>
+                                </div>
+                                <div class="transaction-details">
+                                    <div class="transaction-title">Shell Gas Station</div>
+                                    <div class="transaction-time">Jul 18, 2023</div>
+                                </div>
+                                <div class="transaction-amount amount-negative">-$45.33</div>
+                            </div>
+                            <div class="transaction-item">
+                                <div class="transaction-icon">
+                                    <i class="fas fa-shopping-bag"></i>
+                                </div>
+                                <div class="transaction-details">
+                                    <div class="transaction-title">Target</div>
+                                    <div class="transaction-time">Jul 15, 2023</div>
+                                </div>
+                                <div class="transaction-amount amount-negative">-$87.65</div>
+                            </div>
+                            <div class="transaction-item">
+                                <div class="transaction-icon">
+                                    <i class="fas fa-hamburger"></i>
+                                </div>
+                                <div class="transaction-details">
+                                    <div class="transaction-title">McDonald's</div>
+                                    <div class="transaction-time">Jul 14, 2023</div>
+                                </div>
+                                <div class="transaction-amount amount-negative">-$12.49</div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Right Column - Request New Card -->
+                    <div class="right-column">
+                        <div class="card-request-container">
+                            <div class="section-header">
+                                <div class="section-title">Request New Card</div>
+                            </div>
+                            <div class="request-options">
+                                <div class="request-option active">
+                                    <div class="option-icon">
+                                        <i class="fas fa-credit-card"></i>
+                                    </div>
+                                    <div class="option-title">Virtual Card</div>
+                                    <div class="option-description">Instant digital card for online purchases</div>
+                                </div>
+                                <div class="request-option">
+                                    <div class="option-icon">
+                                        <i class="fas fa-id-card"></i>
+                                    </div>
+                                    <div class="option-title">Physical Card</div>
+                                    <div class="option-description">Plastic card delivered to your address</div>
+                                </div>
+                            </div>
+                            <div class="request-form">
+                                <div class="form-group">
+                                    <label for="card-type">Card Type</label>
+                                    <select id="card-type">
+                                        <option value="debit" selected>Debit Card</option>
+                                        <option value="credit">Credit Card</option>
+                                        <option value="prepaid">Prepaid Card</option>
+                                    </select>
+                                </div>
+                                <div class="form-group">
+                                    <label for="card-name">Name on Card</label>
+                                    <input type="text" id="card-name" value="Sanjoy Rajbongshi">
+                                </div>
+                                <div class="form-group">
+                                    <label for="card-currency">Currency</label>
+                                    <select id="card-currency">
+                                        <option value="usd" selected>USD - US Dollar</option>
+                                        <option value="eur">EUR - Euro</option>
+                                        <option value="gbp">GBP - British Pound</option>
+                                        <option value="cad">CAD - Canadian Dollar</option>
+                                    </select>
+                                </div>
+                                <div class="form-group">
+                                    <label for="card-purpose">Purpose</label>
+                                    <select id="card-purpose">
+                                        <option value="shopping" selected>Online Shopping</option>
+                                        <option value="travel">Travel</option>
+                                        <option value="subscription">Subscription Payments</option>
+                                        <option value="business">Business Expenses</option>
+                                    </select>
+                                </div>
+                                <button class="btn-request-card">Request Card</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </main>
+
+        <!-- Right Sidebar -->
+        <aside class="right-sidebar">
+            <div class="balance-section">
+                <h3>Balance</h3>
+                <div class="balance-amount">$23,240</div>
+                <div class="balance-actions">
+                    <button class="btn-send">Send</button>
+                    <button class="btn-withdraw">Withdraw</button>
+                </div>
+            </div>
+
+            <div class="cards-section">
+                <div class="section-header">
+                    <h3>Your Cards</h3>
+                    <button class="more-options"><i class="fas fa-ellipsis-v"></i></button>
+                </div>
+                
+                <div style="padding: 15px; background-color: rgba(16, 64, 66, 0.02); border-radius: 8px; margin-bottom: 15px;">
+                    <div style="display: flex; justify-content: space-between; margin-bottom: 10px;">
+                        <div style="display: flex; align-items: center;">
+                            <i class="fas fa-credit-card" style="color: #104042; margin-right: 10px;"></i>
+                            <div>
+                                <div style="font-weight: 600; color: #104042; font-size: 14px;">Virtual Debit Card</div>
+                                <div style="font-size: 12px; color: rgba(16, 64, 66, 0.7);">**** 5678</div>
+                            </div>
+                        </div>
+                        <div class="card-status status-active" style="font-size: 10px; padding: 3px 8px;">Active</div>
+                    </div>
+                    <div style="display: flex; justify-content: space-between; font-size: 13px;">
+                        <span style="color: rgba(16, 64, 66, 0.7);">Available</span>
+                        <span style="font-weight: 600; color: #104042;">$5,420</span>
+                    </div>
+                </div>
+                
+                <div style="padding: 15px; background-color: rgba(16, 64, 66, 0.02); border-radius: 8px; margin-bottom: 15px;">
+                    <div style="display: flex; justify-content: space-between; margin-bottom: 10px;">
+                        <div style="display: flex; align-items: center;">
+                            <i class="fas fa-credit-card" style="color: #104042; margin-right: 10px;"></i>
+                            <div>
+                                <div style="font-weight: 600; color: #104042; font-size: 14px;">Physical Debit Card</div>
+                                <div style="font-size: 12px; color: rgba(16, 64, 66, 0.7);">**** 2345</div>
+                            </div>
+                        </div>
+                        <div class="card-status status-active" style="font-size: 10px; padding: 3px 8px;">Active</div>
+                    </div>
+                    <div style="display: flex; justify-content: space-between; font-size: 13px;">
+                        <span style="color: rgba(16, 64, 66, 0.7);">Available</span>
+                        <span style="font-weight: 600; color: #104042;">$12,750</span>
+                    </div>
+                </div>
+                
+                <div style="padding: 15px; background-color: rgba(16, 64, 66, 0.02); border-radius: 8px;">
+                    <div style="display: flex; justify-content: space-between; margin-bottom: 10px;">
+                        <div style="display: flex; align-items: center;">
+                            <i class="fas fa-credit-card" style="color: #104042; margin-right: 10px;"></i>
+                            <div>
+                                <div style="font-weight: 600; color: #104042; font-size: 14px;">Business Credit Card</div>
+                                <div style="font-size: 12px; color: rgba(16, 64, 66, 0.7);">**** 8901</div>
+                            </div>
+                        </div>
+                        <div class="card-status status-inactive" style="font-size: 10px; padding: 3px 8px;">Inactive</div>
+                    </div>
+                    <div style="display: flex; justify-content: space-between; font-size: 13px;">
+                        <span style="color: rgba(16, 64, 66, 0.7);">Available</span>
+                        <span style="font-weight: 600; color: #104042;">$0</span>
+                    </div>
+                </div>
+            </div>
+
+            <div class="spending-limits">
+                <div class="section-header">
+                    <h3>Spending Limits</h3>
+                </div>
+                <div style="padding: 15px; background-color: rgba(16, 64, 66, 0.02); border-radius: 8px; margin-bottom: 20px;">
+                    <div style="margin-bottom: 15px;">
+                        <div style="display: flex; justify-content: space-between; margin-bottom: 5px;">
+                            <span style="font-weight: 500; color: #104042; font-size: 13px;">Daily Spending</span>
+                            <span style="font-weight: 600; color: #104042; font-size: 13px;">$281 / $5,000</span>
+                        </div>
+                        <div class="progress-bar">
+                            <div class="progress" style="width: 5.6%;"></div>
+                        </div>
+                    </div>
+                    
+                    <div>
+                        <div style="display: flex; justify-content: space-between; margin-bottom: 5px;">
+                            <span style="font-weight: 500; color: #104042; font-size: 13px;">Monthly Spending</span>
+                            <span style="font-weight: 600; color: #104042; font-size: 13px;">$4,850 / $25,000</span>
+                        </div>
+                        <div class="progress-bar">
+                            <div class="progress" style="width: 19.4%;"></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </aside>
+    </div>
+
+    <!-- Mobile Bottom Navigation -->
+    <nav class="mobile-bottom-nav">
+        <a href="dash.html" class="mobile-nav-item">
+            <i class="fas fa-home"></i>
+            <span>Home</span>
+        </a>
+        <a href="domestic-transfer.html" class="mobile-nav-item">
+            <i class="fas fa-exchange-alt"></i>
+            <span>Transfer</span>
+        </a>
+        <a href="withdrawal.html" class="mobile-nav-item">
+            <i class="fas fa-wallet"></i>
+            <span>Withdraw</span>
+        </a>
+        <a href="profile.html" class="mobile-nav-item">
+            <i class="fas fa-user"></i>
+            <span>Profile</span>
+        </a>
+    </nav>
+
+    <!-- Mobile Menu Overlay -->
+    <div class="mobile-overlay"></div>
+
+    <!-- Include JavaScript -->
+    <script src="script.js"></script>
+</body>
+</html> 

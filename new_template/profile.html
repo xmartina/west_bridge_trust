@@ -1,0 +1,736 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Profile - Banking Dashboard</title>
+    <link rel="stylesheet" href="style.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        /* Page specific styles */
+        .profile-container {
+            display: grid;
+            grid-template-columns: 1fr 2fr;
+            gap: 30px;
+            margin-bottom: 30px;
+        }
+        
+        @media (max-width: 992px) {
+            .profile-container {
+                grid-template-columns: 1fr;
+            }
+        }
+        
+        .profile-sidebar {
+            background-color: #fff;
+            border-radius: 12px;
+            padding: 30px;
+            box-shadow: 0 4px 15px rgba(16, 64, 66, 0.08);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            text-align: center;
+        }
+        
+        .profile-avatar {
+            width: 120px;
+            height: 120px;
+            border-radius: 50%;
+            background-color: #104042;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: #fff;
+            font-size: 48px;
+            font-weight: 600;
+            margin-bottom: 20px;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .profile-avatar img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+        
+        .change-photo {
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            background-color: rgba(16, 64, 66, 0.8);
+            color: #fff;
+            padding: 5px;
+            font-size: 12px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+        
+        .profile-name {
+            font-size: 22px;
+            font-weight: 600;
+            color: #104042;
+            margin-bottom: 5px;
+        }
+        
+        .profile-email {
+            color: rgba(16, 64, 66, 0.7);
+            margin-bottom: 20px;
+        }
+        
+        .profile-status {
+            display: inline-block;
+            padding: 5px 15px;
+            background-color: rgba(175, 255, 26, 0.2);
+            color: #104042;
+            border-radius: 20px;
+            font-size: 14px;
+            font-weight: 500;
+            margin-bottom: 25px;
+        }
+        
+        .profile-status.verified {
+            background-color: rgba(175, 255, 26, 0.2);
+            color: #104042;
+        }
+        
+        .profile-status.unverified {
+            background-color: rgba(255, 210, 0, 0.2);
+            color: #104042;
+        }
+        
+        .profile-actions {
+            width: 100%;
+            margin-top: 20px;
+        }
+        
+        .btn-edit-profile {
+            background-color: #104042;
+            color: #fff;
+            padding: 12px 20px;
+            border-radius: 8px;
+            font-weight: 600;
+            font-size: 16px;
+            transition: all 0.3s ease;
+            border: none;
+            cursor: pointer;
+            width: 100%;
+            margin-bottom: 15px;
+        }
+        
+        .btn-edit-profile:hover {
+            background-color: #165e61;
+        }
+        
+        .profile-details {
+            background-color: #fff;
+            border-radius: 12px;
+            padding: 30px;
+            box-shadow: 0 4px 15px rgba(16, 64, 66, 0.08);
+        }
+        
+        .profile-section {
+            margin-bottom: 30px;
+        }
+        
+        .profile-section:last-child {
+            margin-bottom: 0;
+        }
+        
+        .profile-section-title {
+            font-size: 18px;
+            font-weight: 600;
+            color: #104042;
+            margin-bottom: 20px;
+            padding-bottom: 10px;
+            border-bottom: 1px solid rgba(16, 64, 66, 0.1);
+            display: flex;
+            align-items: center;
+        }
+        
+        .profile-section-title i {
+            margin-right: 10px;
+            color: #afff1a;
+            background-color: #104042;
+            width: 28px;
+            height: 28px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 14px;
+        }
+        
+        .profile-info-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 20px;
+        }
+        
+        @media (max-width: 768px) {
+            .profile-info-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+        
+        .profile-info-item {
+            margin-bottom: 15px;
+        }
+        
+        .profile-info-label {
+            font-size: 14px;
+            color: rgba(16, 64, 66, 0.7);
+            margin-bottom: 5px;
+        }
+        
+        .profile-info-value {
+            font-size: 16px;
+            color: #104042;
+            font-weight: 500;
+        }
+        
+        .profile-activity {
+            margin-top: 20px;
+        }
+        
+        .activity-item {
+            display: flex;
+            align-items: center;
+            padding: 15px 0;
+            border-bottom: 1px solid rgba(16, 64, 66, 0.05);
+        }
+        
+        .activity-icon {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            background-color: rgba(16, 64, 66, 0.05);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-right: 15px;
+            color: #104042;
+        }
+        
+        .activity-details {
+            flex-grow: 1;
+        }
+        
+        .activity-title {
+            font-weight: 500;
+            color: #104042;
+            margin-bottom: 5px;
+        }
+        
+        .activity-time {
+            font-size: 12px;
+            color: rgba(16, 64, 66, 0.6);
+        }
+        
+        .activity-status {
+            font-weight: 600;
+            color: #104042;
+        }
+        
+        .security-section {
+            margin-top: 30px;
+        }
+        
+        .security-item {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 15px 0;
+            border-bottom: 1px solid rgba(16, 64, 66, 0.05);
+        }
+        
+        .security-item:last-child {
+            border-bottom: none;
+        }
+        
+        .security-info {
+            display: flex;
+            align-items: center;
+        }
+        
+        .security-icon {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            background-color: rgba(16, 64, 66, 0.05);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-right: 15px;
+            color: #104042;
+        }
+        
+        .security-details h4 {
+            font-weight: 500;
+            color: #104042;
+            margin-bottom: 5px;
+        }
+        
+        .security-details p {
+            font-size: 13px;
+            color: rgba(16, 64, 66, 0.6);
+            margin: 0;
+        }
+        
+        .security-toggle {
+            position: relative;
+            display: inline-block;
+            width: 50px;
+            height: 24px;
+        }
+        
+        .security-toggle input {
+            opacity: 0;
+            width: 0;
+            height: 0;
+        }
+        
+        .toggle-slider {
+            position: absolute;
+            cursor: pointer;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background-color: rgba(16, 64, 66, 0.2);
+            transition: .4s;
+            border-radius: 24px;
+        }
+        
+        .toggle-slider:before {
+            position: absolute;
+            content: "";
+            height: 18px;
+            width: 18px;
+            left: 3px;
+            bottom: 3px;
+            background-color: white;
+            transition: .4s;
+            border-radius: 50%;
+        }
+        
+        input:checked + .toggle-slider {
+            background-color: #104042;
+        }
+        
+        input:checked + .toggle-slider:before {
+            transform: translateX(26px);
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <!-- Sidebar -->
+        <aside class="sidebar">
+            <div class="logo">OFSPACE</div>
+            <nav class="nav-menu">
+                <ul class="menu-list">
+                    <li>
+                        <a href="dash.html">
+                            <i class="fas fa-th-large"></i>
+                            <span>Dashboard</span>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="online-deposit.html">
+                            <i class="fas fa-dollar-sign"></i>
+                            <span>Online Deposit</span>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="domestic-transfer.html">
+                            <i class="fas fa-share"></i>
+                            <span>Domestic Transfer</span>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="wire-transfer.html">
+                            <i class="fas fa-wifi"></i>
+                            <span>Wire Transfer</span>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="virtual-card.html">
+                            <i class="fas fa-credit-card"></i>
+                            <span>Virtual Card</span>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="loan.html">
+                            <i class="fas fa-download"></i>
+                            <span>Loan & Mortgages</span>
+                        </a>
+                    </li>
+                    <li class="has-submenu">
+                        <a href="#" class="submenu-toggle">
+                            <i class="fas fa-credit-card"></i>
+                            <span>All Transaction Logs</span>
+                            <i class="fas fa-chevron-right submenu-arrow"></i>
+                        </a>
+                        <ul class="submenu">
+                            <li><a href="credit-debit-transaction.html">Credit / Debit Transaction</a></li>
+                            <li><a href="wire-transaction.html">Wire Transaction</a></li>
+                            <li><a href="domestic-transaction.html">Domestic Transaction</a></li>
+                            <li><a href="loan-transaction.html">Loan Transaction</a></li>
+                            <li><a href="withdrawal-transaction.html">All Withdrawal</a></li>
+                        </ul>
+                    </li>
+                    <li>
+                        <a href="withdrawal.html">
+                            <i class="fas fa-dollar-sign"></i>
+                            <span>Withdrawal</span>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="account-manager.html">
+                            <i class="fas fa-dollar-sign"></i>
+                            <span>Account Manager</span>
+                        </a>
+                    </li>
+                    <li class="has-submenu active">
+                        <a href="#" class="submenu-toggle">
+                            <i class="fas fa-cog"></i>
+                            <span>Settings</span>
+                            <i class="fas fa-chevron-right submenu-arrow"></i>
+                        </a>
+                        <ul class="submenu">
+                            <li class="active"><a href="profile.html">Profile</a></li>
+                            <li><a href="account.html">Account</a></li>
+                        </ul>
+                    </li>
+                </ul>
+            </nav>
+            <div class="logout">
+                <a href="#"><i class="fas fa-sign-out-alt"></i> Log out</a>
+            </div>
+        </aside>
+
+        <!-- Main Content -->
+        <main class="main-content">
+            <!-- Header -->
+            <header class="header">
+                <h1>Profile</h1>
+                <div class="search-notification">
+                    <div class="search-bar">
+                        <i class="fas fa-search"></i>
+                        <input type="text" placeholder="Search">
+                    </div>
+                    <div class="user-profile">
+                        <div class="notification">
+                            <i class="far fa-bell"></i>
+                        </div>
+                        <div class="avatar">
+                            <img src="https://via.placeholder.com/40" alt="User avatar">
+                        </div>
+                        <div class="user-name">Sanjoy_R</div>
+                    </div>
+                </div>
+            </header>
+
+            <!-- Dashboard Content -->
+            <div class="dashboard-content">
+                <div class="profile-container">
+                    <!-- Profile Sidebar -->
+                    <div class="profile-sidebar">
+                        <div class="profile-avatar">
+                            <img src="https://via.placeholder.com/120" alt="User profile picture">
+                            <div class="change-photo">Change Photo</div>
+                        </div>
+                        <div class="profile-name">Sanjoy Rajbongshi</div>
+                        <div class="profile-email">sanjoy.r@example.com</div>
+                        <div class="profile-status verified">
+                            <i class="fas fa-check-circle"></i> Verified Account
+                        </div>
+                        <div class="profile-actions">
+                            <a href="profile-edit.html"><button class="btn-edit-profile">Edit Profile</button></a>
+                        </div>
+                    </div>
+
+                    <!-- Profile Details -->
+                    <div class="profile-details">
+                        <!-- Personal Information -->
+                        <div class="profile-section">
+                            <div class="profile-section-title">
+                                <i class="fas fa-user"></i>
+                                Personal Information
+                            </div>
+                            <div class="profile-info-grid">
+                                <div class="profile-info-item">
+                                    <div class="profile-info-label">Full Name</div>
+                                    <div class="profile-info-value">Sanjoy Rajbongshi</div>
+                                </div>
+                                <div class="profile-info-item">
+                                    <div class="profile-info-label">Date of Birth</div>
+                                    <div class="profile-info-value">15 June, 1988</div>
+                                </div>
+                                <div class="profile-info-item">
+                                    <div class="profile-info-label">Email Address</div>
+                                    <div class="profile-info-value">sanjoy.r@example.com</div>
+                                </div>
+                                <div class="profile-info-item">
+                                    <div class="profile-info-label">Phone Number</div>
+                                    <div class="profile-info-value">+1 (555) 123-4567</div>
+                                </div>
+                                <div class="profile-info-item">
+                                    <div class="profile-info-label">Nationality</div>
+                                    <div class="profile-info-value">United States</div>
+                                </div>
+                                <div class="profile-info-item">
+                                    <div class="profile-info-label">Occupation</div>
+                                    <div class="profile-info-value">Software Engineer</div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Address Information -->
+                        <div class="profile-section">
+                            <div class="profile-section-title">
+                                <i class="fas fa-map-marker-alt"></i>
+                                Address Information
+                            </div>
+                            <div class="profile-info-grid">
+                                <div class="profile-info-item">
+                                    <div class="profile-info-label">Street Address</div>
+                                    <div class="profile-info-value">123 Main Street, Apt 4B</div>
+                                </div>
+                                <div class="profile-info-item">
+                                    <div class="profile-info-label">City</div>
+                                    <div class="profile-info-value">New York</div>
+                                </div>
+                                <div class="profile-info-item">
+                                    <div class="profile-info-label">State/Province</div>
+                                    <div class="profile-info-value">NY</div>
+                                </div>
+                                <div class="profile-info-item">
+                                    <div class="profile-info-label">Postal Code</div>
+                                    <div class="profile-info-value">10001</div>
+                                </div>
+                                <div class="profile-info-item">
+                                    <div class="profile-info-label">Country</div>
+                                    <div class="profile-info-value">United States</div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Security Settings -->
+                        <div class="profile-section">
+                            <div class="profile-section-title">
+                                <i class="fas fa-shield-alt"></i>
+                                Security Settings
+                            </div>
+                            <div class="security-section">
+                                <div class="security-item">
+                                    <div class="security-info">
+                                        <div class="security-icon">
+                                            <i class="fas fa-lock"></i>
+                                        </div>
+                                        <div class="security-details">
+                                            <h4>Two-Factor Authentication</h4>
+                                            <p>Add an extra layer of security to your account</p>
+                                        </div>
+                                    </div>
+                                    <label class="security-toggle">
+                                        <input type="checkbox" checked>
+                                        <span class="toggle-slider"></span>
+                                    </label>
+                                </div>
+                                <div class="security-item">
+                                    <div class="security-info">
+                                        <div class="security-icon">
+                                            <i class="fas fa-envelope"></i>
+                                        </div>
+                                        <div class="security-details">
+                                            <h4>Email Notifications</h4>
+                                            <p>Receive email alerts for account activity</p>
+                                        </div>
+                                    </div>
+                                    <label class="security-toggle">
+                                        <input type="checkbox" checked>
+                                        <span class="toggle-slider"></span>
+                                    </label>
+                                </div>
+                                <div class="security-item">
+                                    <div class="security-info">
+                                        <div class="security-icon">
+                                            <i class="fas fa-mobile-alt"></i>
+                                        </div>
+                                        <div class="security-details">
+                                            <h4>SMS Notifications</h4>
+                                            <p>Receive SMS alerts for important activities</p>
+                                        </div>
+                                    </div>
+                                    <label class="security-toggle">
+                                        <input type="checkbox">
+                                        <span class="toggle-slider"></span>
+                                    </label>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Recent Activity -->
+                        <div class="profile-section">
+                            <div class="profile-section-title">
+                                <i class="fas fa-history"></i>
+                                Recent Account Activity
+                            </div>
+                            <div class="profile-activity">
+                                <div class="activity-item">
+                                    <div class="activity-icon">
+                                        <i class="fas fa-sign-in-alt"></i>
+                                    </div>
+                                    <div class="activity-details">
+                                        <div class="activity-title">Login from New York, USA</div>
+                                        <div class="activity-time">Today, 10:45 AM</div>
+                                    </div>
+                                    <div class="activity-status">Current</div>
+                                </div>
+                                <div class="activity-item">
+                                    <div class="activity-icon">
+                                        <i class="fas fa-exchange-alt"></i>
+                                    </div>
+                                    <div class="activity-details">
+                                        <div class="activity-title">Domestic Transfer to John Doe</div>
+                                        <div class="activity-time">Yesterday, 3:20 PM</div>
+                                    </div>
+                                    <div class="activity-status">$2,500</div>
+                                </div>
+                                <div class="activity-item">
+                                    <div class="activity-icon">
+                                        <i class="fas fa-sign-in-alt"></i>
+                                    </div>
+                                    <div class="activity-details">
+                                        <div class="activity-title">Login from New York, USA</div>
+                                        <div class="activity-time">Yesterday, 9:15 AM</div>
+                                    </div>
+                                    <div class="activity-status">Secure</div>
+                                </div>
+                                <div class="activity-item">
+                                    <div class="activity-icon">
+                                        <i class="fas fa-cog"></i>
+                                    </div>
+                                    <div class="activity-details">
+                                        <div class="activity-title">Password Changed</div>
+                                        <div class="activity-time">May 15, 2023</div>
+                                    </div>
+                                    <div class="activity-status">Secure</div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </main>
+
+        <!-- Right Sidebar -->
+        <aside class="right-sidebar">
+            <div class="balance-section">
+                <h3>Balance</h3>
+                <div class="balance-amount">$23,240,000</div>
+                <div class="balance-actions">
+                    <button class="btn-send">Send</button>
+                    <button class="btn-withdraw">Withdraw</button>
+                </div>
+            </div>
+
+            <div class="cards-section">
+                <div class="section-header">
+                    <h3>Account Verification</h3>
+                    <button class="more-options"><i class="fas fa-ellipsis-v"></i></button>
+                </div>
+                
+                <div style="padding: 20px; background-color: rgba(175, 255, 26, 0.1); border-radius: 8px; margin-bottom: 20px;">
+                    <div style="display: flex; align-items: center; margin-bottom: 15px;">
+                        <div style="width: 40px; height: 40px; border-radius: 50%; background-color: rgba(16, 64, 66, 0.1); display: flex; align-items: center; justify-content: center; margin-right: 15px;">
+                            <i class="fas fa-id-card" style="color: #104042;"></i>
+                        </div>
+                        <div>
+                            <div style="font-weight: 600; color: #104042; margin-bottom: 5px;">ID Verification</div>
+                            <div style="font-size: 12px; color: #104042;">
+                                <i class="fas fa-check-circle" style="color: #afff1a;"></i> Completed
+                            </div>
+                        </div>
+                    </div>
+                    <div style="display: flex; align-items: center; margin-bottom: 15px;">
+                        <div style="width: 40px; height: 40px; border-radius: 50%; background-color: rgba(16, 64, 66, 0.1); display: flex; align-items: center; justify-content: center; margin-right: 15px;">
+                            <i class="fas fa-home" style="color: #104042;"></i>
+                        </div>
+                        <div>
+                            <div style="font-weight: 600; color: #104042; margin-bottom: 5px;">Address Verification</div>
+                            <div style="font-size: 12px; color: #104042;">
+                                <i class="fas fa-check-circle" style="color: #afff1a;"></i> Completed
+                            </div>
+                        </div>
+                    </div>
+                    <div style="display: flex; align-items: center;">
+                        <div style="width: 40px; height: 40px; border-radius: 50%; background-color: rgba(16, 64, 66, 0.1); display: flex; align-items: center; justify-content: center; margin-right: 15px;">
+                            <i class="fas fa-phone" style="color: #104042;"></i>
+                        </div>
+                        <div>
+                            <div style="font-weight: 600; color: #104042; margin-bottom: 5px;">Phone Verification</div>
+                            <div style="font-size: 12px; color: #104042;">
+                                <i class="fas fa-check-circle" style="color: #afff1a;"></i> Completed
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="account-limits">
+                <div class="section-header">
+                    <h3>Account Limits</h3>
+                </div>
+                <div style="padding: 15px; background-color: rgba(16, 64, 66, 0.02); border-radius: 8px; margin-bottom: 20px;">
+                    <div style="display: flex; justify-content: space-between; margin-bottom: 10px;">
+                        <span style="color: #104042; font-weight: 500;">Daily Transfer</span>
+                        <span style="color: #104042; font-weight: 600;">$50,000</span>
+                    </div>
+                    <div style="display: flex; justify-content: space-between; margin-bottom: 10px;">
+                        <span style="color: #104042; font-weight: 500;">Monthly Transfer</span>
+                        <span style="color: #104042; font-weight: 600;">$250,000</span>
+                    </div>
+                    <div style="display: flex; justify-content: space-between;">
+                        <span style="color: #104042; font-weight: 500;">Wire Transfer</span>
+                        <span style="color: #104042; font-weight: 600;">$100,000</span>
+                    </div>
+                </div>
+                <div style="font-size: 12px; color: rgba(16, 64, 66, 0.7); text-align: center;">
+                    <a href="#" style="color: #104042; text-decoration: underline;">Request Limit Increase</a>
+                </div>
+            </div>
+        </aside>
+    </div>
+
+    <!-- Mobile Bottom Navigation -->
+    <nav class="mobile-bottom-nav">
+        <a href="dash.html" class="mobile-nav-item">
+            <i class="fas fa-home"></i>
+            <span>Home</span>
+        </a>
+        <a href="domestic-transfer.html" class="mobile-nav-item">
+            <i class="fas fa-exchange-alt"></i>
+            <span>Transfer</span>
+        </a>
+        <a href="withdrawal.html" class="mobile-nav-item">
+            <i class="fas fa-wallet"></i>
+            <span>Withdraw</span>
+        </a>
+        <a href="profile.html" class="mobile-nav-item active">
+            <i class="fas fa-user"></i>
+            <span>Profile</span>
+        </a>
+    </nav>
+
+    <!-- Mobile Menu Overlay -->
+    <div class="mobile-overlay"></div>
+
+    <!-- Include JavaScript -->
+    <script src="script.js"></script>
+</body>
+</html> 

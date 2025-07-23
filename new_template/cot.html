@@ -1,0 +1,600 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Verification Required - Banking Dashboard</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="style.css">
+    <style>
+        :root {
+            --primary-color: #104042;
+            --secondary-color-1: #afff1a;
+            --secondary-color-2: #FFD200;
+            --white: #ffffff;
+            --light-gray: #f8f9fa;
+            --dark-text: #333333;
+        }
+        
+        /* Verification Card Styles */
+        .verification-container {
+            max-width: 600px;
+            margin: 60px auto;
+        }
+        
+        .verification-card {
+            background-color: var(--white);
+            border-radius: 16px;
+            box-shadow: 0 10px 30px rgba(16, 64, 66, 0.1);
+            overflow: hidden;
+            position: relative;
+        }
+        
+        .verification-header {
+            background: linear-gradient(135deg, var(--primary-color) 0%, #0d3335 100%);
+            color: var(--white);
+            padding: 30px;
+            text-align: center;
+            position: relative;
+        }
+        
+        .verification-icon {
+            width: 80px;
+            height: 80px;
+            background-color: rgba(255, 255, 255, 0.1);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 0 auto 20px;
+            color: var(--secondary-color-2);
+            font-size: 36px;
+            border: 2px solid var(--secondary-color-2);
+        }
+        
+        .verification-title {
+            font-size: 24px;
+            font-weight: 700;
+            margin-bottom: 10px;
+        }
+        
+        .verification-subtitle {
+            font-size: 16px;
+            opacity: 0.9;
+            max-width: 500px;
+            margin: 0 auto;
+        }
+        
+        .verification-body {
+            padding: 30px;
+        }
+        
+        .verification-message {
+            text-align: center;
+            margin-bottom: 30px;
+            color: var(--primary-color);
+            font-weight: 500;
+            font-size: 16px;
+            line-height: 1.6;
+        }
+        
+        .verification-message strong {
+            color: var(--primary-color);
+            font-weight: 700;
+        }
+        
+        .verification-form {
+            margin-top: 20px;
+        }
+        
+        .input-group {
+            position: relative;
+            margin-bottom: 25px;
+        }
+        
+        .input-group label {
+            display: block;
+            margin-bottom: 8px;
+            color: var(--primary-color);
+            font-weight: 600;
+            font-size: 14px;
+        }
+        
+        .input-group input {
+            width: 100%;
+            padding: 15px 20px;
+            border: 2px solid #e9ecef;
+            border-radius: 12px;
+            font-size: 16px;
+            font-weight: 600;
+            letter-spacing: 4px;
+            text-align: center;
+            color: var(--primary-color);
+            transition: all 0.3s ease;
+            background-color: var(--white);
+        }
+        
+        .input-group input:focus {
+            border-color: var(--secondary-color-2);
+            box-shadow: 0 0 0 3px rgba(255, 210, 0, 0.2);
+            outline: none;
+        }
+        
+        .input-group input::placeholder {
+            color: #ccc;
+            letter-spacing: 2px;
+        }
+        
+        .input-group .input-icon {
+            position: absolute;
+            left: 15px;
+            top: 50%;
+            transform: translateY(-50%);
+            color: var(--primary-color);
+            font-size: 18px;
+        }
+        
+        .verification-info {
+            background-color: rgba(16, 64, 66, 0.05);
+            border-radius: 12px;
+            padding: 20px;
+            margin-bottom: 30px;
+            border-left: 4px solid var(--secondary-color-2);
+        }
+        
+        .verification-info p {
+            color: var(--primary-color);
+            font-size: 14px;
+            line-height: 1.6;
+            margin-bottom: 10px;
+        }
+        
+        .verification-info p:last-child {
+            margin-bottom: 0;
+        }
+        
+        .verification-info strong {
+            color: var(--primary-color);
+        }
+        
+        .verification-actions {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 15px;
+            margin-top: 30px;
+        }
+        
+        .btn {
+            padding: 15px;
+            border-radius: 12px;
+            font-size: 16px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            text-align: center;
+            border: none;
+        }
+        
+        .btn-primary {
+            background-color: var(--primary-color);
+            color: var(--white);
+        }
+        
+        .btn-primary:hover {
+            background-color: #0d3335;
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(16, 64, 66, 0.2);
+        }
+        
+        .btn-outline {
+            background-color: transparent;
+            color: var(--primary-color);
+            border: 2px solid var(--primary-color);
+        }
+        
+        .btn-outline:hover {
+            background-color: rgba(16, 64, 66, 0.05);
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(16, 64, 66, 0.1);
+        }
+        
+        .resend-link {
+            display: block;
+            text-align: center;
+            margin-top: 20px;
+            color: var(--primary-color);
+            text-decoration: none;
+            font-size: 14px;
+            font-weight: 500;
+            transition: all 0.3s ease;
+        }
+        
+        .resend-link:hover {
+            color: var(--secondary-color-1);
+        }
+        
+        .timer {
+            display: inline-block;
+            margin-left: 5px;
+            font-weight: 600;
+        }
+        
+        /* OTP Input Styles */
+        .otp-container {
+            display: flex;
+            gap: 10px;
+            justify-content: center;
+            margin: 30px 0;
+        }
+        
+        .otp-input {
+            width: 50px;
+            height: 60px;
+            border: 2px solid #e9ecef;
+            border-radius: 12px;
+            text-align: center;
+            font-size: 24px;
+            font-weight: 700;
+            color: var(--primary-color);
+            transition: all 0.3s ease;
+        }
+        
+        .otp-input:focus {
+            border-color: var(--secondary-color-2);
+            box-shadow: 0 0 0 3px rgba(255, 210, 0, 0.2);
+            outline: none;
+        }
+        
+        @media (max-width: 576px) {
+            .verification-container {
+                margin: 20px auto;
+            }
+            
+            .verification-header {
+                padding: 20px;
+            }
+            
+            .verification-body {
+                padding: 20px;
+            }
+            
+            .verification-actions {
+                grid-template-columns: 1fr;
+            }
+            
+            .otp-container {
+                gap: 8px;
+            }
+            
+            .otp-input {
+                width: 40px;
+                height: 50px;
+                font-size: 20px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <!-- Sidebar -->
+        <aside class="sidebar">
+            <div class="logo">OFSPACE</div>
+            <nav class="nav-menu">
+                <ul class="menu-list">
+                    <li>
+                        <a href="dash.html">
+                            <i class="fas fa-th-large"></i>
+                            <span>Dashboard</span>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="online-deposit.html">
+                            <i class="fas fa-dollar-sign"></i>
+                            <span>Online Deposit</span>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="domestic-transfer.html">
+                            <i class="fas fa-share"></i>
+                            <span>Domestic Transfer</span>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="wire-transfer.html">
+                            <i class="fas fa-wifi"></i>
+                            <span>Wire Transfer</span>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="virtual-card.html">
+                            <i class="fas fa-credit-card"></i>
+                            <span>Virtual Card</span>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="loan.html">
+                            <i class="fas fa-download"></i>
+                            <span>Loan & Mortgages</span>
+                        </a>
+                    </li>
+                    <li class="has-submenu">
+                        <a href="#" class="submenu-toggle">
+                            <i class="fas fa-credit-card"></i>
+                            <span>All Transaction Logs</span>
+                            <i class="fas fa-chevron-right submenu-arrow"></i>
+                        </a>
+                        <ul class="submenu">
+                            <li><a href="credit-debit-transaction.html">Credit / Debit Transaction</a></li>
+                            <li><a href="wire-transaction.html">Wire Transaction</a></li>
+                            <li><a href="domestic-transaction.html">Domestic Transaction</a></li>
+                            <li><a href="loan-transaction.html">Loan Transaction</a></li>
+                            <li><a href="withdrawal-transaction.html">All Withdrawal</a></li>
+                        </ul>
+                    </li>
+                    <li>
+                        <a href="withdrawal.html">
+                            <i class="fas fa-dollar-sign"></i>
+                            <span>Withdrawal</span>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="account-manager.html">
+                            <i class="fas fa-dollar-sign"></i>
+                            <span>Account Manager</span>
+                        </a>
+                    </li>
+                    <li class="has-submenu">
+                        <a href="#" class="submenu-toggle">
+                            <i class="fas fa-cog"></i>
+                            <span>Settings</span>
+                            <i class="fas fa-chevron-right submenu-arrow"></i>
+                        </a>
+                        <ul class="submenu">
+                            <li><a href="profile.html">Profile</a></li>
+                            <li><a href="account.html">Account</a></li>
+                        </ul>
+                    </li>
+                </ul>
+            </nav>
+            <div class="logout">
+                <a href="#"><i class="fas fa-sign-out-alt"></i> Log out</a>
+            </div>
+        </aside>
+        
+        <main class="main-content">
+            <header class="header">
+                <h1>Verification Required</h1>
+                <div class="search-notification">
+                    <div class="search-bar">
+                        <i class="fas fa-search"></i>
+                        <input type="text" placeholder="Search">
+                    </div>
+                    <div class="user-profile">
+                        <div class="notification">
+                            <i class="far fa-bell"></i>
+                        </div>
+                        <div class="avatar">
+                            <img src="https://via.placeholder.com/40" alt="User avatar">
+                        </div>
+                        <div class="user-name">John Doe</div>
+                    </div>
+                </div>
+            </header>
+            
+            <div class="verification-container">
+                <div class="verification-card">
+                    <div class="verification-header">
+                        <div class="verification-icon">
+                            <i class="fas fa-shield-alt"></i>
+                        </div>
+                        <h1 class="verification-title">Verification Required</h1>
+                        <p class="verification-subtitle">Please enter the verification code to complete your transaction</p>
+                    </div>
+                    
+                    <div class="verification-body">
+                        <div class="verification-message">
+                            Hello, <strong>John Doe</strong>! Please enter the verification code sent to your registered email <strong>j***@example.com</strong> or phone <strong>+1 (***) ***-7890</strong>
+                        </div>
+                        
+                        <div class="verification-info">
+                            <p><strong>Note:</strong> This is a security measure to protect your account and ensure the safety of your transaction.</p>
+                            <p>The code will expire in 10 minutes. If you didn't receive a code, you can request a new one below.</p>
+                        </div>
+                        
+                        <form class="verification-form" action="success.html" method="post">
+                            <!-- Standard Input Version -->
+                            <div class="input-group">
+                                <label for="verification-code">Enter Verification Code</label>
+                                <input type="text" id="verification-code" name="verification_code" placeholder="• • • • • •" maxlength="6" autocomplete="off" required>
+                            </div>
+                            
+                            <!-- OTP Input Version (uncomment to use) -->
+                            <!--
+                            <div class="otp-container">
+                                <input type="text" class="otp-input" maxlength="1" autofocus>
+                                <input type="text" class="otp-input" maxlength="1">
+                                <input type="text" class="otp-input" maxlength="1">
+                                <input type="text" class="otp-input" maxlength="1">
+                                <input type="text" class="otp-input" maxlength="1">
+                                <input type="text" class="otp-input" maxlength="1">
+                            </div>
+                            <input type="hidden" name="otp_code" id="otp-value">
+                            -->
+                            
+                            <div class="verification-actions">
+                                <button type="button" class="btn btn-outline" onclick="window.history.back()">Cancel</button>
+                                <button type="submit" class="btn btn-primary">Verify & Continue</button>
+                            </div>
+                            
+                            <a href="#" class="resend-link">
+                                Didn't receive the code? Resend
+                                <span class="timer" id="timer">09:59</span>
+                            </a>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </main>
+        
+        <!-- Right Sidebar -->
+        <aside class="right-sidebar">
+            <div class="balance-section">
+                <h3>Balance</h3>
+                <div class="balance-amount">$23,240</div>
+                <div class="balance-actions">
+                    <button class="btn-send">Send</button>
+                    <button class="btn-withdraw">Withdraw</button>
+                </div>
+            </div>
+
+            <div class="cards-section">
+                <div class="section-header">
+                    <h3>Your Cards</h3>
+                    <button class="more-options"><i class="fas fa-ellipsis-v"></i></button>
+                </div>
+                
+                <div style="padding: 15px; background-color: rgba(16, 64, 66, 0.02); border-radius: 8px; margin-bottom: 15px;">
+                    <div style="display: flex; justify-content: space-between; margin-bottom: 10px;">
+                        <div style="display: flex; align-items: center;">
+                            <i class="fas fa-credit-card" style="color: #104042; margin-right: 10px;"></i>
+                            <div>
+                                <div style="font-weight: 600; color: #104042; font-size: 14px;">Virtual Debit Card</div>
+                                <div style="font-size: 12px; color: rgba(16, 64, 66, 0.7);">**** 5678</div>
+                            </div>
+                        </div>
+                        <div class="card-status status-active" style="font-size: 10px; padding: 3px 8px;">Active</div>
+                    </div>
+                    <div style="display: flex; justify-content: space-between; font-size: 13px;">
+                        <span style="color: rgba(16, 64, 66, 0.7);">Available</span>
+                        <span style="font-weight: 600; color: #104042;">$5,420</span>
+                    </div>
+                </div>
+                
+                <div style="padding: 15px; background-color: rgba(16, 64, 66, 0.02); border-radius: 8px;">
+                    <div style="display: flex; justify-content: space-between; margin-bottom: 10px;">
+                        <div style="display: flex; align-items: center;">
+                            <i class="fas fa-credit-card" style="color: #104042; margin-right: 10px;"></i>
+                            <div>
+                                <div style="font-weight: 600; color: #104042; font-size: 14px;">Physical Debit Card</div>
+                                <div style="font-size: 12px; color: rgba(16, 64, 66, 0.7);">**** 2345</div>
+                            </div>
+                        </div>
+                        <div class="card-status status-active" style="font-size: 10px; padding: 3px 8px;">Active</div>
+                    </div>
+                    <div style="display: flex; justify-content: space-between; font-size: 13px;">
+                        <span style="color: rgba(16, 64, 66, 0.7);">Available</span>
+                        <span style="font-weight: 600; color: #104042;">$12,750</span>
+                    </div>
+                </div>
+            </div>
+        </aside>
+    </div>
+
+    <!-- Mobile Bottom Navigation -->
+    <nav class="mobile-bottom-nav">
+        <a href="dash.html" class="mobile-nav-item">
+            <i class="fas fa-home"></i>
+            <span>Home</span>
+        </a>
+        <a href="domestic-transfer.html" class="mobile-nav-item">
+            <i class="fas fa-exchange-alt"></i>
+            <span>Transfer</span>
+        </a>
+        <a href="withdrawal.html" class="mobile-nav-item">
+            <i class="fas fa-wallet"></i>
+            <span>Withdraw</span>
+        </a>
+        <a href="profile.html" class="mobile-nav-item">
+            <i class="fas fa-user"></i>
+            <span>Profile</span>
+        </a>
+    </nav>
+
+    <!-- Mobile Menu Overlay -->
+    <div class="mobile-overlay"></div>
+    
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            // Timer functionality
+            let timeLeft = 600; // 10 minutes in seconds
+            const timerElement = document.getElementById('timer');
+            
+            function updateTimer() {
+                const minutes = Math.floor(timeLeft / 60);
+                const seconds = timeLeft % 60;
+                
+                timerElement.textContent = `${minutes.toString().padStart(2, '0')}:${seconds.toString().padStart(2, '0')}`;
+                
+                if (timeLeft <= 0) {
+                    clearInterval(timerInterval);
+                    timerElement.textContent = '00:00';
+                    document.querySelector('.resend-link').classList.add('active');
+                } else {
+                    timeLeft--;
+                }
+            }
+            
+            const timerInterval = setInterval(updateTimer, 1000);
+            updateTimer();
+            
+            // OTP input functionality (if using the OTP input version)
+            const otpInputs = document.querySelectorAll('.otp-input');
+            const otpValue = document.getElementById('otp-value');
+            
+            if (otpInputs.length > 0) {
+                otpInputs.forEach((input, index) => {
+                    // Auto-focus next input
+                    input.addEventListener('input', function() {
+                        if (this.value.length === 1) {
+                            if (index < otpInputs.length - 1) {
+                                otpInputs[index + 1].focus();
+                            }
+                            updateOtpValue();
+                        }
+                    });
+                    
+                    // Handle backspace
+                    input.addEventListener('keydown', function(e) {
+                        if (e.key === 'Backspace' && !this.value) {
+                            if (index > 0) {
+                                otpInputs[index - 1].focus();
+                                otpInputs[index - 1].value = '';
+                                updateOtpValue();
+                            }
+                        }
+                    });
+                    
+                    // Allow only numbers
+                    input.addEventListener('keypress', function(e) {
+                        if (!/^\d$/.test(e.key)) {
+                            e.preventDefault();
+                        }
+                    });
+                });
+                
+                function updateOtpValue() {
+                    let otp = '';
+                    otpInputs.forEach(input => {
+                        otp += input.value;
+                    });
+                    otpValue.value = otp;
+                }
+            }
+            
+            // Standard input version - allow only numbers
+            const verificationCode = document.getElementById('verification-code');
+            if (verificationCode) {
+                verificationCode.addEventListener('keypress', function(e) {
+                    if (!/^\d$/.test(e.key)) {
+                        e.preventDefault();
+                    }
+                });
+            }
+        });
+    </script>
+    
+    <!-- Include JavaScript -->
+    <script src="script.js"></script>
+</body>
+</html> 

@@ -1,0 +1,242 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>Card Update Notification</title>
+    <meta http-equiv='Content-Type' content='text/html; charset=utf-8' />
+    <meta name='viewport' content='width=device-width, initial-scale=1'>
+    <meta http-equiv='X-UA-Compatible' content='IE=edge' />
+    <style type='text/css'>
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap');
+        
+        body, table, td, a {
+            -webkit-text-size-adjust: 100%;
+            -ms-text-size-adjust: 100%;
+            font-family: 'Inter', Helvetica, Arial, sans-serif;
+        }
+
+        table, td {
+            mso-table-lspace: 0pt;
+            mso-table-rspace: 0pt;
+        }
+
+        img {
+            -ms-interpolation-mode: bicubic;
+            border: 0;
+            height: auto;
+            line-height: 100%;
+            outline: none;
+            text-decoration: none;
+        }
+
+        table {
+            border-collapse: collapse !important;
+        }
+
+        body {
+            height: 100% !important;
+            margin: 0 !important;
+            padding: 0 !important;
+            width: 100% !important;
+            background-color: #f5f7fa;
+        }
+
+        a[x-apple-data-detectors] {
+            color: inherit !important;
+            text-decoration: none !important;
+            font-size: inherit !important;
+            font-family: inherit !important;
+            font-weight: inherit !important;
+            line-height: inherit !important;
+        }
+        
+        a {
+            color: #104042;
+            text-decoration: none;
+            font-weight: 600;
+        }
+        
+        a:hover {
+            text-decoration: underline;
+        }
+
+        @media screen and (max-width:600px) {
+            h1 {
+                font-size: 24px !important;
+                line-height: 32px !important;
+            }
+            
+            .card-display {
+                width: 100% !important;
+            }
+            
+            .mobile-padding {
+                padding-left: 15px !important;
+                padding-right: 15px !important;
+            }
+        }
+
+        div[style*='margin: 16px 0;'] {
+            margin: 0 !important;
+        }
+    </style>
+</head>
+
+<body style='background-color: #f5f7fa; margin: 0 !important; padding: 0 !important;'>
+    <table border='0' cellpadding='0' cellspacing='0' width='100%'>
+        <!-- HEADER -->
+        <tr>
+            <td bgcolor='#104042' align='center'>
+                <table border='0' cellpadding='0' cellspacing='0' width='100%' style='max-width: 600px;'>
+                    <tr>
+                        <td align='center' valign='top' style='padding: 40px 10px 40px 10px;'>
+                            <h1 style='font-size: 28px; font-weight: 700; margin: 0; color: #ffffff;'>$APP_NAME</h1>
+                        </td>
+                    </tr>
+                </table>
+            </td>
+        </tr>
+        
+        <!-- HERO SECTION -->
+        <tr>
+            <td bgcolor='#104042' align='center' style='padding: 0px 10px 0px 10px;'>
+                <table border='0' cellpadding='0' cellspacing='0' width='100%' style='max-width: 600px;'>
+                    <tr>
+                        <td bgcolor='#ffffff' align='center' valign='top' style='padding: 40px 20px 20px 20px; border-radius: 8px 8px 0px 0px; color: #104042;'>
+                            <table width='100%' border='0' cellspacing='0' cellpadding='0'>
+                                <tr>
+                                    <td align='center'>
+                                        <img src='https://img.icons8.com/fluency/96/null/bank-card-front-side.png' width='80' style='display: block; margin: 0 auto 20px auto;'>
+                                        <h1 style='font-size: 24px; font-weight: 600; margin: 0;'>Card Update Notification</h1>
+                                        <div style='margin: 20px 0 0 0; font-size: 16px; line-height: 24px;'>Important changes have been made to your card</div>
+                                    </td>
+                                </tr>
+                            </table>
+                        </td>
+                    </tr>
+                </table>
+            </td>
+        </tr>
+        
+        <!-- CARD DISPLAY -->
+        <tr>
+            <td bgcolor='#f5f7fa' align='center' style='padding: 0px 10px 0px 10px;'>
+                <table border='0' cellpadding='0' cellspacing='0' width='100%' style='max-width: 600px;'>
+                    <tr>
+                        <td bgcolor='#ffffff' align='center' style='padding: 20px 30px 0px 30px; color: #666666;'>
+                            <!-- VIRTUAL CARD DISPLAY -->
+                            <div class='card-display' style='background: linear-gradient(135deg, #104042 0%, #0a2a2b 100%); border-radius: 16px; padding: 25px; color: #fff; position: relative; overflow: hidden; box-shadow: 0 10px 20px rgba(16, 64, 66, 0.2); margin-bottom: 30px; width: 85%; text-align: left;'>
+                                <div style='position: absolute; right: 25px; top: 25px; font-size: 24px; color: #FFD200;'>
+                                    &#9741;
+                                </div>
+                                <div style='font-size: 14px; text-transform: uppercase; letter-spacing: 2px; margin-bottom: 10px; font-weight: 500;'>Bank Card</div>
+                                <div style='font-size: 22px; letter-spacing: 2px; margin-bottom: 20px; font-weight: 600;'>$card_number</div>
+                                <div style='display: flex; justify-content: space-between;'>
+                                    <div style='display: flex; flex-direction: column;'>
+                                        <div style='font-size: 10px; text-transform: uppercase; letter-spacing: 1px; margin-bottom: 5px; opacity: 0.7;'>Card Holder</div>
+                                        <div style='font-size: 16px; font-weight: 500;'>$full_name</div>
+                                    </div>
+                                    <div style='display: flex; flex-direction: column;'>
+                                        <div style='font-size: 10px; text-transform: uppercase; letter-spacing: 1px; margin-bottom: 5px; opacity: 0.7;'>Status</div>
+                                        <div style='font-size: 16px; font-weight: 500;'>
+                                            <span style='background-color: rgba(175, 255, 26, 0.3); color: #ffffff; padding: 3px 8px; border-radius: 20px; font-size: 12px;'>UPDATED</span>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div style='position: absolute; bottom: 25px; right: 25px; font-size: 24px; font-weight: 700; color: #afff1a;'>VISA</div>
+                            </div>
+                        </td>
+                    </tr>
+                    
+                    <!-- MESSAGE -->
+                    <tr>
+                        <td bgcolor='#ffffff' align='left' class='mobile-padding' style='padding: 0px 30px 20px 30px; color: #666666;'>
+                            <p style='margin: 30px 0 0 0; font-size: 16px; line-height: 24px;'>Dear <strong style='color: #104042;'>$full_name</strong>,</p>
+                            <p style='margin: 15px 0; font-size: 16px; line-height: 24px;'>We're writing to inform you that changes have been made to your card ending in <strong style='color: #104042;'>$card_number</strong>. This notification is part of our commitment to keeping you informed about any activity related to your account.</p>
+                            <p style='margin: 15px 0; font-size: 16px; line-height: 24px;'>If you did not authorize these changes, please contact our customer support team immediately.</p>
+                        </td>
+                    </tr>
+                    
+                    <!-- SECURITY NOTICE -->
+                    <tr>
+                        <td bgcolor='#ffffff' align='center' style='padding: 0px 30px 20px 30px;'>
+                            <table width='100%' border='0' cellspacing='0' cellpadding='0'>
+                                <tr>
+                                    <td bgcolor='rgba(255, 210, 0, 0.1)' align='center' style='padding: 20px; border-radius: 8px; border-left: 4px solid #FFD200;'>
+                                        <div style='font-size: 16px; color: #104042; text-align: left;'>
+                                            <strong>Security Reminder:</strong> Never share your card details, PIN, or online banking credentials with anyone. $APP_NAME will never ask for your full card details or PIN via email.
+                                        </div>
+                                    </td>
+                                </tr>
+                            </table>
+                        </td>
+                    </tr>
+                    
+                    <!-- ACTIONS -->
+                    <tr>
+                        <td bgcolor='#ffffff' align='center' style='padding: 0px 30px 40px 30px;'>
+                            <table border='0' cellspacing='0' cellpadding='0' style='width: 100%;'>
+                                <tr>
+                                    <td align='center' style='border-radius: 8px;' bgcolor='#104042'>
+                                        <a href='#' target='_blank' style='font-size: 16px; font-weight: 600; color: #ffffff; text-decoration: none; border-radius: 8px; padding: 12px 25px; display: inline-block; width: 80%;'>View Card Details</a>
+                                    </td>
+                                </tr>
+                            </table>
+                            <table border='0' cellspacing='0' cellpadding='0' style='width: 100%; margin-top: 15px;'>
+                                <tr>
+                                    <td align='center' style='border-radius: 8px; border: 1px solid #104042;'>
+                                        <a href='#' target='_blank' style='font-size: 16px; font-weight: 600; color: #104042; text-decoration: none; border-radius: 8px; padding: 12px 25px; display: inline-block; width: 80%;'>Report Suspicious Activity</a>
+                                    </td>
+                                </tr>
+                            </table>
+                        </td>
+                    </tr>
+                    
+                    <!-- FOOTER -->
+                    <tr>
+                        <td bgcolor='#ffffff' align='center' style='padding: 0px 30px 40px 30px; border-radius: 0px 0px 8px 8px; color: #666666;'>
+                            <p style='margin: 0; font-size: 14px; line-height: 20px;'>Thank you for banking with us,<br>$APP_NAME Team</p>
+                        </td>
+                    </tr>
+                </table>
+            </td>
+        </tr>
+        
+        <!-- SUPPORT SECTION -->
+        <tr>
+            <td bgcolor='#f5f7fa' align='center' style='padding: 30px 10px 0px 10px;'>
+                <table border='0' cellpadding='0' cellspacing='0' width='100%' style='max-width: 600px;'>
+                    <tr>
+                        <td bgcolor='#afff1a' align='center' style='padding: 30px 30px 30px 30px; border-radius: 8px; color: #104042;'>
+                            <h2 style='font-size: 20px; font-weight: 600; margin: 0;'>Need Assistance?</h2>
+                            <p style='margin: 10px 0 0 0; font-size: 16px;'>Our customer support team is here to help</p>
+                            <table border='0' cellspacing='0' cellpadding='0' style='margin-top: 20px;'>
+                                <tr>
+                                    <td align='center' style='border-radius: 8px;' bgcolor='#104042'>
+                                        <a href='#' target='_blank' style='font-size: 16px; font-weight: 600; color: #ffffff; text-decoration: none; border-radius: 8px; padding: 12px 25px; display: inline-block;'>Contact Support</a>
+                                    </td>
+                                </tr>
+                            </table>
+                        </td>
+                    </tr>
+                </table>
+            </td>
+        </tr>
+        
+        <!-- DISCLAIMER -->
+        <tr>
+            <td bgcolor='#f5f7fa' align='center' style='padding: 30px 10px 30px 10px;'>
+                <table border='0' cellpadding='0' cellspacing='0' width='100%' style='max-width: 600px;'>
+                    <tr>
+                        <td bgcolor='#f5f7fa' align='center' style='padding: 0px 0px 0px 0px; color: #666666;'>
+                            <p style='margin: 0; font-size: 12px; line-height: 18px;'>This is an automated message. Please do not reply to this email.</p>
+                            <p style='margin: 10px 0 0 0; font-size: 12px; line-height: 18px;'>© 2023 $APP_NAME. All Rights Reserved.</p>
+                        </td>
+                    </tr>
+                </table>
+            </td>
+        </tr>
+    </table>
+</body>
+
+</html>

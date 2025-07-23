@@ -1,0 +1,496 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dashboard</title>
+    <link rel="stylesheet" href="style.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+</head>
+<body>
+    <div class="container">
+        <!-- Sidebar -->
+        <aside class="sidebar">
+            <div class="logo">OFSPACE</div>
+            <nav class="nav-menu">
+                <ul class="menu-list">
+                    <li class="active">
+                        <a href="#">
+                            <i class="fas fa-th-large"></i>
+                            <span>Dashboard</span>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="#">
+                            <i class="fas fa-dollar-sign"></i>
+                            <span>Online Deposit</span>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="#">
+                            <i class="fas fa-share"></i>
+                            <span>Domestic Transfer</span>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="#">
+                            <i class="fas fa-wifi"></i>
+                            <span>Wire Transfer</span>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="#">
+                            <i class="fas fa-credit-card"></i>
+                            <span>Virtual Card</span>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="#">
+                            <i class="fas fa-download"></i>
+                            <span>Loan & Mortgages</span>
+                        </a>
+                    </li>
+                    <li class="has-submenu">
+                        <a href="#" class="submenu-toggle">
+                            <i class="fas fa-credit-card"></i>
+                            <span>All Transaction Logs</span>
+                            <i class="fas fa-chevron-right submenu-arrow"></i>
+                        </a>
+                        <ul class="submenu">
+                            <li><a href="#">Credit / Debit Transaction</a></li>
+                            <li><a href="#">Wire Transaction</a></li>
+                            <li><a href="#">Domestic Transaction</a></li>
+                            <li><a href="#">Loan Transaction</a></li>
+                            <li><a href="#">All Withdrawal</a></li>
+                        </ul>
+                    </li>
+                    <li>
+                        <a href="#">
+                            <i class="fas fa-dollar-sign"></i>
+                            <span>Withdrawal</span>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="#">
+                            <i class="fas fa-dollar-sign"></i>
+                            <span>Account Manager</span>
+                        </a>
+                    </li>
+                    <li class="has-submenu">
+                        <a href="#" class="submenu-toggle">
+                            <i class="fas fa-cog"></i>
+                            <span>Settings</span>
+                            <i class="fas fa-chevron-right submenu-arrow"></i>
+                        </a>
+                        <ul class="submenu">
+                            <li><a href="#">Profile</a></li>
+                            <li><a href="#">Account</a></li>
+                        </ul>
+                    </li>
+                </ul>
+            </nav>
+            <div class="logout">
+                <a href="#"><i class="fas fa-sign-out-alt"></i> Log out</a>
+            </div>
+        </aside>
+
+        <!-- Main Content -->
+        <main class="main-content">
+            <!-- Header -->
+            <header class="header">
+                <h1>Dashboard</h1>
+                <div class="search-notification">
+                    <div class="search-bar">
+                        <i class="fas fa-search"></i>
+                        <input type="text" placeholder="Search">
+                    </div>
+                    <div class="user-profile">
+                        <div class="notification">
+                            <i class="far fa-bell"></i>
+                        </div>
+                        <div class="avatar">
+                            <img src="https://via.placeholder.com/40" alt="User avatar">
+                        </div>
+                        <div class="user-name">Sanjoy_R</div>
+                    </div>
+                </div>
+            </header>
+
+            <!-- Dashboard Content -->
+            <div class="dashboard-content">
+                <!-- Stats Cards -->
+                <div class="stats-cards">
+                    <div class="stat-card income">
+                        <div class="stat-info">
+                            <div class="stat-title">Income</div>
+                            <div class="stat-amount">$2,502.00</div>
+                            <div class="stat-detail">
+                                <span>45 Transaction</span>
+                                <span class="positive">+12%</span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="stat-card spending">
+                        <div class="stat-info">
+                            <div class="stat-title">Spending</div>
+                            <div class="stat-amount">$1,143.00</div>
+                            <div class="stat-detail">
+                                <span>12 Transaction</span>
+                                <span class="negative">-4%</span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="stat-card balance">
+                        <div class="stat-info">
+                            <div class="stat-title">Your Balance</div>
+                            <div class="stat-amount">$23,240</div>
+                            <div class="stat-detail">
+                                <span>Available Funds</span>
+                                <button class="btn-quick-action">Transfer</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Quick Actions Section -->
+                <div class="quick-actions-section">
+                    <div class="section-header">
+                        <h2>Quick Actions</h2>
+                    </div>
+                    <div class="quick-actions-grid">
+                        <div class="quick-action-card">
+                            <div class="action-icon">
+                                <i class="fas fa-exchange-alt"></i>
+                            </div>
+                            <div class="action-title">Domestic Transfer</div>
+                            <div class="action-hint">Send money locally</div>
+                        </div>
+                        <div class="quick-action-card">
+                            <div class="action-icon">
+                                <i class="fas fa-globe"></i>
+                            </div>
+                            <div class="action-title">Wire Transfer</div>
+                            <div class="action-hint">Send internationally</div>
+                        </div>
+                        <div class="quick-action-card">
+                            <div class="action-icon">
+                                <i class="fas fa-hand-holding-usd"></i>
+                            </div>
+                            <div class="action-title">Deposit</div>
+                            <div class="action-hint">Add funds</div>
+                        </div>
+                        <div class="quick-action-card">
+                            <div class="action-icon">
+                                <i class="fas fa-money-bill-wave"></i>
+                            </div>
+                            <div class="action-title">Withdrawal</div>
+                            <div class="action-hint">Get cash</div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Loan Status Section -->
+                <div class="loan-section">
+                    <div class="section-header">
+                        <h2>Loan Status</h2>
+                        <button class="more-options"><i class="fas fa-ellipsis-v"></i></button>
+                    </div>
+                    <div class="loan-details">
+                        <div class="loan-info">
+                            <div class="loan-type">Personal Loan</div>
+                            <div class="loan-amount">$50,000</div>
+                            <div class="loan-progress">
+                                <div class="progress-bar">
+                                    <div class="progress" style="width: 65%;"></div>
+                                </div>
+                                <div class="progress-text">
+                                    <span>65% Paid</span>
+                                    <span>$32,500 / $50,000</span>
+                                </div>
+                            </div>
+                            <div class="loan-details-row">
+                                <div class="detail-item">
+                                    <span class="detail-label">Next Payment</span>
+                                    <span class="detail-value">$1,250</span>
+                                </div>
+                                <div class="detail-item">
+                                    <span class="detail-label">Due Date</span>
+                                    <span class="detail-value">15 Aug 2023</span>
+                                </div>
+                                <div class="detail-item">
+                                    <span class="detail-label">Interest Rate</span>
+                                    <span class="detail-value">4.5%</span>
+                                </div>
+                            </div>
+                            <button class="btn-pay-loan">Make Payment</button>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Wire Transfer History Section -->
+                <div class="wire-transfer-section">
+                    <div class="section-header">
+                        <h2>Wire Transfer History</h2>
+                        <button class="more-options"><i class="fas fa-ellipsis-v"></i></button>
+                    </div>
+                    <div class="wire-transfer-list">
+                        <div class="wire-transfer-item">
+                            <div class="transfer-icon outgoing">
+                                <i class="fas fa-arrow-right"></i>
+                            </div>
+                            <div class="transfer-details">
+                                <div class="transfer-info">
+                                    <div class="transfer-name">Chase Bank</div>
+                                    <div class="transfer-reference">REF: WR-78452</div>
+                                </div>
+                                <div class="transfer-date">June 15, 2023</div>
+                            </div>
+                            <div class="transfer-amount outgoing">
+                                <div class="amount">-$5,250.00</div>
+                                <div class="status completed">Completed</div>
+                            </div>
+                        </div>
+                        <div class="wire-transfer-item">
+                            <div class="transfer-icon incoming">
+                                <i class="fas fa-arrow-left"></i>
+                            </div>
+                            <div class="transfer-details">
+                                <div class="transfer-info">
+                                    <div class="transfer-name">Bank of America</div>
+                                    <div class="transfer-reference">REF: WR-65932</div>
+                                </div>
+                                <div class="transfer-date">May 28, 2023</div>
+                            </div>
+                            <div class="transfer-amount incoming">
+                                <div class="amount">+$12,750.00</div>
+                                <div class="status completed">Completed</div>
+                            </div>
+                        </div>
+                        <div class="wire-transfer-item">
+                            <div class="transfer-icon outgoing">
+                                <i class="fas fa-arrow-right"></i>
+                            </div>
+                            <div class="transfer-details">
+                                <div class="transfer-info">
+                                    <div class="transfer-name">Wells Fargo</div>
+                                    <div class="transfer-reference">REF: WR-54128</div>
+                                </div>
+                                <div class="transfer-date">April 12, 2023</div>
+                            </div>
+                            <div class="transfer-amount outgoing">
+                                <div class="amount">-$3,800.00</div>
+                                <div class="status completed">Completed</div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="view-all-transfers">
+                        <button class="btn-view-all">View All Transfers</button>
+                    </div>
+                </div>
+
+                <!-- Transactions Table -->
+                <div class="transactions-section">
+                    <h2>Transactions</h2>
+                    <table class="transactions-table">
+                        <thead>
+                            <tr>
+                                <th>Name</th>
+                                <th>ID</th>
+                                <th>Amount</th>
+                                <th>Status</th>
+                                <th>Date</th>
+                                <th>Payment</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td>
+                                    <div class="user">
+                                        <img src="https://via.placeholder.com/30" alt="User">
+                                        <span>Alna_M</span>
+                                    </div>
+                                </td>
+                                <td>323133</td>
+                                <td class="positive">+3430$</td>
+                                <td><span class="status pending">Pending</span></td>
+                                <td>22/03/23</td>
+                                <td><span class="card mastercard">5425 2334 3010 ****</span></td>
+                            </tr>
+                            <tr>
+                                <td>
+                                    <div class="user">
+                                        <img src="https://via.placeholder.com/30" alt="User">
+                                        <span>Jason_A</span>
+                                    </div>
+                                </td>
+                                <td>134325</td>
+                                <td class="positive">+200$</td>
+                                <td><span class="status completed">Completed</span></td>
+                                <td>19/03/23</td>
+                                <td><span class="card visa">4263 9826 4026 ****</span></td>
+                            </tr>
+                            <tr>
+                                <td>
+                                    <div class="user">
+                                        <img src="https://via.placeholder.com/30" alt="User">
+                                        <span>Alex_D</span>
+                                    </div>
+                                </td>
+                                <td>433229</td>
+                                <td class="positive">+421$</td>
+                                <td><span class="status cancelled">Cancelled</span></td>
+                                <td>15/03/23</td>
+                                <td><span class="card amex">3742 4545 5400 ****</span></td>
+                            </tr>
+                            <tr>
+                                <td>
+                                    <div class="user">
+                                        <img src="https://via.placeholder.com/30" alt="User">
+                                        <span>Milan_K</span>
+                                    </div>
+                                </td>
+                                <td>632132</td>
+                                <td class="positive">+1200$</td>
+                                <td><span class="status completed">Completed</span></td>
+                                <td>12/03/23</td>
+                                <td><span class="card discover">5634 4213 4322 ****</span></td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </main>
+
+        <!-- Right Sidebar -->
+        <aside class="right-sidebar">
+            <div class="balance-section">
+                <h3>Balance</h3>
+                <div class="balance-amount">$23,240,000</div>
+                <div class="balance-actions">
+                    <button class="btn-send">Send</button>
+                    <button class="btn-withdraw">Withdraw</button>
+                </div>
+            </div>
+
+            <div class="cards-section">
+                <div class="section-header">
+                    <h3>Cards</h3>
+                    <button class="more-options"><i class="fas fa-ellipsis-v"></i></button>
+                </div>
+                <div class="credit-card">
+                    <div class="card-network">
+                        <i class="fab fa-cc-mastercard"></i>
+                        <i class="fas fa-wifi"></i>
+                    </div>
+                    <div class="card-number">63758 45698 2567 7546</div>
+                    <div class="card-details">
+                        <div class="card-holder">
+                            <span>Name</span>
+                            <span>Sanjoy Roy</span>
+                        </div>
+                        <div class="card-expiry">
+                            <span>Exp Date</span>
+                            <span>05/28</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Card Requests Section -->
+                <div class="card-requests">
+                    <h3>Card Requests</h3>
+                    <div class="request-item">
+                        <div class="request-icon">
+                            <i class="fas fa-credit-card"></i>
+                        </div>
+                        <div class="request-details">
+                            <div class="request-type">Virtual Card</div>
+                            <div class="request-status pending">Processing</div>
+                        </div>
+                        <div class="request-date">18/07/23</div>
+                    </div>
+                </div>
+
+                <!-- Messages Section -->
+                <div class="messages-section">
+                    <div class="section-header">
+                        <h3>Messages</h3>
+                        <button class="more-options"><i class="fas fa-ellipsis-v"></i></button>
+                    </div>
+                    <div class="message-list">
+                        <div class="message-item unread">
+                            <div class="message-avatar">
+                                <img src="https://via.placeholder.com/30" alt="Admin">
+                            </div>
+                            <div class="message-content">
+                                <div class="message-sender">Admin</div>
+                                <div class="message-preview">Your wire transfer has been processed...</div>
+                                <div class="message-time">10:45 AM</div>
+                            </div>
+                        </div>
+                        <div class="message-item">
+                            <div class="message-avatar">
+                                <img src="https://via.placeholder.com/30" alt="System">
+                            </div>
+                            <div class="message-content">
+                                <div class="message-sender">System</div>
+                                <div class="message-preview">Security alert: New login detected...</div>
+                                <div class="message-time">Yesterday</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="send-money-form">
+                    <div class="card-input">
+                        <div class="card-icon">
+                            <i class="fab fa-cc-mastercard"></i>
+                        </div>
+                        <input type="text" value="1234 2345 6789" readonly>
+                    </div>
+                    <div class="recipient-input">
+                        <label>Recipient Name</label>
+                        <input type="text" value="Royal Pervej">
+                    </div>
+                    <div class="amount-input">
+                        <label>Amount</label>
+                        <div class="amount-field">
+                            <select>
+                                <option>USD</option>
+                            </select>
+                            <input type="text" value="140.00">
+                        </div>
+                    </div>
+                    <button class="btn-send-money">Send Money</button>
+                </div>
+            </div>
+        </aside>
+    </div>
+
+    <!-- Mobile Bottom Navigation -->
+    <nav class="mobile-bottom-nav">
+        <a href="#" class="mobile-nav-item active">
+            <i class="fas fa-home"></i>
+            <span>Home</span>
+        </a>
+        <a href="#" class="mobile-nav-item">
+            <i class="fas fa-exchange-alt"></i>
+            <span>Transfer</span>
+        </a>
+        <a href="#" class="mobile-nav-item">
+            <i class="fas fa-wallet"></i>
+            <span>Withdraw</span>
+        </a>
+        <a href="#" class="mobile-nav-item">
+            <i class="fas fa-user"></i>
+            <span>Profile</span>
+        </a>
+    </nav>
+
+    <!-- Mobile Menu Overlay -->
+    <div class="mobile-overlay"></div>
+
+    <!-- Include JavaScript -->
+    <script src="script.js"></script>
+</body>
+</html>

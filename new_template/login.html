@@ -1,0 +1,352 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Login - Banking Dashboard</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Inter', sans-serif;
+        }
+        
+        body {
+            background-color: #f5f7fa;
+            color: #104042;
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        
+        .login-container {
+            display: grid;
+            grid-template-columns: 1.2fr 1fr;
+            max-width: 1000px;
+            box-shadow: 0 10px 30px rgba(16, 64, 66, 0.1);
+            border-radius: 16px;
+            overflow: hidden;
+            background-color: #fff;
+        }
+        
+        .login-banner {
+            background: linear-gradient(135deg, #104042 0%, #0a2a2b 100%);
+            padding: 50px;
+            color: white;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .login-banner::before {
+            content: '';
+            position: absolute;
+            top: -50px;
+            right: -50px;
+            width: 200px;
+            height: 200px;
+            border-radius: 50%;
+            background-color: rgba(175, 255, 26, 0.1);
+        }
+        
+        .login-banner::after {
+            content: '';
+            position: absolute;
+            bottom: -80px;
+            left: -80px;
+            width: 300px;
+            height: 300px;
+            border-radius: 50%;
+            background-color: rgba(255, 210, 0, 0.1);
+        }
+        
+        .banner-content {
+            position: relative;
+            z-index: 1;
+        }
+        
+        .logo {
+            font-size: 28px;
+            font-weight: 700;
+            margin-bottom: 40px;
+            color: #afff1a;
+        }
+        
+        .banner-title {
+            font-size: 32px;
+            font-weight: 700;
+            margin-bottom: 20px;
+        }
+        
+        .banner-text {
+            font-size: 16px;
+            line-height: 1.6;
+            margin-bottom: 30px;
+            opacity: 0.9;
+        }
+        
+        .banner-features {
+            list-style: none;
+        }
+        
+        .banner-features li {
+            display: flex;
+            align-items: center;
+            margin-bottom: 15px;
+        }
+        
+        .banner-features i {
+            color: #afff1a;
+            margin-right: 10px;
+            font-size: 18px;
+        }
+        
+        .login-form-container {
+            padding: 50px;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+        }
+        
+        .form-title {
+            font-size: 24px;
+            font-weight: 700;
+            margin-bottom: 10px;
+            color: #104042;
+        }
+        
+        .form-subtitle {
+            font-size: 14px;
+            color: rgba(16, 64, 66, 0.7);
+            margin-bottom: 30px;
+        }
+        
+        .form-group {
+            margin-bottom: 20px;
+        }
+        
+        .form-group label {
+            display: block;
+            margin-bottom: 8px;
+            font-weight: 500;
+            color: #104042;
+        }
+        
+        .form-group input {
+            width: 100%;
+            padding: 12px 15px;
+            border: 1px solid rgba(16, 64, 66, 0.2);
+            border-radius: 8px;
+            background-color: rgba(16, 64, 66, 0.02);
+            color: #104042;
+            font-size: 15px;
+        }
+        
+        .form-group input:focus {
+            border-color: #104042;
+            box-shadow: 0 0 0 2px rgba(16, 64, 66, 0.1);
+            outline: none;
+        }
+        
+        .form-options {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 25px;
+        }
+        
+        .remember-me {
+            display: flex;
+            align-items: center;
+        }
+        
+        .remember-me input {
+            margin-right: 8px;
+        }
+        
+        .forgot-password {
+            color: #104042;
+            text-decoration: none;
+            font-size: 14px;
+            font-weight: 500;
+        }
+        
+        .forgot-password:hover {
+            color: #afff1a;
+        }
+        
+        .btn-login {
+            background-color: #104042;
+            color: #fff;
+            padding: 12px;
+            border-radius: 8px;
+            font-weight: 600;
+            font-size: 16px;
+            transition: all 0.3s ease;
+            border: none;
+            cursor: pointer;
+            width: 100%;
+            margin-bottom: 20px;
+        }
+        
+        .btn-login:hover {
+            background-color: #165e61;
+        }
+        
+        .social-login {
+            margin-top: 20px;
+            text-align: center;
+        }
+        
+        .social-login-title {
+            position: relative;
+            margin-bottom: 20px;
+            font-size: 14px;
+            color: rgba(16, 64, 66, 0.7);
+        }
+        
+        .social-login-title::before,
+        .social-login-title::after {
+            content: '';
+            position: absolute;
+            top: 50%;
+            width: 30%;
+            height: 1px;
+            background-color: rgba(16, 64, 66, 0.2);
+        }
+        
+        .social-login-title::before {
+            left: 0;
+        }
+        
+        .social-login-title::after {
+            right: 0;
+        }
+        
+        .social-buttons {
+            display: flex;
+            justify-content: center;
+            gap: 15px;
+        }
+        
+        .social-btn {
+            width: 45px;
+            height: 45px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border: 1px solid rgba(16, 64, 66, 0.1);
+            background-color: white;
+            color: #104042;
+            font-size: 18px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+        
+        .social-btn:hover {
+            background-color: rgba(16, 64, 66, 0.05);
+        }
+        
+        .signup-link {
+            text-align: center;
+            margin-top: 30px;
+            font-size: 14px;
+            color: rgba(16, 64, 66, 0.7);
+        }
+        
+        .signup-link a {
+            color: #104042;
+            font-weight: 600;
+            text-decoration: none;
+        }
+        
+        .signup-link a:hover {
+            color: #afff1a;
+        }
+        
+        @media (max-width: 992px) {
+            .login-container {
+                grid-template-columns: 1fr;
+                max-width: 500px;
+                margin: 20px;
+            }
+            
+            .login-banner {
+                display: none;
+            }
+        }
+        
+        @media (max-width: 576px) {
+            .login-form-container {
+                padding: 30px 20px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="login-container">
+        <!-- Login Banner -->
+        <div class="login-banner">
+            <div class="banner-content">
+                <div class="logo">OFSPACE</div>
+                <h1 class="banner-title">Welcome to OFSPACE Banking</h1>
+                <p class="banner-text">Access your accounts, manage transactions, and enjoy secure banking services with our comprehensive dashboard.</p>
+                <ul class="banner-features">
+                    <li><i class="fas fa-shield-alt"></i> Secure and encrypted connection</li>
+                    <li><i class="fas fa-bolt"></i> Fast and reliable transactions</li>
+                    <li><i class="fas fa-mobile-alt"></i> Access from any device</li>
+                    <li><i class="fas fa-headset"></i> 24/7 customer support</li>
+                </ul>
+            </div>
+        </div>
+        
+        <!-- Login Form -->
+        <div class="login-form-container">
+            <h2 class="form-title">Login to your account</h2>
+            <p class="form-subtitle">Enter your credentials to access your account</p>
+            
+            <form action="dash.html">
+                <div class="form-group">
+                    <label for="email">Email Address</label>
+                    <input type="email" id="email" placeholder="Enter your email" required>
+                </div>
+                
+                <div class="form-group">
+                    <label for="password">Password</label>
+                    <input type="password" id="password" placeholder="Enter your password" required>
+                </div>
+                
+                <div class="form-options">
+                    <div class="remember-me">
+                        <input type="checkbox" id="remember">
+                        <label for="remember">Remember me</label>
+                    </div>
+                    <a href="#" class="forgot-password">Forgot Password?</a>
+                </div>
+                
+                <button type="submit" class="btn-login">Login</button>
+                
+                <div class="social-login">
+                    <div class="social-login-title">Or login with</div>
+                    <div class="social-buttons">
+                        <button type="button" class="social-btn"><i class="fab fa-google"></i></button>
+                        <button type="button" class="social-btn"><i class="fab fa-facebook-f"></i></button>
+                        <button type="button" class="social-btn"><i class="fab fa-apple"></i></button>
+                    </div>
+                </div>
+                
+                <div class="signup-link">
+                    Don't have an account? <a href="signup.html">Sign Up</a>
+                </div>
+            </form>
+        </div>
+    </div>
+</body>
+</html> 

@@ -1,0 +1,395 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>PIN Verification - Banking Dashboard</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        :root {
+            --primary-color: #104042;
+            --secondary-color-1: #afff1a;
+            --secondary-color-2: #FFD200;
+            --white: #ffffff;
+            --light-gray: #f8f9fa;
+            --dark-text: #333333;
+        }
+        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Inter', sans-serif;
+        }
+        
+        body {
+            background: linear-gradient(135deg, #f8f9fa 0%, #e9ecef 100%);
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 20px;
+        }
+        
+        .pin-container {
+            width: 100%;
+            max-width: 450px;
+        }
+        
+        .pin-card {
+            background-color: var(--white);
+            border-radius: 20px;
+            box-shadow: 0 20px 40px rgba(16, 64, 66, 0.1);
+            padding: 40px;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .pin-card::before {
+            content: "";
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 6px;
+            background: linear-gradient(90deg, var(--secondary-color-1), var(--secondary-color-2));
+        }
+        
+        .user-profile {
+            display: flex;
+            align-items: center;
+            margin-bottom: 30px;
+            justify-content: center;
+            flex-direction: column;
+            text-align: center;
+        }
+        
+        .user-avatar {
+            width: 100px;
+            height: 100px;
+            border-radius: 50%;
+            overflow: hidden;
+            margin-bottom: 15px;
+            border: 3px solid var(--secondary-color-2);
+            box-shadow: 0 10px 20px rgba(16, 64, 66, 0.15);
+        }
+        
+        .user-avatar img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+        
+        .user-name {
+            font-size: 1.5rem;
+            font-weight: 700;
+            color: var(--primary-color);
+            margin-bottom: 5px;
+        }
+        
+        .user-account {
+            font-size: 0.9rem;
+            color: rgba(16, 64, 66, 0.7);
+        }
+        
+        .pin-header {
+            text-align: center;
+            margin-bottom: 30px;
+        }
+        
+        .pin-header h2 {
+            font-size: 1.8rem;
+            font-weight: 700;
+            color: var(--primary-color);
+            margin-bottom: 10px;
+        }
+        
+        .pin-header p {
+            color: rgba(16, 64, 66, 0.7);
+            font-size: 1rem;
+        }
+        
+        .pin-input-container {
+            margin-bottom: 30px;
+        }
+        
+        .pin-dots {
+            display: flex;
+            justify-content: center;
+            gap: 15px;
+            margin-bottom: 20px;
+        }
+        
+        .pin-dot {
+            width: 20px;
+            height: 20px;
+            border-radius: 50%;
+            background-color: var(--light-gray);
+            border: 2px solid #e9ecef;
+            transition: all 0.3s ease;
+        }
+        
+        .pin-dot.filled {
+            background-color: var(--primary-color);
+            border-color: var(--primary-color);
+            transform: scale(1.1);
+        }
+        
+        .pin-input {
+            position: absolute;
+            opacity: 0;
+            pointer-events: none;
+        }
+        
+        .pin-keypad {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 15px;
+            margin-top: 30px;
+        }
+        
+        .pin-key {
+            aspect-ratio: 1/1;
+            border-radius: 15px;
+            border: none;
+            background-color: var(--white);
+            color: var(--primary-color);
+            font-size: 1.5rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 10px rgba(16, 64, 66, 0.08);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        
+        .pin-key:hover {
+            background-color: rgba(16, 64, 66, 0.05);
+            transform: translateY(-2px);
+            box-shadow: 0 8px 15px rgba(16, 64, 66, 0.12);
+        }
+        
+        .pin-key:active {
+            transform: translateY(0);
+            box-shadow: 0 2px 5px rgba(16, 64, 66, 0.1);
+        }
+        
+        .pin-key.function {
+            background-color: rgba(16, 64, 66, 0.05);
+            color: var(--primary-color);
+            font-size: 1.2rem;
+        }
+        
+        .pin-key.delete {
+            color: #dc3545;
+        }
+        
+        .pin-key.empty {
+            box-shadow: none;
+            cursor: default;
+            background-color: transparent;
+        }
+        
+        .pin-key.empty:hover {
+            transform: none;
+            box-shadow: none;
+        }
+        
+        .pin-submit {
+            width: 100%;
+            padding: 15px;
+            border-radius: 12px;
+            border: none;
+            background: linear-gradient(135deg, var(--primary-color) 0%, #0d3335 100%);
+            color: var(--white);
+            font-size: 1rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            margin-top: 30px;
+        }
+        
+        .pin-submit:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 15px rgba(16, 64, 66, 0.2);
+        }
+        
+        .pin-submit:disabled {
+            opacity: 0.7;
+            cursor: not-allowed;
+            transform: none;
+            box-shadow: none;
+        }
+        
+        .forgot-pin {
+            text-align: center;
+            margin-top: 20px;
+        }
+        
+        .forgot-pin a {
+            color: var(--primary-color);
+            text-decoration: none;
+            font-size: 0.9rem;
+            font-weight: 500;
+            transition: all 0.3s ease;
+        }
+        
+        .forgot-pin a:hover {
+            color: var(--secondary-color-1);
+        }
+        
+        @media (max-width: 480px) {
+            .pin-card {
+                padding: 30px 20px;
+            }
+            
+            .pin-keypad {
+                gap: 10px;
+            }
+            
+            .user-avatar {
+                width: 80px;
+                height: 80px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="pin-container">
+        <div class="pin-card">
+            <div class="user-profile">
+                <div class="user-avatar">
+                    <img src="https://via.placeholder.com/100" alt="User Avatar">
+                </div>
+                <div class="user-name">John Doe</div>
+                <div class="user-account">Account: **** 5678</div>
+            </div>
+            
+            <div class="pin-header">
+                <h2>Welcome Back</h2>
+                <p>Please enter your PIN to continue</p>
+            </div>
+            
+            <form action="dashboard.html" method="post" id="pinForm">
+                <div class="pin-input-container">
+                    <div class="pin-dots">
+                        <div class="pin-dot" data-index="0"></div>
+                        <div class="pin-dot" data-index="1"></div>
+                        <div class="pin-dot" data-index="2"></div>
+                        <div class="pin-dot" data-index="3"></div>
+                    </div>
+                    <input type="password" name="pin" id="pinInput" class="pin-input" maxlength="4" pattern="[0-9]{4}" required>
+                </div>
+                
+                <div class="pin-keypad">
+                    <button type="button" class="pin-key number" data-value="1">1</button>
+                    <button type="button" class="pin-key number" data-value="2">2</button>
+                    <button type="button" class="pin-key number" data-value="3">3</button>
+                    <button type="button" class="pin-key number" data-value="4">4</button>
+                    <button type="button" class="pin-key number" data-value="5">5</button>
+                    <button type="button" class="pin-key number" data-value="6">6</button>
+                    <button type="button" class="pin-key number" data-value="7">7</button>
+                    <button type="button" class="pin-key number" data-value="8">8</button>
+                    <button type="button" class="pin-key number" data-value="9">9</button>
+                    <button type="button" class="pin-key function" data-value="help">
+                        <i class="fas fa-question-circle"></i>
+                    </button>
+                    <button type="button" class="pin-key number" data-value="0">0</button>
+                    <button type="button" class="pin-key function delete" data-value="delete">
+                        <i class="fas fa-backspace"></i>
+                    </button>
+                </div>
+                
+                <button type="submit" class="pin-submit" id="pinSubmit" disabled>Verify PIN</button>
+                
+                <div class="forgot-pin">
+                    <a href="#">Forgot PIN?</a>
+                </div>
+            </form>
+        </div>
+    </div>
+    
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const pinInput = document.getElementById('pinInput');
+            const pinDots = document.querySelectorAll('.pin-dot');
+            const pinKeys = document.querySelectorAll('.pin-key');
+            const pinSubmit = document.getElementById('pinSubmit');
+            const pinForm = document.getElementById('pinForm');
+            
+            // Handle keypad clicks
+            pinKeys.forEach(key => {
+                key.addEventListener('click', function() {
+                    const value = this.getAttribute('data-value');
+                    
+                    if (value === 'delete') {
+                        // Delete last digit
+                        if (pinInput.value.length > 0) {
+                            pinInput.value = pinInput.value.slice(0, -1);
+                            updatePinDots();
+                        }
+                    } else if (value === 'help') {
+                        // Show help message
+                        alert('Enter your 4-digit PIN to access your account.');
+                    } else if (pinInput.value.length < 4) {
+                        // Add digit to PIN
+                        pinInput.value += value;
+                        updatePinDots();
+                    }
+                });
+            });
+            
+            // Update PIN dots based on input value
+            function updatePinDots() {
+                const pinLength = pinInput.value.length;
+                
+                // Update dots
+                pinDots.forEach((dot, index) => {
+                    if (index < pinLength) {
+                        dot.classList.add('filled');
+                    } else {
+                        dot.classList.remove('filled');
+                    }
+                });
+                
+                // Enable/disable submit button
+                pinSubmit.disabled = pinLength !== 4;
+            }
+            
+            // Handle form submission
+            pinForm.addEventListener('submit', function(e) {
+                e.preventDefault();
+                
+                // In a real app, you would validate the PIN against the server here
+                // For demo purposes, we'll just redirect to the dashboard
+                if (pinInput.value.length === 4) {
+                    window.location.href = 'dashboard.html';
+                }
+            });
+            
+            // Randomize keypad numbers for security
+            function shuffleKeypad() {
+                const numbers = [1, 2, 3, 4, 5, 6, 7, 8, 9, 0];
+                const shuffled = [...numbers].sort(() => Math.random() - 0.5);
+                
+                // Update number keys
+                document.querySelectorAll('.pin-key.number').forEach((key, index) => {
+                    if (index === 9) {
+                        // Skip the middle button (index 9 is the "0" button)
+                        return;
+                    }
+                    
+                    const value = shuffled[index % 10];
+                    key.textContent = value;
+                    key.setAttribute('data-value', value);
+                });
+            }
+            
+            // Uncomment to enable keypad shuffling for additional security
+            // shuffleKeypad();
+        });
+    </script>
+</body>
+</html> 

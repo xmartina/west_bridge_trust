@@ -1,0 +1,685 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+    background-color: #f5f5f7;
+    color: #333;
+}
+
+.dashboard-container {
+    display: flex;
+    min-height: 100vh;
+}
+
+/* Sidebar Styles */
+.sidebar {
+    width: 250px;
+    background-color: #1a1a1a;
+    color: white;
+    padding: 24px 0;
+    position: fixed;
+    height: 100vh;
+    overflow-y: auto;
+}
+
+.logo {
+    padding: 0 24px 32px;
+}
+
+.logo h2 {
+    font-size: 20px;
+    font-weight: 600;
+    letter-spacing: -0.5px;
+}
+
+.nav-menu {
+    display: flex;
+    flex-direction: column;
+}
+
+.nav-item {
+    display: flex;
+    align-items: center;
+    padding: 12px 24px;
+    color: #888;
+    text-decoration: none;
+    transition: all 0.2s ease;
+    border-radius: 0;
+}
+
+.nav-item:hover {
+    background-color: #2a2a2a;
+    color: white;
+}
+
+.nav-item.active {
+    background-color: #333;
+    color: white;
+    border-radius: 8px;
+    margin: 0 16px;
+}
+
+.nav-item i {
+    width: 20px;
+    margin-right: 12px;
+    font-size: 16px;
+}
+
+.nav-item.logout {
+    margin-top: auto;
+}
+
+/* Main Content */
+.main-content {
+    flex: 1;
+    margin-left: 250px;
+    padding: 0;
+}
+
+/* Header */
+.header {
+    background: white;
+    padding: 16px 32px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    border-bottom: 1px solid #e5e5e7;
+}
+
+.search-container {
+    position: relative;
+    width: 400px;
+}
+
+.search-container i {
+    position: absolute;
+    left: 16px;
+    top: 50%;
+    transform: translateY(-50%);
+    color: #888;
+}
+
+.search-input {
+    width: 100%;
+    padding: 12px 16px 12px 48px;
+    border: 1px solid #e5e5e7;
+    border-radius: 8px;
+    font-size: 14px;
+    outline: none;
+}
+
+.search-input:focus {
+    border-color: #007AFF;
+}
+
+.user-profile {
+    display: flex;
+    align-items: center;
+    gap: 16px;
+}
+
+.notification-icon {
+    font-size: 18px;
+    color: #888;
+    cursor: pointer;
+}
+
+.user-info {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+.user-avatar {
+    width: 32px;
+    height: 32px;
+    border-radius: 50%;
+    object-fit: cover;
+}
+
+.username {
+    font-weight: 500;
+    font-size: 14px;
+}
+
+/* Dashboard Content */
+.dashboard-content {
+    padding: 32px;
+}
+
+.page-title {
+    font-size: 32px;
+    font-weight: 600;
+    margin-bottom: 32px;
+    color: #1a1a1a;
+}
+
+/* Stats Grid */
+.stats-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr;
+    gap: 24px;
+    margin-bottom: 32px;
+}
+
+.stat-card {
+    background: white;
+    padding: 24px;
+    border-radius: 12px;
+    box-shadow: 0 1px 3px rgba(0,0,0,0.1);
+}
+
+.stat-card.income {
+    background: linear-gradient(135deg, #f8f9fa 0%, #e9ecef 100%);
+}
+
+.stat-card.spending {
+    background: linear-gradient(135deg, #fff5f5 0%, #fed7d7 100%);
+}
+
+.stat-card.activity {
+    background: linear-gradient(135deg, #f0f4f8 0%, #d6e8f5 100%);
+}
+
+.stat-label {
+    font-size: 14px;
+    color: #666;
+    font-weight: 500;
+}
+
+.stat-value {
+    font-size: 28px;
+    font-weight: 700;
+    margin: 8px 0;
+    color: #1a1a1a;
+}
+
+.stat-details {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    font-size: 12px;
+}
+
+.stat-count {
+    color: #666;
+}
+
+.stat-change.positive {
+    color: #10b981;
+    font-weight: 600;
+}
+
+.stat-change.negative {
+    color: #ef4444;
+    font-weight: 600;
+}
+
+.activity-chart {
+    margin: 16px 0;
+    height: 80px;
+}
+
+.chart-label {
+    background: #333;
+    padding: 4px 8px;
+    border-radius: 4px;
+}
+
+.stat-value-small {
+    font-weight: 600;
+    color: #1a1a1a;
+}
+
+/* Overview Section */
+.overview-section {
+    background: white;
+    padding: 24px;
+    border-radius: 12px;
+    box-shadow: 0 1px 3px rgba(0,0,0,0.1);
+    margin-bottom: 32px;
+}
+
+.overview-section h3 {
+    font-size: 18px;
+    font-weight: 600;
+    margin-bottom: 24px;
+    color: #1a1a1a;
+}
+
+.chart-container {
+    display: flex;
+    align-items: center;
+}
+
+.chart-y-axis {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    height: 200px;
+    margin-right: 16px;
+    font-size: 12px;
+    color: #666;
+}
+
+.chart-area {
+    flex: 1;
+    height: 200px;
+}
+
+.chart-x-axis {
+    display: flex;
+    justify-content: space-between;
+    margin-top: 16px;
+    font-size: 12px;
+    color: #666;
+}
+
+/* Transactions Section */
+.transactions-section {
+    background: white;
+    padding: 24px;
+    border-radius: 12px;
+    box-shadow: 0 1px 3px rgba(0,0,0,0.1);
+}
+
+.transactions-section h3 {
+    font-size: 18px;
+    font-weight: 600;
+    margin-bottom: 24px;
+    color: #1a1a1a;
+}
+
+.table-container {
+    overflow-x: auto;
+}
+
+.transactions-table {
+    width: 100%;
+    border-collapse: collapse;
+}
+
+.transactions-table th {
+    text-align: left;
+    padding: 12px 16px;
+    font-weight: 600;
+    color: #666;
+    font-size: 14px;
+    border-bottom: 1px solid #e5e5e7;
+}
+
+.transactions-table td {
+    padding: 16px;
+    border-bottom: 1px solid #f5f5f7;
+    font-size: 14px;
+}
+
+.user-cell {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+}
+
+.user-cell img {
+    width: 32px;
+    height: 32px;
+    border-radius: 50%;
+    object-fit: cover;
+}
+
+.amount.positive {
+    color: #10b981;
+    font-weight: 600;
+}
+
+.status {
+    padding: 4px 12px;
+    border-radius: 16px;
+    font-size: 12px;
+    font-weight: 500;
+}
+
+.status.pending {
+    background: #fef3c7;
+    color: #d97706;
+}
+
+.status.completed {
+    background: #d1fae5;
+    color: #059669;
+}
+
+.status.canceled {
+    background: #fee2e2;
+    color: #dc2626;
+}
+
+.payment-method {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+.card-icon {
+    width: 20px;
+    height: 12px;
+    border-radius: 2px;
+}
+
+.card-icon.mastercard {
+    background: linear-gradient(90deg, #eb001b 50%, #f79e1b 50%);
+}
+
+.card-icon.visa {
+    background: #1a1f71;
+}
+
+.card-icon.amex {
+    background: #006fcf;
+}
+
+.card-icon.other {
+    background: #666;
+}
+
+/* Right Sidebar */
+.right-sidebar {
+    width: 320px;
+    padding: 32px 24px;
+    background: white;
+    border-left: 1px solid #e5e5e7;
+}
+
+/* Balance Section */
+.balance-section {
+    margin-bottom: 32px;
+}
+
+.balance-section h3 {
+    font-size: 18px;
+    font-weight: 600;
+    margin-bottom: 16px;
+    color: #1a1a1a;
+}
+
+.balance-amount {
+    font-size: 32px;
+    font-weight: 700;
+    margin-bottom: 24px;
+    color: #1a1a1a;
+}
+
+.balance-actions {
+    display: flex;
+    gap: 12px;
+}
+
+.btn {
+    padding: 12px 24px;
+    border-radius: 8px;
+    font-weight: 500;
+    font-size: 14px;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    border: none;
+}
+
+.btn-outline {
+    background: transparent;
+    border: 1px solid #e5e5e7;
+    color: #333;
+}
+
+.btn-outline:hover {
+    background: #f5f5f7;
+}
+
+.btn-primary {
+    background: #1a1a1a;
+    color: white;
+}
+
+.btn-primary:hover {
+    background: #333;
+}
+
+.btn-full {
+    width: 100%;
+}
+
+/* Cards Section */
+.cards-section {
+    margin-bottom: 32px;
+}
+
+.section-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 16px;
+}
+
+.section-header h3 {
+    font-size: 18px;
+    font-weight: 600;
+    color: #1a1a1a;
+}
+
+.section-header i {
+    color: #888;
+    cursor: pointer;
+}
+
+.credit-card {
+    background: linear-gradient(135deg, #1a1a1a 0%, #333 100%);
+    color: white;
+    padding: 24px;
+    border-radius: 16px;
+    margin-bottom: 16px;
+    position: relative;
+}
+
+.card-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 24px;
+}
+
+.mastercard-logo {
+    display: flex;
+    align-items: center;
+}
+
+.circle {
+    width: 20px;
+    height: 20px;
+    border-radius: 50%;
+}
+
+.circle.red {
+    background: #eb001b;
+    margin-right: -8px;
+}
+
+.circle.yellow {
+    background: #f79e1b;
+}
+
+.card-wifi {
+    font-size: 16px;
+    transform: rotate(90deg);
+}
+
+.card-number {
+    font-size: 18px;
+    font-weight: 500;
+    letter-spacing: 2px;
+    margin-bottom: 24px;
+}
+
+.card-details {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-end;
+    position: relative;
+}
+
+.card-holder, .card-expiry {
+    display: flex;
+    flex-direction: column;
+}
+
+.label {
+    font-size: 10px;
+    color: #ccc;
+    margin-bottom: 4px;
+}
+
+.value {
+    font-size: 12px;
+    font-weight: 500;
+}
+
+.card-chip {
+    position: absolute;
+    right: 0;
+    bottom: 0;
+}
+
+.chip {
+    width: 24px;
+    height: 18px;
+    background: linear-gradient(135deg, #ffd700 0%, #ffed4e 100%);
+    border-radius: 4px;
+    position: relative;
+}
+
+.chip::before {
+    content: '';
+    position: absolute;
+    top: 2px;
+    left: 2px;
+    right: 2px;
+    bottom: 2px;
+    background: #333;
+    border-radius: 2px;
+}
+
+.card-number-display {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    padding: 12px 16px;
+    background: #f8f9fa;
+    border-radius: 8px;
+    font-size: 14px;
+    font-weight: 500;
+}
+
+.mastercard-mini {
+    width: 24px;
+    height: 16px;
+    background: linear-gradient(90deg, #eb001b 50%, #f79e1b 50%);
+    border-radius: 2px;
+}
+
+/* Send Money Section */
+.send-money-section {
+    margin-bottom: 32px;
+}
+
+.form-group {
+    margin-bottom: 20px;
+}
+
+.form-group label {
+    display: block;
+    font-size: 14px;
+    font-weight: 500;
+    color: #333;
+    margin-bottom: 8px;
+}
+
+.form-input {
+    width: 100%;
+    padding: 12px 16px;
+    border: 1px solid #e5e5e7;
+    border-radius: 8px;
+    font-size: 14px;
+    outline: none;
+}
+
+.form-input:focus {
+    border-color: #007AFF;
+}
+
+.amount-input {
+    display: flex;
+    border: 1px solid #e5e5e7;
+    border-radius: 8px;
+    overflow: hidden;
+}
+
+.currency-select {
+    padding: 12px 16px;
+    border: none;
+    background: #f8f9fa;
+    font-size: 14px;
+    outline: none;
+    cursor: pointer;
+}
+
+.amount-field {
+    flex: 1;
+    padding: 12px 16px;
+    border: none;
+    font-size: 14px;
+    outline: none;
+}
+
+/* Responsive Design */
+@media (max-width: 1200px) {
+    .stats-grid {
+        grid-template-columns: 1fr 1fr;
+    }
+    
+    .right-sidebar {
+        width: 280px;
+    }
+}
+
+@media (max-width: 768px) {
+    .sidebar {
+        transform: translateX(-100%);
+        transition: transform 0.3s ease;
+    }
+    
+    .main-content {
+        margin-left: 0;
+    }
+    
+    .right-sidebar {
+        display: none;
+    }
+    
+    .stats-grid {
+        grid-template-columns: 1fr;
+    }
+    
+    .dashboard-content {
+        padding: 16px;
+    }
+    
+    .header {
+        padding: 16px;
+    }
+    
+    .search-container {
+        width: 200px;
+    }
+}

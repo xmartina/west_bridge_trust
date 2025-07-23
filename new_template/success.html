@@ -1,0 +1,518 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Transaction Success - Banking Dashboard</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="style.css">
+    <style>
+        :root {
+            --primary-color: #104042;
+            --secondary-color-1: #afff1a;
+            --secondary-color-2: #FFD200;
+            --white: #ffffff;
+            --light-gray: #f8f9fa;
+            --dark-text: #333333;
+            --success-color: #2e7d32;
+            --danger-color: #d32f2f;
+        }
+        
+        /* Success Card Styles */
+        .success-container {
+            max-width: 800px;
+            margin: 40px auto;
+        }
+        
+        .success-card {
+            background-color: var(--white);
+            border-radius: 16px;
+            box-shadow: 0 10px 30px rgba(16, 64, 66, 0.1);
+            overflow: hidden;
+            position: relative;
+        }
+        
+        .success-header {
+            background: linear-gradient(135deg, var(--primary-color) 0%, #0d3335 100%);
+            color: var(--white);
+            padding: 30px;
+            text-align: center;
+            position: relative;
+        }
+        
+        .success-icon {
+            width: 80px;
+            height: 80px;
+            background-color: var(--secondary-color-1);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 0 auto 20px;
+            color: var(--primary-color);
+            font-size: 40px;
+            box-shadow: 0 10px 20px rgba(175, 255, 26, 0.3);
+        }
+        
+        .success-title {
+            font-size: 24px;
+            font-weight: 700;
+            margin-bottom: 10px;
+        }
+        
+        .success-message {
+            font-size: 16px;
+            opacity: 0.9;
+            max-width: 600px;
+            margin: 0 auto;
+        }
+        
+        .success-body {
+            padding: 30px;
+        }
+        
+        .transaction-details {
+            margin-bottom: 30px;
+        }
+        
+        .transaction-message {
+            background-color: rgba(16, 64, 66, 0.05);
+            border-radius: 12px;
+            padding: 20px;
+            margin-bottom: 30px;
+            border-left: 4px solid var(--secondary-color-2);
+        }
+        
+        .transaction-message p {
+            color: var(--primary-color);
+            font-weight: 500;
+            margin-bottom: 15px;
+        }
+        
+        .progress-container {
+            width: 100%;
+            height: 10px;
+            background-color: #e9ecef;
+            border-radius: 5px;
+            margin-top: 10px;
+            overflow: hidden;
+        }
+        
+        .progress-bar {
+            height: 100%;
+            background: linear-gradient(90deg, var(--secondary-color-1), var(--secondary-color-2));
+            border-radius: 5px;
+            width: 100%;
+            transition: width 1.5s ease;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .progress-bar::after {
+            content: "";
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(
+                90deg,
+                rgba(255, 255, 255, 0) 0%,
+                rgba(255, 255, 255, 0.4) 50%,
+                rgba(255, 255, 255, 0) 100%
+            );
+            animation: shimmer 2s infinite;
+        }
+        
+        @keyframes shimmer {
+            0% { transform: translateX(-100%); }
+            100% { transform: translateX(100%); }
+        }
+        
+        .transaction-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-bottom: 30px;
+        }
+        
+        .transaction-table td {
+            padding: 15px;
+            border-bottom: 1px solid #e9ecef;
+        }
+        
+        .transaction-table tr:last-child td {
+            border-bottom: none;
+        }
+        
+        .transaction-table td:first-child {
+            font-weight: 600;
+            color: var(--primary-color);
+            width: 40%;
+        }
+        
+        .transaction-table td:last-child {
+            font-weight: 500;
+        }
+        
+        .status-badge {
+            display: inline-block;
+            padding: 6px 12px;
+            border-radius: 20px;
+            font-size: 14px;
+            font-weight: 600;
+        }
+        
+        .status-completed {
+            background-color: rgba(46, 125, 50, 0.1);
+            color: var(--success-color);
+        }
+        
+        .status-pending {
+            background-color: rgba(255, 210, 0, 0.1);
+            color: #ff8f00;
+        }
+        
+        .status-processing {
+            background-color: rgba(33, 150, 243, 0.1);
+            color: #1976d2;
+        }
+        
+        .status-failed {
+            background-color: rgba(211, 47, 47, 0.1);
+            color: var(--danger-color);
+        }
+        
+        .action-buttons {
+            display: flex;
+            gap: 15px;
+            justify-content: center;
+            margin-top: 20px;
+        }
+        
+        .btn {
+            padding: 12px 24px;
+            border-radius: 8px;
+            font-size: 15px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            border: none;
+        }
+        
+        .btn-primary {
+            background-color: var(--primary-color);
+            color: var(--white);
+        }
+        
+        .btn-primary:hover {
+            background-color: #0d3335;
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(16, 64, 66, 0.2);
+        }
+        
+        .btn-outline {
+            background-color: transparent;
+            color: var(--primary-color);
+            border: 2px solid var(--primary-color);
+        }
+        
+        .btn-outline:hover {
+            background-color: rgba(16, 64, 66, 0.05);
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(16, 64, 66, 0.1);
+        }
+        
+        .btn-success {
+            background-color: var(--success-color);
+            color: var(--white);
+        }
+        
+        .btn-success:hover {
+            background-color: #2e7d32;
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(46, 125, 50, 0.2);
+        }
+        
+        @media (max-width: 576px) {
+            .success-container {
+                margin: 20px auto;
+            }
+            
+            .success-header {
+                padding: 20px;
+            }
+            
+            .success-body {
+                padding: 20px;
+            }
+            
+            .action-buttons {
+                flex-direction: column;
+            }
+            
+            .btn {
+                width: 100%;
+                justify-content: center;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <!-- Sidebar -->
+        <aside class="sidebar">
+            <div class="logo">OFSPACE</div>
+            <nav class="nav-menu">
+                <ul class="menu-list">
+                    <li>
+                        <a href="dash.html">
+                            <i class="fas fa-th-large"></i>
+                            <span>Dashboard</span>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="online-deposit.html">
+                            <i class="fas fa-dollar-sign"></i>
+                            <span>Online Deposit</span>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="domestic-transfer.html">
+                            <i class="fas fa-share"></i>
+                            <span>Domestic Transfer</span>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="wire-transfer.html">
+                            <i class="fas fa-wifi"></i>
+                            <span>Wire Transfer</span>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="virtual-card.html">
+                            <i class="fas fa-credit-card"></i>
+                            <span>Virtual Card</span>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="loan.html">
+                            <i class="fas fa-download"></i>
+                            <span>Loan & Mortgages</span>
+                        </a>
+                    </li>
+                    <li class="has-submenu">
+                        <a href="#" class="submenu-toggle">
+                            <i class="fas fa-credit-card"></i>
+                            <span>All Transaction Logs</span>
+                            <i class="fas fa-chevron-right submenu-arrow"></i>
+                        </a>
+                        <ul class="submenu">
+                            <li><a href="credit-debit-transaction.html">Credit / Debit Transaction</a></li>
+                            <li><a href="wire-transaction.html">Wire Transaction</a></li>
+                            <li><a href="domestic-transaction.html">Domestic Transaction</a></li>
+                            <li><a href="loan-transaction.html">Loan Transaction</a></li>
+                            <li><a href="withdrawal-transaction.html">All Withdrawal</a></li>
+                        </ul>
+                    </li>
+                    <li>
+                        <a href="withdrawal.html">
+                            <i class="fas fa-dollar-sign"></i>
+                            <span>Withdrawal</span>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="account-manager.html">
+                            <i class="fas fa-dollar-sign"></i>
+                            <span>Account Manager</span>
+                        </a>
+                    </li>
+                    <li class="has-submenu">
+                        <a href="#" class="submenu-toggle">
+                            <i class="fas fa-cog"></i>
+                            <span>Settings</span>
+                            <i class="fas fa-chevron-right submenu-arrow"></i>
+                        </a>
+                        <ul class="submenu">
+                            <li><a href="profile.html">Profile</a></li>
+                            <li><a href="account.html">Account</a></li>
+                        </ul>
+                    </li>
+                </ul>
+            </nav>
+            <div class="logout">
+                <a href="#"><i class="fas fa-sign-out-alt"></i> Log out</a>
+            </div>
+        </aside>
+        
+        <main class="main-content">
+            <header class="header">
+                <h1>Transaction Status</h1>
+                <div class="search-notification">
+                    <div class="search-bar">
+                        <i class="fas fa-search"></i>
+                        <input type="text" placeholder="Search">
+                    </div>
+                    <div class="user-profile">
+                        <div class="notification">
+                            <i class="far fa-bell"></i>
+                        </div>
+                        <div class="avatar">
+                            <img src="https://via.placeholder.com/40" alt="User avatar">
+                        </div>
+                        <div class="user-name">John Doe</div>
+                    </div>
+                </div>
+            </header>
+            
+            <div class="success-container">
+                <div class="success-card">
+                    <div class="success-header">
+                        <div class="success-icon">
+                            <i class="fas fa-check"></i>
+                        </div>
+                        <h1 class="success-title">Transaction Successful</h1>
+                        <p class="success-message">Your transfer has been processed and is on its way to the recipient.</p>
+                    </div>
+                    
+                    <div class="success-body">
+                        <div class="transaction-message">
+                            <p>Dear <strong>John Doe</strong>, your transfer to <strong>SARAH WILLIAMS</strong> is being processed. It will be completed within 48 to 72 hours.</p>
+                            <div class="progress-container">
+                                <div class="progress-bar"></div>
+                            </div>
+                        </div>
+                        
+                        <div class="transaction-details">
+                            <table class="transaction-table">
+                                <tr>
+                                    <td>Amount</td>
+                                    <td>$2,500.00</td>
+                                </tr>
+                                <tr>
+                                    <td>Reference ID</td>
+                                    <td>TRX-28973654</td>
+                                </tr>
+                                <tr>
+                                    <td>Bank Name</td>
+                                    <td>Chase Bank</td>
+                                </tr>
+                                <tr>
+                                    <td>Account Name</td>
+                                    <td>Sarah Williams</td>
+                                </tr>
+                                <tr>
+                                    <td>Account Number</td>
+                                    <td>**** **** 5678</td>
+                                </tr>
+                                <tr>
+                                    <td>Status</td>
+                                    <td><span class="status-badge status-processing">Processing</span></td>
+                                </tr>
+                                <tr>
+                                    <td>Date & Time</td>
+                                    <td>Aug 15, 2023 - 10:45 AM</td>
+                                </tr>
+                            </table>
+                        </div>
+                        
+                        <div class="action-buttons">
+                            <button class="btn btn-primary" onclick="window.location.href='dash.html'">
+                                <i class="fas fa-home"></i> Back to Dashboard
+                            </button>
+                            <button class="btn btn-outline" onclick="window.print()">
+                                <i class="fas fa-print"></i> Print Receipt
+                            </button>
+                            <button class="btn btn-success" onclick="window.location.href='domestic-transfer.html'">
+                                <i class="fas fa-exchange-alt"></i> New Transfer
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </main>
+        
+        <!-- Right Sidebar -->
+        <aside class="right-sidebar">
+            <div class="balance-section">
+                <h3>Balance</h3>
+                <div class="balance-amount">$23,240</div>
+                <div class="balance-actions">
+                    <button class="btn-send">Send</button>
+                    <button class="btn-withdraw">Withdraw</button>
+                </div>
+            </div>
+
+            <div class="cards-section">
+                <div class="section-header">
+                    <h3>Your Cards</h3>
+                    <button class="more-options"><i class="fas fa-ellipsis-v"></i></button>
+                </div>
+                
+                <div style="padding: 15px; background-color: rgba(16, 64, 66, 0.02); border-radius: 8px; margin-bottom: 15px;">
+                    <div style="display: flex; justify-content: space-between; margin-bottom: 10px;">
+                        <div style="display: flex; align-items: center;">
+                            <i class="fas fa-credit-card" style="color: #104042; margin-right: 10px;"></i>
+                            <div>
+                                <div style="font-weight: 600; color: #104042; font-size: 14px;">Virtual Debit Card</div>
+                                <div style="font-size: 12px; color: rgba(16, 64, 66, 0.7);">**** 5678</div>
+                            </div>
+                        </div>
+                        <div class="card-status status-active" style="font-size: 10px; padding: 3px 8px;">Active</div>
+                    </div>
+                    <div style="display: flex; justify-content: space-between; font-size: 13px;">
+                        <span style="color: rgba(16, 64, 66, 0.7);">Available</span>
+                        <span style="font-weight: 600; color: #104042;">$5,420</span>
+                    </div>
+                </div>
+                
+                <div style="padding: 15px; background-color: rgba(16, 64, 66, 0.02); border-radius: 8px;">
+                    <div style="display: flex; justify-content: space-between; margin-bottom: 10px;">
+                        <div style="display: flex; align-items: center;">
+                            <i class="fas fa-credit-card" style="color: #104042; margin-right: 10px;"></i>
+                            <div>
+                                <div style="font-weight: 600; color: #104042; font-size: 14px;">Physical Debit Card</div>
+                                <div style="font-size: 12px; color: rgba(16, 64, 66, 0.7);">**** 2345</div>
+                            </div>
+                        </div>
+                        <div class="card-status status-active" style="font-size: 10px; padding: 3px 8px;">Active</div>
+                    </div>
+                    <div style="display: flex; justify-content: space-between; font-size: 13px;">
+                        <span style="color: rgba(16, 64, 66, 0.7);">Available</span>
+                        <span style="font-weight: 600; color: #104042;">$12,750</span>
+                    </div>
+                </div>
+            </div>
+        </aside>
+    </div>
+
+    <!-- Mobile Bottom Navigation -->
+    <nav class="mobile-bottom-nav">
+        <a href="dash.html" class="mobile-nav-item">
+            <i class="fas fa-home"></i>
+            <span>Home</span>
+        </a>
+        <a href="domestic-transfer.html" class="mobile-nav-item">
+            <i class="fas fa-exchange-alt"></i>
+            <span>Transfer</span>
+        </a>
+        <a href="withdrawal.html" class="mobile-nav-item">
+            <i class="fas fa-wallet"></i>
+            <span>Withdraw</span>
+        </a>
+        <a href="profile.html" class="mobile-nav-item">
+            <i class="fas fa-user"></i>
+            <span>Profile</span>
+        </a>
+    </nav>
+
+    <!-- Mobile Menu Overlay -->
+    <div class="mobile-overlay"></div>
+
+    <!-- Include JavaScript -->
+    <script src="script.js"></script>
+</body>
+</html> 

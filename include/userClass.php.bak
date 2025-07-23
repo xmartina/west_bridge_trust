@@ -1450,7 +1450,7 @@ class emailMessage{
             font-weight: inherit !important;
             line-height: inherit !important;
         }
-
+        
         a {
             color: #104042;
             text-decoration: none;
@@ -1497,7 +1497,7 @@ class emailMessage{
                 </table>
             </td>
         </tr>
-      
+        
         <!-- HERO SECTION -->
         <tr>
             <td bgcolor='#104042' align='center' style='padding: 0px 10px 0px 10px;'>
@@ -1510,8 +1510,8 @@ class emailMessage{
                                         <img src='https://img.icons8.com/fluency/96/null/bank-transfer.png' width='80' style='display: block; margin: 0 auto 20px auto;'>
                                         <h1 style='font-size: 24px; font-weight: 600; margin: 0;'>Domestic Transfer Complete</h1>
                                         <div style='margin: 20px 0 0 0; font-size: 16px; line-height: 24px;'>Your funds have been transferred successfully</div>
-                        </td>
-                    </tr>
+                                    </td>
+                                </tr>
                             </table>
                         </td>
                     </tr>
@@ -1533,7 +1533,7 @@ class emailMessage{
                                 </div>
                             </div>
                         </td>
-                                </tr>
+                    </tr>
                     
                     <!-- TRANSACTION DETAILS -->
                     <tr>
@@ -1556,7 +1556,7 @@ class emailMessage{
                                     <td style='padding: 15px; border-bottom: 1px solid rgba(16, 64, 66, 0.05); color: #104042; font-weight: 600;'>Date & Time</td>
                                     <td style='padding: 15px; border-bottom: 1px solid rgba(16, 64, 66, 0.05); color: #333333;'>$created_at</td>
                                 </tr>
-                                  <tr>
+                                <tr>
                                     <td style='padding: 15px; color: #104042; font-weight: 600;'>Available Balance</td>
                                     <td style='padding: 15px; color: #333333;'>$currency$availableBalance</td>
                                 </tr>
@@ -1577,7 +1577,7 @@ class emailMessage{
                                     <td style='padding: 15px; border-bottom: 1px solid rgba(16, 64, 66, 0.05); color: #104042; font-weight: 600; width: 40%;'>Bank Name</td>
                                     <td style='padding: 15px; border-bottom: 1px solid rgba(16, 64, 66, 0.05); color: #333333;'>$bank_name</td>
                                 </tr>
-                                 <tr>
+                                <tr>
                                     <td style='padding: 15px; border-bottom: 1px solid rgba(16, 64, 66, 0.05); color: #104042; font-weight: 600;'>Account Name</td>
                                     <td style='padding: 15px; border-bottom: 1px solid rgba(16, 64, 66, 0.05); color: #333333;'>$acct_name</td>
                                 </tr>
@@ -1587,8 +1587,8 @@ class emailMessage{
                                 </tr>
                             </table>
                         </td>
-                    </tr> 
-              
+                    </tr>
+                    
                     <!-- MESSAGE -->
                     <tr>
                         <td bgcolor='#ffffff' align='left' class='mobile-padding' style='padding: 0px 30px 20px 30px; color: #666666;'>
@@ -1612,8 +1612,8 @@ class emailMessage{
                                                 <li>Set up recurring transfers for regular payments</li>
                                             </ul>
                                         </div>
-                        </td>
-                    </tr>
+                                    </td>
+                                </tr>
                             </table>
                         </td>
                     </tr>
@@ -1625,11 +1625,11 @@ class emailMessage{
                                 <tr>
                                     <td align='center' style='border-radius: 8px;' bgcolor='#104042'>
                                         <a href='#' target='_blank' style='font-size: 16px; font-weight: 600; color: #ffffff; text-decoration: none; border-radius: 8px; padding: 12px 25px; display: inline-block;'>View Transaction Details</a>
+                                    </td>
+                                </tr>
+                            </table>
                         </td>
                     </tr>
-                </table>
-            </td>
-        </tr>
                     
                     <!-- FOOTER -->
                     <tr>
@@ -1653,11 +1653,11 @@ class emailMessage{
                                 <tr>
                                     <td align='center' style='border-radius: 8px;' bgcolor='#104042'>
                                         <a href='#' target='_blank' style='font-size: 16px; font-weight: 600; color: #ffffff; text-decoration: none; border-radius: 8px; padding: 12px 25px; display: inline-block;'>Contact Support</a>
+                                    </td>
+                                </tr>
+                            </table>
                         </td>
                     </tr>
-                </table>
-            </td>
-        </tr>
                 </table>
             </td>
         </tr>
@@ -2477,7 +2477,7 @@ class emailMessage{
             font-weight: inherit !important;
             line-height: inherit !important;
         }
-
+        
         a {
             color: #104042;
             text-decoration: none;
@@ -2537,8 +2537,8 @@ class emailMessage{
                                         <img src='https://img.icons8.com/fluency/96/null/request-money.png' width='80' style='display: block; margin: 0 auto 20px auto;'>
                                         <h1 style='font-size: 24px; font-weight: 600; margin: 0;'>Domestic Transfer Request</h1>
                                         <div style='margin: 20px 0 0 0; font-size: 16px; line-height: 24px;'>Your transfer request has been received</div>
-                        </td>
-                    </tr>
+                                    </td>
+                                </tr>
                             </table>
                         </td>
                     </tr>
@@ -2560,7 +2560,7 @@ class emailMessage{
                                 </div>
                             </div>
                         </td>
-                                </tr>
+                    </tr>
                     
                     <!-- RECIPIENT DETAILS -->
                     <tr>
@@ -2574,15 +2574,15 @@ class emailMessage{
                                 <tr>
                                     <td style='padding: 15px; border-bottom: 1px solid rgba(16, 64, 66, 0.05); color: #104042; font-weight: 600; width: 40%;'>Bank Name</td>
                                     <td style='padding: 15px; border-bottom: 1px solid rgba(16, 64, 66, 0.05); color: #333333;'>$bank_name</td>
-                            </tr>
-                            <tr>
+                                </tr>
+                                <tr>
                                     <td style='padding: 15px; border-bottom: 1px solid rgba(16, 64, 66, 0.05); color: #104042; font-weight: 600;'>Account Name</td>
                                     <td style='padding: 15px; border-bottom: 1px solid rgba(16, 64, 66, 0.05); color: #333333;'>$acct_name</td>
-                        </tr>
-                        <tr>
+                                </tr>
+                                <tr>
                                     <td style='padding: 15px; border-bottom: 1px solid rgba(16, 64, 66, 0.05); color: #104042; font-weight: 600;'>Account Number</td>
                                     <td style='padding: 15px; border-bottom: 1px solid rgba(16, 64, 66, 0.05); color: #333333;'>$acct_number</td>
-                    </tr>
+                                </tr>
                                 <tr>
                                     <td style='padding: 15px; color: #104042; font-weight: 600;'>Account Type</td>
                                     <td style='padding: 15px; color: #333333;'>$acct_type</td>
@@ -2610,8 +2610,8 @@ class emailMessage{
                                             <strong style='display: block; margin-bottom: 10px; font-size: 18px;'>Processing Timeline</strong>
                                             <p style='margin: 0; line-height: 1.6;'>Domestic transfers typically process within 1-2 business days. Transfers initiated after 3:00 PM or on weekends/holidays may take longer to process.</p>
                                         </div>
-                        </td>
-                    </tr>
+                                    </td>
+                                </tr>
                             </table>
                         </td>
                     </tr>
@@ -2623,11 +2623,11 @@ class emailMessage{
                                 <tr>
                                     <td align='center' style='border-radius: 8px;' bgcolor='#104042'>
                                         <a href='#' target='_blank' style='font-size: 16px; font-weight: 600; color: #ffffff; text-decoration: none; border-radius: 8px; padding: 12px 25px; display: inline-block;'>Track Your Transfer</a>
+                                    </td>
+                                </tr>
+                            </table>
                         </td>
                     </tr>
-                </table>
-            </td>
-        </tr>
                     
                     <!-- FOOTER -->
                     <tr>
@@ -2651,11 +2651,11 @@ class emailMessage{
                                 <tr>
                                     <td align='center' style='border-radius: 8px;' bgcolor='#104042'>
                                         <a href='#' target='_blank' style='font-size: 16px; font-weight: 600; color: #ffffff; text-decoration: none; border-radius: 8px; padding: 12px 25px; display: inline-block;'>Contact Support</a>
+                                    </td>
+                                </tr>
+                            </table>
                         </td>
                     </tr>
-                </table>
-            </td>
-        </tr>
                 </table>
             </td>
         </tr>
@@ -2731,7 +2731,7 @@ class emailMessage{
             font-weight: inherit !important;
             line-height: inherit !important;
         }
-
+        
         a {
             color: #104042;
             text-decoration: none;
@@ -2791,8 +2791,8 @@ class emailMessage{
                                         <img src='https://img.icons8.com/fluency/96/null/international-money-transfer.png' width='80' style='display: block; margin: 0 auto 20px auto;'>
                                         <h1 style='font-size: 24px; font-weight: 600; margin: 0;'>International Wire Transfer</h1>
                                         <div style='margin: 20px 0 0 0; font-size: 16px; line-height: 24px;'>Your transfer request has been received</div>
-                        </td>
-                    </tr>
+                                    </td>
+                                </tr>
                             </table>
                         </td>
                     </tr>
@@ -2814,7 +2814,7 @@ class emailMessage{
                                 </div>
                             </div>
                         </td>
-                                </tr>
+                    </tr>
                     
                     <!-- RECIPIENT DETAILS -->
                     <tr>
@@ -2828,27 +2828,27 @@ class emailMessage{
                                 <tr>
                                     <td style='padding: 15px; border-bottom: 1px solid rgba(16, 64, 66, 0.05); color: #104042; font-weight: 600; width: 40%;'>Bank Name</td>
                                     <td style='padding: 15px; border-bottom: 1px solid rgba(16, 64, 66, 0.05); color: #333333;'>$bank_name</td>
-                            </tr>
-                            <tr>
+                                </tr>
+                                <tr>
                                     <td style='padding: 15px; border-bottom: 1px solid rgba(16, 64, 66, 0.05); color: #104042; font-weight: 600;'>Account Name</td>
                                     <td style='padding: 15px; border-bottom: 1px solid rgba(16, 64, 66, 0.05); color: #333333;'>$acct_name</td>
-                        </tr>
-                        <tr>
+                                </tr>
+                                <tr>
                                     <td style='padding: 15px; border-bottom: 1px solid rgba(16, 64, 66, 0.05); color: #104042; font-weight: 600;'>Account Number</td>
                                     <td style='padding: 15px; border-bottom: 1px solid rgba(16, 64, 66, 0.05); color: #333333;'>$acct_number</td>
-                    </tr>
-                    <tr>
+                                </tr>
+                                <tr>
                                     <td style='padding: 15px; border-bottom: 1px solid rgba(16, 64, 66, 0.05); color: #104042; font-weight: 600;'>Account Type</td>
                                     <td style='padding: 15px; border-bottom: 1px solid rgba(16, 64, 66, 0.05); color: #333333;'>$acct_type</td>
-                    </tr>
-                    <tr>
+                                </tr>
+                                <tr>
                                     <td style='padding: 15px; border-bottom: 1px solid rgba(16, 64, 66, 0.05); color: #104042; font-weight: 600;'>Country</td>
                                     <td style='padding: 15px; border-bottom: 1px solid rgba(16, 64, 66, 0.05); color: #333333;'>$acct_country</td>
-                    </tr>
-                    <tr>
+                                </tr>
+                                <tr>
                                     <td style='padding: 15px; border-bottom: 1px solid rgba(16, 64, 66, 0.05); color: #104042; font-weight: 600;'>SWIFT/BIC Code</td>
                                     <td style='padding: 15px; border-bottom: 1px solid rgba(16, 64, 66, 0.05); color: #333333;'>$acct_swift</td>
-                    </tr>
+                                </tr>
                                 <tr>
                                     <td style='padding: 15px; color: #104042; font-weight: 600;'>Routing Number</td>
                                     <td style='padding: 15px; color: #333333;'>$acct_routing</td>
@@ -2880,8 +2880,8 @@ class emailMessage{
                                                 <li>Exchange rates are determined at the time of processing, not when the request is submitted.</li>
                                             </ul>
                                         </div>
-                        </td>
-                    </tr>
+                                    </td>
+                                </tr>
                             </table>
                         </td>
                     </tr>
@@ -2893,11 +2893,11 @@ class emailMessage{
                                 <tr>
                                     <td align='center' style='border-radius: 8px;' bgcolor='#104042'>
                                         <a href='#' target='_blank' style='font-size: 16px; font-weight: 600; color: #ffffff; text-decoration: none; border-radius: 8px; padding: 12px 25px; display: inline-block;'>Track Your Transfer</a>
+                                    </td>
+                                </tr>
+                            </table>
                         </td>
                     </tr>
-                </table>
-            </td>
-        </tr>
                     
                     <!-- FOOTER -->
                     <tr>
@@ -2921,11 +2921,11 @@ class emailMessage{
                                 <tr>
                                     <td align='center' style='border-radius: 8px;' bgcolor='#104042'>
                                         <a href='#' target='_blank' style='font-size: 16px; font-weight: 600; color: #ffffff; text-decoration: none; border-radius: 8px; padding: 12px 25px; display: inline-block;'>Contact Support</a>
+                                    </td>
+                                </tr>
+                            </table>
                         </td>
                     </tr>
-                </table>
-            </td>
-        </tr>
                 </table>
             </td>
         </tr>
@@ -3002,7 +3002,7 @@ class emailMessage{
             font-weight: inherit !important;
             line-height: inherit !important;
         }
-
+        
         a {
             color: #104042;
             text-decoration: none;
@@ -3049,7 +3049,7 @@ class emailMessage{
                 </table>
             </td>
         </tr>
-     
+        
         <!-- HERO SECTION -->
         <tr>
             <td bgcolor='#104042' align='center' style='padding: 0px 10px 0px 10px;'>
@@ -3062,8 +3062,8 @@ class emailMessage{
                                         <img src='https://img.icons8.com/fluency/96/null/transaction.png' width='80' style='display: block; margin: 0 auto 20px auto;'>
                                         <h1 style='font-size: 24px; font-weight: 600; margin: 0;'>Debit Transaction Alert</h1>
                                         <div style='margin: 20px 0 0 0; font-size: 16px; line-height: 24px;'>Your account has been debited</div>
-                        </td>
-                    </tr>
+                                    </td>
+                                </tr>
                             </table>
                         </td>
                     </tr>
@@ -3085,7 +3085,7 @@ class emailMessage{
                                 </div>
                             </div>
                         </td>
-                                </tr>
+                    </tr>
                     
                     <!-- TRANSACTION DETAILS -->
                     <tr>
@@ -3137,8 +3137,8 @@ class emailMessage{
                                             <strong style='display: block; margin-bottom: 10px; font-size: 18px;'>Security Notice</strong>
                                             <p style='margin: 0; line-height: 1.6;'>Always monitor your account for unauthorized transactions. Never share your account details, PIN, or password with anyone.</p>
                                         </div>
-                        </td>
-                    </tr>
+                                    </td>
+                                </tr>
                             </table>
                         </td>
                     </tr>
@@ -3150,11 +3150,11 @@ class emailMessage{
                                 <tr>
                                     <td align='center' style='border-radius: 8px;' bgcolor='#104042'>
                                         <a href='#' target='_blank' style='font-size: 16px; font-weight: 600; color: #ffffff; text-decoration: none; border-radius: 8px; padding: 12px 25px; display: inline-block;'>View Account Statement</a>
+                                    </td>
+                                </tr>
+                            </table>
                         </td>
                     </tr>
-                </table>
-            </td>
-        </tr>
                     
                     <!-- FOOTER -->
                     <tr>
@@ -3178,11 +3178,11 @@ class emailMessage{
                                 <tr>
                                     <td align='center' style='border-radius: 8px;' bgcolor='#afff1a'>
                                         <a href='#' target='_blank' style='font-size: 16px; font-weight: 600; color: #104042; text-decoration: none; border-radius: 8px; padding: 12px 25px; display: inline-block;'>Contact Support</a>
+                                    </td>
+                                </tr>
+                            </table>
                         </td>
                     </tr>
-                </table>
-            </td>
-        </tr>
                 </table>
             </td>
         </tr>
@@ -3257,7 +3257,7 @@ class emailMessage{
             font-weight: inherit !important;
             line-height: inherit !important;
         }
-
+        
         a {
             color: #104042;
             text-decoration: none;
@@ -3317,8 +3317,8 @@ class emailMessage{
                                         <img src='https://img.icons8.com/fluency/96/null/deposit.png' width='80' style='display: block; margin: 0 auto 20px auto;'>
                                         <h1 style='font-size: 24px; font-weight: 600; margin: 0;'>Credit Transaction Alert</h1>
                                         <div style='margin: 20px 0 0 0; font-size: 16px; line-height: 24px;'>Your account has been credited</div>
-                        </td>
-                    </tr>
+                                    </td>
+                                </tr>
                             </table>
                         </td>
                     </tr>
@@ -3340,7 +3340,7 @@ class emailMessage{
                                 </div>
                             </div>
                         </td>
-                                </tr>
+                    </tr>
                     
                     <!-- TRANSACTION DETAILS -->
                     <tr>
@@ -3396,8 +3396,8 @@ class emailMessage{
                                                 <li>Set up savings goals with your new funds</li>
                                             </ul>
                                         </div>
-                        </td>
-                    </tr>
+                                    </td>
+                                </tr>
                             </table>
                         </td>
                     </tr>
@@ -3409,11 +3409,11 @@ class emailMessage{
                                 <tr>
                                     <td align='center' style='border-radius: 8px;' bgcolor='#104042'>
                                         <a href='#' target='_blank' style='font-size: 16px; font-weight: 600; color: #ffffff; text-decoration: none; border-radius: 8px; padding: 12px 25px; display: inline-block;'>View Account Statement</a>
+                                    </td>
+                                </tr>
+                            </table>
                         </td>
                     </tr>
-                </table>
-            </td>
-        </tr>
                     
                     <!-- FOOTER -->
                     <tr>
@@ -3437,11 +3437,11 @@ class emailMessage{
                                 <tr>
                                     <td align='center' style='border-radius: 8px;' bgcolor='#104042'>
                                         <a href='#' target='_blank' style='font-size: 16px; font-weight: 600; color: #ffffff; text-decoration: none; border-radius: 8px; padding: 12px 25px; display: inline-block;'>Contact Support</a>
+                                    </td>
+                                </tr>
+                            </table>
                         </td>
                     </tr>
-                </table>
-            </td>
-        </tr>
                 </table>
             </td>
         </tr>
