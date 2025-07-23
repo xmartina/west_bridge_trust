@@ -1,4 +1,4 @@
-
+<?php include 'layout/header.php'; ?>
         <!-- Main Content -->
         <main class="main-content">
             <!-- Header -->
@@ -370,3 +370,4 @@
             </div>
         </aside>
     </div>
+<?php include 'layout/footer.php'; ?>

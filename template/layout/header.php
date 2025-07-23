@@ -12,7 +12,9 @@
     <div class="container">
         <!-- Sidebar -->
         <aside class="sidebar">
-            <div class="logo">OFSPACE</div>
+            <div class="logo">
+                <img src="<?php echo WEB_URL; ?>/assets/new_img/logo/logo.png" alt="logo">
+            </div>
             <nav class="nav-menu">
                 <ul class="menu-list">
                     <li class="active">
