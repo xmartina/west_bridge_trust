@@ -1,6 +1,6 @@
 <?php 
 $pageName = "Dashboard";
-include 'layout/header.php'; 
+include 'layouts/header.php'; 
 
 // Welcome message for first visit
 if(@!$_COOKIE['firstVisit']){
@@ -484,5 +484,4 @@ unset($_SESSION['wire_transfer'], $_SESSION['dom_transfer']);
             </div>
         </aside>
     </div>
-<?php include 'layout/footer.php'; ?>
-<?php include 'layout/footer.php'; ?>
+<?php include 'layouts/footer.php'; ?>
