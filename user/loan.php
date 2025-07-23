@@ -242,6 +242,41 @@ if(isset($_POST['loan-submit'])){
         color: #104042;
     }
     
+    .mortgage-rates {
+        margin-top: 20px;
+    }
+    
+    .rate-item {
+        display: flex;
+        justify-content: space-between;
+        padding: 12px 0;
+        border-bottom: 1px solid rgba(16, 64, 66, 0.05);
+    }
+    
+    .rate-item:last-child {
+        border-bottom: none;
+    }
+    
+    .rate-name {
+        font-weight: 500;
+        color: #104042;
+    }
+    
+    .rate-value {
+        font-weight: 600;
+        color: #104042;
+    }
+    
+    .featured-rate {
+        color: #afff1a;
+        background-color: #104042;
+        padding: 3px 8px;
+        border-radius: 4px;
+        font-size: 12px;
+        font-weight: 500;
+        margin-left: 10px;
+    }
+    
     .alert-custom {
         background-color: #fff;
         border-radius: 12px;
@@ -302,210 +337,177 @@ if(isset($_POST['loan-submit'])){
     }
 </style>
 
-<div class="main-content">
-    <header class="header">
-        <h1>Loan & Mortgages</h1>
-        <div class="search-notification">
-            <div class="search-bar">
-                <i class="fas fa-search"></i>
-                <input type="text" placeholder="Search">
-            </div>
-            <div class="user-profile">
-                <div class="notification">
-                    <i class="far fa-bell"></i>
-                </div>
-                <div class="avatar">
-                    <?php if($row['image'] == null): ?>
-                        <div style="width: 40px; height: 40px; background-color: #104042; color: white; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-weight: 600;">
-                            <?php echo substr($fullName, 0, 1); ?>
-                        </div>
-                    <?php else: ?>
-                        <img src="../assets/profile/<?php echo $row['image']; ?>" alt="User avatar">
-                    <?php endif; ?>
-                </div>
-                <div class="user-name"><?php echo $fullName; ?></div>
-            </div>
-        </div>
-    </header>
-
-    <div class="dashboard-content">
-        <?php if($acct_stat === 'active'): ?>
-            <!-- Loan Container -->
-            <div class="loan-container">
-                <!-- Left Column - Apply for Loan -->
-                <div class="left-column">
-                    <div class="loan-application">
-                        <div class="section-header">
-                            <div class="section-title">Apply for a New Loan</div>
-                        </div>
-                        
-                        <div class="loan-options">
-                            <div class="loan-option active">
-                                <div class="option-icon">
-                                    <i class="fas fa-user"></i>
-                                </div>
-                                <div class="option-title">Personal Loan</div>
-                                <div class="option-description">For personal expenses</div>
-                            </div>
-                            <div class="loan-option">
-                                <div class="option-icon">
-                                    <i class="fas fa-car"></i>
-                                </div>
-                                <div class="option-title">Auto Loan</div>
-                                <div class="option-description">For vehicle purchase</div>
-                            </div>
-                            <div class="loan-option">
-                                <div class="option-icon">
-                                    <i class="fas fa-home"></i>
-                                </div>
-                                <div class="option-title">Mortgage</div>
-                                <div class="option-description">For home purchase</div>
-                            </div>
-                            <div class="loan-option">
-                                <div class="option-icon">
-                                    <i class="fas fa-briefcase"></i>
-                                </div>
-                                <div class="option-title">Business Loan</div>
-                                <div class="option-description">For business needs</div>
-                            </div>
-                        </div>
-                        
-                        <form method="POST">
-                            <div class="form-row">
-                                <div class="form-group">
-                                    <label for="amount">Loan Amount</label>
-                                    <input type="number" id="amount" name="amount" value="<?= $_POST['amount']?>" placeholder="Enter amount" required>
-                                </div>
-                                <div class="form-group">
-                                    <label for="loan-term">Loan Term</label>
-                                    <select id="loan-term">
-                                        <option value="12">12 months</option>
-                                        <option value="24">24 months</option>
-                                        <option value="36" selected>36 months</option>
-                                        <option value="48">48 months</option>
-                                        <option value="60">60 months</option>
-                                    </select>
-                                </div>
-                            </div>
-                            <div class="form-group">
-                                <label for="loan-purpose">Purpose of Loan</label>
-                                <select id="loan-purpose">
-                                    <option value="debt-consolidation">Debt Consolidation</option>
-                                    <option value="home-improvement">Home Improvement</option>
-                                    <option value="major-purchase">Major Purchase</option>
-                                    <option value="medical">Medical Expenses</option>
-                                    <option value="other">Other</option>
-                                </select>
-                            </div>
-                            <div class="form-group">
-                                <label for="loan_remarks">Loan Description</label>
-                                <textarea id="loan_remarks" name="loan_remarks" placeholder="Describe your loan purpose in detail"><?=$_POST['loan_remarks']?></textarea>
-                            </div>
-                            
-                            <button type="submit" name="loan-submit" class="btn-apply">
-                                <i class="fas fa-paper-plane"></i> Submit Application
-                            </button>
-                        </form>
-                        
-                        <div class="loan-calculator">
+<div id="content" class="main-content">
+    <div class="layout-px-spacing">
+        <div class="dashboard-content">
+            <?php if($acct_stat === 'active'): ?>
+                <!-- Loan Container -->
+                <div class="loan-container">
+                    <!-- Left Column - Apply for Loan -->
+                    <div class="left-column">
+                        <div class="loan-application">
                             <div class="section-header">
-                                <div class="section-title">Loan Calculator</div>
+                                <div class="section-title">Apply for a New Loan</div>
                             </div>
                             
-                            <div class="calculator-result">
-                                <div class="result-row">
-                                    <div class="result-label">Loan Amount</div>
-                                    <div class="result-value"><?= $currency ?>10,000.00</div>
+                            <div class="loan-options">
+                                <div class="loan-option active">
+                                    <div class="option-icon">
+                                        <i class="fas fa-user"></i>
+                                    </div>
+                                    <div class="option-title">Personal Loan</div>
+                                    <div class="option-description">For personal expenses</div>
                                 </div>
-                                <div class="result-row">
-                                    <div class="result-label">Interest Rate</div>
-                                    <div class="result-value">5.25%</div>
+                                <div class="loan-option">
+                                    <div class="option-icon">
+                                        <i class="fas fa-car"></i>
+                                    </div>
+                                    <div class="option-title">Auto Loan</div>
+                                    <div class="option-description">For vehicle purchase</div>
                                 </div>
-                                <div class="result-row">
-                                    <div class="result-label">Loan Term</div>
-                                    <div class="result-value">36 months</div>
+                                <div class="loan-option">
+                                    <div class="option-icon">
+                                        <i class="fas fa-home"></i>
+                                    </div>
+                                    <div class="option-title">Mortgage</div>
+                                    <div class="option-description">For home purchase</div>
                                 </div>
-                                <div class="result-row">
-                                    <div class="result-label">Monthly Payment</div>
-                                    <div class="result-value"><?= $currency ?>301.80</div>
-                                </div>
-                                <div class="result-row">
-                                    <div class="result-label">Total Interest</div>
-                                    <div class="result-value"><?= $currency ?>864.80</div>
-                                </div>
-                                <div class="result-row">
-                                    <div class="result-label">Total Payment</div>
-                                    <div class="result-value"><?= $currency ?>10,864.80</div>
+                                <div class="loan-option">
+                                    <div class="option-icon">
+                                        <i class="fas fa-briefcase"></i>
+                                    </div>
+                                    <div class="option-title">Business Loan</div>
+                                    <div class="option-description">For business needs</div>
                                 </div>
                             </div>
-                        </div>
-                    </div>
-                </div>
-                
-                <!-- Right Column - Mortgage Rates -->
-                <div class="right-column">
-                    <div class="loan-section">
-                        <div class="section-header">
-                            <div class="section-title">Current Mortgage Rates</div>
-                        </div>
-                        
-                        <div class="mortgage-rates">
-                            <div class="rate-item">
-                                <div class="rate-name">30-Year Fixed <span class="featured-rate">Best</span></div>
-                                <div class="rate-value">6.25%</div>
-                            </div>
-                            <div class="rate-item">
-                                <div class="rate-name">15-Year Fixed</div>
-                                <div class="rate-value">5.75%</div>
-                            </div>
-                            <div class="rate-item">
-                                <div class="rate-name">5/1 ARM</div>
-                                <div class="rate-value">5.50%</div>
-                            </div>
-                            <div class="rate-item">
-                                <div class="rate-name">7/1 ARM</div>
-                                <div class="rate-value">5.65%</div>
+                            
+                            <form method="POST">
+                                <div class="form-row">
+                                    <div class="form-group">
+                                        <label for="amount">Loan Amount</label>
+                                        <input type="number" id="amount" name="amount" value="<?= $_POST['amount']?>" placeholder="Enter amount" required>
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="loan-term">Loan Term</label>
+                                        <select id="loan-term">
+                                            <option value="12">12 months</option>
+                                            <option value="24">24 months</option>
+                                            <option value="36" selected>36 months</option>
+                                            <option value="48">48 months</option>
+                                            <option value="60">60 months</option>
+                                        </select>
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <label for="loan_remarks">Loan Description</label>
+                                    <textarea id="loan_remarks" name="loan_remarks" placeholder="Describe your loan purpose in detail"><?=$_POST['loan_remarks']?></textarea>
+                                </div>
+                                
+                                <button type="submit" name="loan-submit" class="btn-apply">
+                                    <i class="fas fa-paper-plane"></i> Submit Application
+                                </button>
+                            </form>
+                            
+                            <div class="loan-calculator">
+                                <div class="section-header">
+                                    <div class="section-title">Loan Calculator</div>
+                                </div>
+                                
+                                <div class="calculator-result">
+                                    <div class="result-row">
+                                        <div class="result-label">Loan Amount</div>
+                                        <div class="result-value"><?= $currency ?>10,000.00</div>
+                                    </div>
+                                    <div class="result-row">
+                                        <div class="result-label">Interest Rate</div>
+                                        <div class="result-value">5.25%</div>
+                                    </div>
+                                    <div class="result-row">
+                                        <div class="result-label">Loan Term</div>
+                                        <div class="result-value">36 months</div>
+                                    </div>
+                                    <div class="result-row">
+                                        <div class="result-label">Monthly Payment</div>
+                                        <div class="result-value"><?= $currency ?>301.80</div>
+                                    </div>
+                                    <div class="result-row">
+                                        <div class="result-label">Total Interest</div>
+                                        <div class="result-value"><?= $currency ?>864.80</div>
+                                    </div>
+                                    <div class="result-row">
+                                        <div class="result-label">Total Payment</div>
+                                        <div class="result-value"><?= $currency ?>10,864.80</div>
+                                    </div>
+                                </div>
                             </div>
                         </div>
                     </div>
                     
-                    <div class="loan-section">
-                        <div class="section-header">
-                            <div class="section-title">Personal Loan Rates</div>
+                    <!-- Right Column - Mortgage Rates -->
+                    <div class="right-column">
+                        <div class="loan-section">
+                            <div class="section-header">
+                                <div class="section-title">Current Mortgage Rates</div>
+                            </div>
+                            
+                            <div class="mortgage-rates">
+                                <div class="rate-item">
+                                    <div class="rate-name">30-Year Fixed <span class="featured-rate">Best</span></div>
+                                    <div class="rate-value">6.25%</div>
+                                </div>
+                                <div class="rate-item">
+                                    <div class="rate-name">15-Year Fixed</div>
+                                    <div class="rate-value">5.75%</div>
+                                </div>
+                                <div class="rate-item">
+                                    <div class="rate-name">5/1 ARM</div>
+                                    <div class="rate-value">5.50%</div>
+                                </div>
+                                <div class="rate-item">
+                                    <div class="rate-name">7/1 ARM</div>
+                                    <div class="rate-value">5.65%</div>
+                                </div>
+                            </div>
                         </div>
                         
-                        <div class="mortgage-rates">
-                            <div class="rate-item">
-                                <div class="rate-name">Excellent Credit <span class="featured-rate">Best</span></div>
-                                <div class="rate-value">5.25%</div>
+                        <div class="loan-section">
+                            <div class="section-header">
+                                <div class="section-title">Personal Loan Rates</div>
                             </div>
-                            <div class="rate-item">
-                                <div class="rate-name">Good Credit</div>
-                                <div class="rate-value">7.50%</div>
-                            </div>
-                            <div class="rate-item">
-                                <div class="rate-name">Fair Credit</div>
-                                <div class="rate-value">12.75%</div>
+                            
+                            <div class="mortgage-rates">
+                                <div class="rate-item">
+                                    <div class="rate-name">Excellent Credit <span class="featured-rate">Best</span></div>
+                                    <div class="rate-value">5.25%</div>
+                                </div>
+                                <div class="rate-item">
+                                    <div class="rate-name">Good Credit</div>
+                                    <div class="rate-value">7.50%</div>
+                                </div>
+                                <div class="rate-item">
+                                    <div class="rate-name">Fair Credit</div>
+                                    <div class="rate-value">12.75%</div>
+                                </div>
                             </div>
                         </div>
                     </div>
                 </div>
-            </div>
-        <?php else: ?>
-            <div class="alert-custom">
-                <div class="alert-content">
-                    <div class="alert-icon">
-                        <i class="fas fa-exclamation-circle"></i>
+            <?php else: ?>
+                <div class="alert-custom">
+                    <div class="alert-content">
+                        <div class="alert-icon">
+                            <i class="fas fa-exclamation-circle"></i>
+                        </div>
+                        <div class="alert-text">
+                            <strong>Warning! </strong>Account on <b>hold</b>. Please contact support.
+                        </div>
                     </div>
-                    <div class="alert-text">
-                        <strong>Warning! </strong>Account on <b>hold</b>. Please contact support.
+                    <div class="alert-btn">
+                        <a href="mailto:<?=$url_email?>" class="btn-contact">Contact Us</a>
                     </div>
                 </div>
-                <div class="alert-btn">
-                    <a href="mailto:<?=$url_email?>" class="btn-contact">Contact Us</a>
-                </div>
-            </div>
-        <?php endif; ?>
+            <?php endif; ?>
+        </div>
     </div>
 </div>
 
