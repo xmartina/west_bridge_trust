@@ -1,3 +1,4 @@
+
 <?php
 $pageName = "Domestic Transfer";
 include_once("layouts/header.php");
@@ -100,6 +101,72 @@ require_once("./userPinfunction.php");
         background-color: #165e61;
     }
     
+    .beneficiary-section {
+        background-color: #fff;
+        border-radius: 12px;
+        padding: 25px;
+        box-shadow: 0 4px 15px rgba(16, 64, 66, 0.08);
+        margin-bottom: 30px;
+    }
+    
+    .beneficiary-list {
+        display: grid;
+        grid-template-columns: repeat(3, 1fr);
+        gap: 15px;
+        margin-top: 20px;
+    }
+    
+    .beneficiary-card {
+        background-color: rgba(16, 64, 66, 0.02);
+        border: 1px solid rgba(16, 64, 66, 0.1);
+        border-radius: 10px;
+        padding: 15px;
+        cursor: pointer;
+        transition: all 0.3s ease;
+    }
+    
+    .beneficiary-card:hover {
+        background-color: rgba(16, 64, 66, 0.05);
+        border-color: rgba(16, 64, 66, 0.2);
+        transform: translateY(-3px);
+    }
+    
+    .beneficiary-card.selected {
+        border: 2px solid #afff1a;
+        background-color: rgba(175, 255, 26, 0.05);
+    }
+    
+    .beneficiary-icon {
+        width: 40px;
+        height: 40px;
+        border-radius: 50%;
+        background-color: #104042;
+        color: #fff;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        margin-bottom: 10px;
+        font-size: 16px;
+    }
+    
+    .beneficiary-name {
+        font-weight: 600;
+        font-size: 15px;
+        color: #104042;
+        margin-bottom: 5px;
+    }
+    
+    .beneficiary-bank {
+        font-size: 12px;
+        color: rgba(16, 64, 66, 0.7);
+        margin-bottom: 5px;
+    }
+    
+    .beneficiary-account {
+        font-size: 12px;
+        color: rgba(16, 64, 66, 0.7);
+    }
+    
     .transfer-info {
         margin-top: 30px;
         padding: 20px;
@@ -136,6 +203,36 @@ require_once("./userPinfunction.php");
         left: -15px;
         color: #afff1a;
         font-weight: bold;
+    }
+    
+    .add-beneficiary-btn {
+        background-color: transparent;
+        border: 1px dashed rgba(16, 64, 66, 0.3);
+        border-radius: 10px;
+        padding: 15px;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        height: 100%;
+        cursor: pointer;
+        transition: all 0.3s ease;
+    }
+    
+    .add-beneficiary-btn:hover {
+        background-color: rgba(16, 64, 66, 0.02);
+        border-color: rgba(16, 64, 66, 0.5);
+    }
+    
+    .add-beneficiary-btn i {
+        font-size: 24px;
+        color: #104042;
+        margin-bottom: 8px;
+    }
+    
+    .add-beneficiary-btn span {
+        font-size: 14px;
+        color: #104042;
     }
     
     .alert-custom {
@@ -197,10 +294,22 @@ require_once("./userPinfunction.php");
         background-color: rgba(16, 64, 66, 0.05);
     }
     
+    @media (max-width: 992px) {
+        .beneficiary-list {
+            grid-template-columns: repeat(2, 1fr);
+        }
+    }
+    
     @media (max-width: 768px) {
         .form-row {
             grid-template-columns: 1fr;
             gap: 10px;
+        }
+    }
+    
+    @media (max-width: 576px) {
+        .beneficiary-list {
+            grid-template-columns: 1fr;
         }
     }
 </style>
@@ -235,6 +344,37 @@ require_once("./userPinfunction.php");
         <?php if($acct_stat === 'active'): ?>
             <?php if($page['transfer'] == '1'): ?>
                 <?php if($row['transfer'] == '1'): ?>
+                    <!-- Beneficiary Section -->
+                    <div class="beneficiary-section">
+                        <div class="section-header">
+                            <h2>Select Beneficiary</h2>
+                        </div>
+                        <div class="beneficiary-list">
+                            <div class="beneficiary-card selected">
+                                <div class="beneficiary-icon">JD</div>
+                                <div class="beneficiary-name">John Doe</div>
+                                <div class="beneficiary-bank">Chase Bank</div>
+                                <div class="beneficiary-account">**** **** **** 5678</div>
+                            </div>
+                            <div class="beneficiary-card">
+                                <div class="beneficiary-icon">JS</div>
+                                <div class="beneficiary-name">Jane Smith</div>
+                                <div class="beneficiary-bank">Bank of America</div>
+                                <div class="beneficiary-account">**** **** **** 9012</div>
+                            </div>
+                            <div class="beneficiary-card">
+                                <div class="beneficiary-icon">RJ</div>
+                                <div class="beneficiary-name">Robert Johnson</div>
+                                <div class="beneficiary-bank">Wells Fargo</div>
+                                <div class="beneficiary-account">**** **** **** 3456</div>
+                            </div>
+                            <div class="add-beneficiary-btn">
+                                <i class="fas fa-plus"></i>
+                                <span>Add New Beneficiary</span>
+                            </div>
+                        </div>
+                    </div>
+
                     <!-- Transfer Form -->
                     <div class="transfer-form-container">
                         <div class="form-title">
@@ -244,12 +384,15 @@ require_once("./userPinfunction.php");
                         <form method="POST" enctype="multipart/form-data">
                             <div class="form-row">
                                 <div class="form-group">
-                                    <label for="amount">Amount</label>
-                                    <input type="number" id="amount" name="amount" placeholder="Enter amount" required>
+                                    <label for="from-account">From Account</label>
+                                    <select id="from-account">
+                                        <option value="checking">Checking Account - **** 5678 ($<?php echo number_format($row['acct_balance'], 2); ?>)</option>
+                                        <option value="savings">Savings Account - **** 9012 ($<?php echo number_format($row['acct_balance'], 2); ?>)</option>
+                                    </select>
                                 </div>
                                 <div class="form-group">
-                                    <label for="acct_name">Beneficiary Account Name</label>
-                                    <input type="text" id="acct_name" name="acct_name" placeholder="Beneficiary Account Name" required>
+                                    <label for="amount">Amount</label>
+                                    <input type="number" id="amount" name="amount" placeholder="Enter amount" required>
                                 </div>
                             </div>
                             
@@ -259,12 +402,16 @@ require_once("./userPinfunction.php");
                                     <input type="text" id="bank_name" name="bank_name" placeholder="Bank Name" required>
                                 </div>
                                 <div class="form-group">
-                                    <label for="acct_number">Beneficiary Account No</label>
-                                    <input type="number" id="acct_number" name="acct_number" placeholder="Beneficiary Account Number" required>
+                                    <label for="acct_name">Beneficiary Account Name</label>
+                                    <input type="text" id="acct_name" name="acct_name" placeholder="Beneficiary Account Name" required>
                                 </div>
                             </div>
                             
                             <div class="form-row">
+                                <div class="form-group">
+                                    <label for="acct_number">Beneficiary Account No</label>
+                                    <input type="number" id="acct_number" name="acct_number" placeholder="Beneficiary Account Number" required>
+                                </div>
                                 <div class="form-group">
                                     <label for="acct_type">Select Account Type</label>
                                     <select name="acct_type" id="acct_type" required>
@@ -279,10 +426,27 @@ require_once("./userPinfunction.php");
                                         <option value="Joint Account">Joint Account</option>
                                     </select>
                                 </div>
-                                <div class="form-group">
-                                    <label for="acct_remarks">Narration/Purpose</label>
-                                    <textarea id="acct_remarks" name="acct_remarks" placeholder="Fund Description"></textarea>
-                                </div>
+                            </div>
+                            
+                            <div class="form-group">
+                                <label for="transfer-date">Transfer Date</label>
+                                <input type="date" id="transfer-date">
+                            </div>
+                            
+                            <div class="form-group">
+                                <label for="acct_remarks">Description / Note</label>
+                                <textarea id="acct_remarks" name="acct_remarks" placeholder="Add a note for the recipient (optional)"></textarea>
+                            </div>
+                            
+                            <div class="form-group">
+                                <label for="transfer-purpose">Purpose of Transfer</label>
+                                <select id="transfer-purpose">
+                                    <option value="personal">Personal Transfer</option>
+                                    <option value="business">Business Payment</option>
+                                    <option value="gift">Gift</option>
+                                    <option value="bills">Bill Payment</option>
+                                    <option value="other">Other</option>
+                                </select>
                             </div>
                             
                             <button type="submit" class="btn-submit" name="domestic-transfer">
@@ -298,6 +462,7 @@ require_once("./userPinfunction.php");
                             <li>Domestic transfers are typically processed within 1 business day.</li>
                             <li>There is no fee for domestic transfers between accounts at our bank.</li>
                             <li>Transfers to other banks may incur a small fee depending on your account type.</li>
+                            <li>Daily transfer limit: $50,000</li>
                             <li>For security reasons, new beneficiaries may require additional verification.</li>
                         </ul>
                     </div>
