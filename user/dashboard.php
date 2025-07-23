@@ -1,872 +1,488 @@
-<?php
+<?php 
 $pageName = "Dashboard";
-include_once("layouts/header.php");
-//include_once("../include/userFunction.php");
-if(!$_SESSION['acct_no']) {
-    header("location:../login.php");
-    die;
-}
+include 'layout/header.php'; 
+
+// Welcome message for first visit
 if(@!$_COOKIE['firstVisit']){
     setcookie("firstVisit", "no", time() + 3600);
-    notify_alert('Welcome Back '.$fullName." !",'success','3000','Close');
+    // If you have a notification function, you can use it here
+    // notify_alert('Welcome Back '.$fullName." !",'success','3000','Close');
 }
+
+// Clear any session transfer data
 unset($_SESSION['wire_transfer'], $_SESSION['dom_transfer']);
 ?>
-    <style>
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-        }
-
-        body {
-            font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
-            background: #ffffff;
-            color: #104042;
-            line-height: 1.6;
-        }
-
-        .dashboard-container {
-            max-width: 1400px;
-            margin: 0 auto;
-            padding: 2rem;
-            min-height: 100vh;
-        }
-
-        .dashboard-header {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            margin-bottom: 2rem;
-            padding-bottom: 1rem;
-            border-bottom: 2px solid #f8f9fa;
-        }
-
-        .dashboard-title {
-            font-size: 2.5rem;
-            font-weight: 700;
-            color: #104042;
-            margin: 0;
-        }
-
-        .user-info {
-            display: flex;
-            align-items: center;
-            gap: 1rem;
-            background: linear-gradient(135deg, #104042, #1a5a5c);
-            padding: 1rem 1.5rem;
-            border-radius: 16px;
-            color: white;
-        }
-
-        .user-avatar {
-            width: 48px;
-            height: 48px;
-            background: #afff1a;
-            border-radius: 50%;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-weight: bold;
-            color: #104042;
-            font-size: 1.2rem;
-        }
-
-        .grid-container {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
-            gap: 2rem;
-            margin-bottom: 3rem;
-        }
-
-        .card {
-            background: white;
-            border-radius: 20px;
-            padding: 2rem;
-            box-shadow: 0 8px 32px rgba(16, 64, 66, 0.1);
-            border: 1px solid rgba(16, 64, 66, 0.05);
-            transition: all 0.3s ease;
-            position: relative;
-            overflow: hidden;
-        }
-
-        .card:hover {
-            transform: translateY(-4px);
-            box-shadow: 0 16px 48px rgba(16, 64, 66, 0.15);
-        }
-
-        .card::before {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: 0;
-            right: 0;
-            height: 4px;
-            background: linear-gradient(90deg, #104042, #afff1a, #FFD200);
-        }
-
-        .balance-card {
-            background: linear-gradient(135deg, #104042, #1a5a5c);
-            color: white;
-            grid-column: span 2;
-        }
-
-        .balance-card::before {
-            background: linear-gradient(90deg, #afff1a, #FFD200);
-        }
-
-        .card-header {
-            display: flex;
-            justify-content: between;
-            align-items: center;
-            margin-bottom: 1.5rem;
-        }
-
-        .card-title {
-            font-size: 1.1rem;
-            font-weight: 600;
-            color: #104042;
-            margin: 0;
-        }
-
-        .balance-card .card-title {
-            color: white;
-        }
-
-        .card-icon {
-            width: 48px;
-            height: 48px;
-            border-radius: 12px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-size: 1.5rem;
-            margin-left: auto;
-        }
-
-        .icon-primary {
-            background: rgba(16, 64, 66, 0.1);
-            color: #104042;
-        }
-
-        .icon-success {
-            background: rgba(175, 255, 26, 0.2);
-            color: #104042;
-        }
-
-        .icon-warning {
-            background: rgba(255, 210, 0, 0.2);
-            color: #104042;
-        }
-
-        .balance-amount {
-            font-size: 3rem;
-            font-weight: 700;
-            margin: 1rem 0;
-            color: #afff1a;
-        }
-
-        .balance-label {
-            font-size: 1rem;
-            opacity: 0.8;
-            margin-bottom: 0.5rem;
-        }
-
-        .summary-item {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            padding: 1rem 0;
-            border-bottom: 1px solid rgba(16, 64, 66, 0.1);
-        }
-
-        .summary-item:last-child {
-            border-bottom: none;
-        }
-
-        .summary-label {
-            font-weight: 500;
-            color: #104042;
-        }
-
-        .summary-value {
-            font-weight: 700;
-            font-size: 1.1rem;
-            color: #104042;
-        }
-
-        .balance-card .summary-item {
-            border-bottom-color: rgba(255, 255, 255, 0.2);
-        }
-
-        .balance-card .summary-label,
-        .balance-card .summary-value {
-            color: white;
-        }
-
-        .action-buttons {
-            display: flex;
-            gap: 1rem;
-            margin-top: 2rem;
-        }
-
-        .btn {
-            padding: 0.75rem 1.5rem;
-            border: none;
-            border-radius: 12px;
-            font-weight: 600;
-            text-decoration: none;
-            display: inline-flex;
-            align-items: center;
-            gap: 0.5rem;
-            transition: all 0.3s ease;
-            cursor: pointer;
-            font-size: 0.9rem;
-        }
-
-        .btn-primary {
-            background: #104042;
-            color: white;
-        }
-
-        .btn-primary:hover {
-            background: #1a5a5c;
-            transform: translateY(-2px);
-        }
-
-        .btn-secondary {
-            background: #afff1a;
-            color: #104042;
-        }
-
-        .btn-secondary:hover {
-            background: #9ee600;
-            transform: translateY(-2px);
-        }
-
-        .btn-outline {
-            background: transparent;
-            border: 2px solid #104042;
-            color: #104042;
-        }
-
-        .btn-outline:hover {
-            background: #104042;
-            color: white;
-        }
-
-        .clock-widget {
-            text-align: center;
-            padding: 1.5rem;
-            background: rgba(175, 255, 26, 0.1);
-            border-radius: 16px;
-            margin-top: 1rem;
-        }
-
-        .transactions-section {
-            margin-top: 3rem;
-        }
-
-        .section-title {
-            font-size: 1.8rem;
-            font-weight: 700;
-            color: #104042;
-            margin-bottom: 1.5rem;
-            display: flex;
-            align-items: center;
-            gap: 1rem;
-        }
-
-        .section-title::after {
-            content: '';
-            flex: 1;
-            height: 2px;
-            background: linear-gradient(90deg, #104042, transparent);
-        }
-
-        .table-container {
-            background: white;
-            border-radius: 20px;
-            overflow: hidden;
-            box-shadow: 0 8px 32px rgba(16, 64, 66, 0.1);
-            margin-bottom: 2rem;
-        }
-
-        .table {
-            width: 100%;
-            border-collapse: collapse;
-        }
-
-        .table th {
-            background: #104042;
-            color: white;
-            padding: 1rem;
-            text-align: left;
-            font-weight: 600;
-            font-size: 0.9rem;
-            text-transform: uppercase;
-            letter-spacing: 0.5px;
-        }
-
-        .table td {
-            padding: 1rem;
-            border-bottom: 1px solid rgba(16, 64, 66, 0.1);
-            font-size: 0.9rem;
-        }
-
-        .table tr:hover {
-            background: rgba(175, 255, 26, 0.05);
-        }
-
-        .status-badge {
-            padding: 0.5rem 1rem;
-            border-radius: 20px;
-            font-size: 0.8rem;
-            font-weight: 600;
-            text-transform: uppercase;
-            letter-spacing: 0.5px;
-        }
-
-        .status-progress {
-            background: rgba(255, 210, 0, 0.2);
-            color: #104042;
-        }
-
-        .status-completed {
-            background: rgba(175, 255, 26, 0.2);
-            color: #104042;
-        }
-
-        .status-hold {
-            background: rgba(220, 53, 69, 0.2);
-            color: #dc3545;
-        }
-
-        .status-cancelled {
-            background: rgba(108, 117, 125, 0.2);
-            color: #6c757d;
-        }
-
-        .text-success {
-            color: #28a745 !important;
-        }
-
-        .text-danger {
-            color: #dc3545 !important;
-        }
-
-        .print-section {
-            display: flex;
-            justify-content: flex-end;
-            gap: 1rem;
-            margin-top: 1rem;
-            padding: 1rem;
-            background: rgba(16, 64, 66, 0.02);
-            border-radius: 12px;
-        }
-
-        @media (max-width: 768px) {
-            .dashboard-container {
-                padding: 1rem;
-            }
-
-            .dashboard-header {
-                flex-direction: column;
-                gap: 1rem;
-                text-align: center;
-            }
-
-            .dashboard-title {
-                font-size: 2rem;
-            }
-
-            .grid-container {
-                grid-template-columns: 1fr;
-            }
-
-            .balance-card {
-                grid-column: span 1;
-            }
-
-            .balance-amount {
-                font-size: 2rem;
-            }
-
-            .action-buttons {
-                flex-direction: column;
-            }
-
-            .table-container {
-                overflow-x: auto;
-            }
-
-            .table {
-                min-width: 800px;
-            }
-        }
-
-        .progress-bar {
-            width: 100%;
-            height: 8px;
-            background: rgba(16, 64, 66, 0.1);
-            border-radius: 4px;
-            overflow: hidden;
-            margin-top: 0.5rem;
-        }
-
-        .progress-fill {
-            height: 100%;
-            background: linear-gradient(90deg, #104042, #afff1a);
-            border-radius: 4px;
-            transition: width 0.3s ease;
-        }
-
-        .modal {
-            display: none;
-            position: fixed;
-            z-index: 1000;
-            left: 0;
-            top: 0;
-            width: 100%;
-            height: 100%;
-            background: rgba(0, 0, 0, 0.5);
-        }
-
-        .modal-content {
-            background: white;
-            margin: 5% auto;
-            padding: 2rem;
-            border-radius: 20px;
-            width: 90%;
-            max-width: 500px;
-            position: relative;
-        }
-
-        .close {
-            position: absolute;
-            right: 1rem;
-            top: 1rem;
-            font-size: 1.5rem;
-            cursor: pointer;
-            color: #104042;
-        }
-    </style>
-    <div id="content" class="main-content">
-    <div class="layout-px-spacing">
-        <div class="row layout-top-spacing">
-            <div class="col-md-8 offset-md-2">
-    <div class="dashboard-container">
-        <!-- Header -->
-        <div class="dashboard-header">
-            <h1 class="dashboard-title">Dashboard</h1>
-            <div class="user-info">
-                <div class="user-avatar">
-                    <?php echo strtoupper(substr($fullName, 0, 2)); ?>
-                </div>
-                <div>
-                    <div style="font-weight: 600;"><?php echo $fullName ?></div>
-                    <div style="opacity: 0.8; font-size: 0.9rem;">Welcome back!</div>
-                </div>
-            </div>
-        </div>
-
-        <!-- Main Grid -->
-        <div class="grid-container">
-            <!-- Balance Card -->
-            <div class="card balance-card">
-                <div class="card-header">
-                    <h3 class="card-title">Account Balance</h3>
-                    <div class="card-icon" style="background: rgba(255, 255, 255, 0.2); color: white;">
-                        <i class="fas fa-wallet"></i>
+        <!-- Main Content -->
+        <main class="main-content">
+            <!-- Header -->
+            <header class="header">
+                <h1>Dashboard</h1>
+                <div class="search-notification">
+                    <div class="search-bar">
+                        <i class="fas fa-search"></i>
+                        <input type="text" placeholder="Search">
+                    </div>
+                    <div class="user-profile">
+                        <div class="notification">
+                            <i class="far fa-bell"></i>
+                        </div>
+                        <div class="avatar">
+                            <?php if(isset($row['image']) && !empty($row['image'])): ?>
+                                <img src="../assets/profile/<?php echo $row['image']; ?>" alt="User avatar">
+                            <?php else: ?>
+                                <div style="width: 40px; height: 40px; background-color: #104042; color: white; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-weight: bold;">
+                                    <?php echo strtoupper(substr($fullName, 0, 2)); ?>
+                                </div>
+                            <?php endif; ?>
+                        </div>
+                        <div class="user-name"><?php echo $fullName; ?></div>
                     </div>
                 </div>
-                <div class="balance-label">Current Balance</div>
-                <div class="balance-amount">
-                    <?php echo $currency . number_format($acct_balance, 2, '.', ','); ?>
-                </div>
-                
-                <div class="summary-item">
-                    <span class="summary-label">Pending Balance</span>
-                    <span class="summary-value"><?php echo $currency . number_format($avail_balance, 2, '.', ','); ?></span>
-                </div>
-                <div class="summary-item">
-                    <span class="summary-label">Loan Balance</span>
-                    <span class="summary-value text-danger"><?php echo $currency . $row['loan_balance'] ?></span>
-                </div>
-                <div class="summary-item">
-                    <span class="summary-label">Last Login IP</span>
-                    <span class="summary-value"><?= $logs['ipAddress'] ?></span>
-                </div>
-                <div class="summary-item">
-                    <span class="summary-label">Last Login Date</span>
-                    <span class="summary-value"><?= $logs['datenow'] ?></span>
-                </div>
+            </header>
 
-                <div class="action-buttons">
-                    <a href="./domestic-transfer.php" class="btn btn-secondary">
-                        <i class="fas fa-exchange-alt"></i>
-                        Domestic Transfer
-                    </a>
-                    <a href="./wire-transfer.php" class="btn btn-outline" style="border-color: white; color: white;">
-                        <i class="fas fa-globe"></i>
-                        Wire Transfer
-                    </a>
-                </div>
-            </div>
-
-            <!-- Summary Card -->
-            <div class="card">
-                <div class="card-header">
-                    <h3 class="card-title">Account Summary</h3>
-                    <div class="card-icon icon-primary">
-                        <i class="fas fa-chart-line"></i>
+            <!-- Dashboard Content -->
+            <div class="dashboard-content">
+                <!-- Stats Cards -->
+                <div class="stats-cards">
+                    <div class="stat-card income">
+                        <div class="stat-info">
+                            <div class="stat-title">Account Balance</div>
+                            <div class="stat-amount"><?php echo $currency . number_format($acct_balance, 2, '.', ','); ?></div>
+                            <div class="stat-detail">
+                                <span>Available Balance</span>
+                                <span class="positive"><?php echo $currency . number_format($avail_balance, 2, '.', ','); ?></span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="stat-card spending">
+                        <div class="stat-info">
+                            <div class="stat-title">Loan Balance</div>
+                            <div class="stat-amount"><?php echo $currency . (isset($row['loan_balance']) ? number_format($row['loan_balance'], 2, '.', ',') : '0.00'); ?></div>
+                            <div class="stat-detail">
+                                <span>Loan Status</span>
+                                <span class="negative"><?php echo isset($row['loan_status']) && $row['loan_status'] == 1 ? 'Active' : 'No Active Loan'; ?></span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="stat-card balance">
+                        <div class="stat-info">
+                            <div class="stat-title">Your Balance</div>
+                            <div class="stat-amount"><?php echo $currency . number_format($acct_balance, 2, '.', ','); ?></div>
+                            <div class="stat-detail">
+                                <span>Available Funds</span>
+                                <button class="btn-quick-action" onclick="location.href='../user/wire-transfer.php'">Transfer</button>
+                            </div>
+                        </div>
                     </div>
                 </div>
-                
-                <div class="summary-item">
-                    <span class="summary-label">
-                        <i class="fas fa-credit-card" style="margin-right: 0.5rem; color: #104042;"></i>
-                        Account Limit
-                    </span>
-                    <span class="summary-value"><?=$currency.$row['acct_limit'] ?></span>
-                </div>
-                <div class="progress-bar">
-                    <div class="progress-fill" style="width: 100%;"></div>
-                </div>
 
-                <div class="summary-item">
-                    <span class="summary-label">
-                        <i class="fas fa-hand-holding-usd" style="margin-right: 0.5rem; color: #104042;"></i>
-                        Loan Balance
-                    </span>
-                    <span class="summary-value"><?= $currency.$row['loan_balance']?></span>
-                </div>
-                <div class="progress-bar">
-                    <div class="progress-fill" style="width: 100%;"></div>
-                </div>
-
-                <div class="summary-item">
-                    <span class="summary-label">
-                        <i class="fas fa-receipt" style="margin-right: 0.5rem; color: #104042;"></i>
-                        Expenses
-                    </span>
-                    <span class="summary-value"><?=$currency."".$limitRemain ?></span>
-                </div>
-                <div class="progress-bar">
-                    <div class="progress-fill" style="width: 100%;"></div>
-                </div>
-
-                <div class="clock-widget">
-                    <script src="https://cdn.logwork.com/widget/clock.js"></script>
-                    <a href="https://logwork.com/clock-widget/" class="clock-time" data-style="default-numeral" data-size="180" data-timezone="Africa/Lagos">Current time</a>
-                </div>
-            </div>
-
-            <!-- Daily Stats Card -->
-            <div class="card">
-                <div class="card-header">
-                    <h3 class="card-title">Daily Statistics</h3>
-                    <div class="card-icon icon-success">
-                        <i class="fas fa-chart-bar"></i>
+                <!-- Quick Actions Section -->
+                <div class="quick-actions-section">
+                    <div class="section-header">
+                        <h2>Quick Actions</h2>
+                    </div>
+                    <div class="quick-actions-grid">
+                        <div class="quick-action-card" onclick="location.href='../user/domestic-transfer.php'">
+                            <div class="action-icon">
+                                <i class="fas fa-exchange-alt"></i>
+                            </div>
+                            <div class="action-title">Domestic Transfer</div>
+                            <div class="action-hint">Send money locally</div>
+                        </div>
+                        <div class="quick-action-card" onclick="location.href='../user/wire-transfer.php'">
+                            <div class="action-icon">
+                                <i class="fas fa-globe"></i>
+                            </div>
+                            <div class="action-title">Wire Transfer</div>
+                            <div class="action-hint">Send internationally</div>
+                        </div>
+                        <div class="quick-action-card" onclick="location.href='../user/deposit.php'">
+                            <div class="action-icon">
+                                <i class="fas fa-hand-holding-usd"></i>
+                            </div>
+                            <div class="action-title">Deposit</div>
+                            <div class="action-hint">Add funds</div>
+                        </div>
+                        <div class="quick-action-card" onclick="location.href='../user/withdrawal.php'">
+                            <div class="action-icon">
+                                <i class="fas fa-money-bill-wave"></i>
+                            </div>
+                            <div class="action-title">Withdrawal</div>
+                            <div class="action-hint">Get cash</div>
+                        </div>
                     </div>
                 </div>
-                <div style="text-align: center; padding: 2rem 0;">
-                    <div style="font-size: 1.5rem; font-weight: 600; color: #104042; margin-bottom: 1rem;">
-                        Transaction Overview
-                    </div>
-                    <a href="./credit-debit_transaction.php" class="btn btn-primary">
-                        <i class="fas fa-eye"></i>
-                        View Details
-                    </a>
-                </div>
-            </div>
 
-            <!-- Recent Transaction Card -->
-            <div class="card">
-                <div class="card-header">
-                    <h3 class="card-title">Recent Transaction</h3>
-                    <div class="card-icon icon-warning">
-                        <i class="fas fa-history"></i>
+                <!-- Loan Status Section -->
+                <div class="loan-section">
+                    <div class="section-header">
+                        <h2>Loan Status</h2>
+                        <button class="more-options"><i class="fas fa-ellipsis-v"></i></button>
                     </div>
-                </div>
-                
-                <?php
-                $acct_id = userDetails('id');
-                $sql2="SELECT * FROM transactions LEFT JOIN users ON transactions.user_id =users.id WHERE transactions.user_id =:acct_id order by transactions.trans_id DESC LIMIT 1";
-                $stmt = $conn->prepare($sql2);
-                $stmt->execute(['acct_id'=>$acct_id]);
-                $sn=1;
-                while ($result = $stmt->fetch(PDO::FETCH_ASSOC)){
-                    $transStatus = transStatus($result);
-                    if($result['trans_type'] === '1'){
-                        $trans_type = "<span class='text-success'>Credit</span>";
-                    }else if($result['trans_type']=== '2'){
-                        $trans_type = "<span class='text-danger'>Debit</span>";
-                    }
-                    $senderName = $result['sender_name'];
-                    $description = $result['description'];
-                ?>
-                    <div class="summary-item">
-                        <span class="summary-label">Amount</span>
-                        <span class="summary-value"><?= $currency.$result['amount'] ?></span>
-                    </div>
-                    <div class="summary-item">
-                        <span class="summary-label">Type</span>
-                        <span class="summary-value"><?= $trans_type ?></span>
-                    </div>
-                    <div class="summary-item">
-                        <span class="summary-label">From/To</span>
-                        <span class="summary-value"><?= $senderName ?></span>
-                    </div>
-                    <div class="summary-item">
-                        <span class="summary-label">Description</span>
-                        <span class="summary-value"><?= $description ?></span>
-                    </div>
-                <?php } ?>
-
-                <div style="margin-top: 1rem;">
-                    <?php echo $userStatus ?>
-                </div>
-            </div>
-        </div>
-
-        <!-- Wire Transactions Section -->
-        <div class="transactions-section">
-            <h2 class="section-title">
-                <i class="fas fa-globe"></i>
-                Recent Wire Transactions
-            </h2>
-            
-            <div class="table-container">
-                <table class="table">
-                    <thead>
-                        <tr>
-                            <th>S/N</th>
-                            <th>Amount</th>
-                            <th>Reference ID</th>
-                            <th>Bank Name</th>
-                            <th>Account Name</th>
-                            <th>Account Number</th>
-                            <th>Account Type</th>
-                            <th>Transfer Type</th>
-                            <th>Country</th>
-                            <th>Swift Code</th>
-                            <th>Routing Code</th>
-                            <th>Date</th>
-                            <th>Status</th>
-                        </tr>
-                    </thead>
-                    <tbody>
+                    <div class="loan-details">
                         <?php
-                        $acct_id = userDetails('id');
-                        $sql2 ="SELECT * FROM wire_transfer WHERE acct_id =:acct_id ORDER BY wire_id DESC";
-                        $wire = $conn->prepare($sql2);
-                        $wire->execute(['acct_id'=>$acct_id]);
-                        $sn=1;
-                        while ($result = $wire->fetch(PDO::FETCH_ASSOC)){
-                            $transStatus = wireStatus($result);
+                        // Get loan information
+                        $sql = "SELECT * FROM loan WHERE acct_id = :acct_id ORDER BY loan_id DESC LIMIT 1";
+                        $stmt = $conn->prepare($sql);
+                        $stmt->execute(['acct_id' => $user_id]);
+                        
+                        if($stmt->rowCount() > 0) {
+                            $loan = $stmt->fetch(PDO::FETCH_ASSOC);
+                            $loanAmount = $loan['amount'];
+                            $loanPaid = $loan['amount_paid'] ?? 0;
+                            $loanPercent = ($loanPaid / $loanAmount) * 100;
                         ?>
+                        <div class="loan-info">
+                            <div class="loan-type"><?php echo $loan['loan_type'] ?? 'Personal Loan'; ?></div>
+                            <div class="loan-amount"><?php echo $currency . number_format($loanAmount, 2, '.', ','); ?></div>
+                            <div class="loan-progress">
+                                <div class="progress-bar">
+                                    <div class="progress" style="width: <?php echo $loanPercent; ?>%;"></div>
+                                </div>
+                                <div class="progress-text">
+                                    <span><?php echo round($loanPercent); ?>% Paid</span>
+                                    <span><?php echo $currency . number_format($loanPaid, 2, '.', ','); ?> / <?php echo $currency . number_format($loanAmount, 2, '.', ','); ?></span>
+                                </div>
+                            </div>
+                            <div class="loan-details-row">
+                                <div class="detail-item">
+                                    <span class="detail-label">Next Payment</span>
+                                    <span class="detail-value"><?php echo $currency . number_format($loan['monthly_payment'] ?? 0, 2, '.', ','); ?></span>
+                                </div>
+                                <div class="detail-item">
+                                    <span class="detail-label">Due Date</span>
+                                    <span class="detail-value"><?php echo date('d M Y', strtotime($loan['due_date'] ?? 'now')); ?></span>
+                                </div>
+                                <div class="detail-item">
+                                    <span class="detail-label">Interest Rate</span>
+                                    <span class="detail-value"><?php echo $loan['interest_rate'] ?? '4.5'; ?>%</span>
+                                </div>
+                            </div>
+                            <button class="btn-pay-loan" onclick="location.href='../user/loan.php'">Make Payment</button>
+                        </div>
+                        <?php } else { ?>
+                        <div class="loan-info">
+                            <div class="loan-type">No Active Loan</div>
+                            <div class="loan-amount">$0.00</div>
+                            <div class="loan-progress">
+                                <div class="progress-bar">
+                                    <div class="progress" style="width: 0%;"></div>
+                                </div>
+                                <div class="progress-text">
+                                    <span>0% Paid</span>
+                                    <span>$0.00 / $0.00</span>
+                                </div>
+                            </div>
+                            <div class="loan-details-row">
+                                <div class="detail-item">
+                                    <span class="detail-label">Next Payment</span>
+                                    <span class="detail-value">$0.00</span>
+                                </div>
+                                <div class="detail-item">
+                                    <span class="detail-label">Due Date</span>
+                                    <span class="detail-value">N/A</span>
+                                </div>
+                                <div class="detail-item">
+                                    <span class="detail-label">Interest Rate</span>
+                                    <span class="detail-value">0.0%</span>
+                                </div>
+                            </div>
+                            <button class="btn-pay-loan" onclick="location.href='../user/loan.php'">Apply for Loan</button>
+                        </div>
+                        <?php } ?>
+                    </div>
+                </div>
+
+                <!-- Wire Transfer History Section -->
+                <div class="wire-transfer-section">
+                    <div class="section-header">
+                        <h2>Wire Transfer History</h2>
+                        <button class="more-options" onclick="location.href='../user/wire-transaction.php'"><i class="fas fa-ellipsis-v"></i></button>
+                    </div>
+                    <div class="wire-transfer-list">
+                        <?php
+                        // Get wire transfer information
+                        $sql = "SELECT * FROM wire_transfer WHERE acct_id = :acct_id ORDER BY wire_id DESC LIMIT 3";
+                        $stmt = $conn->prepare($sql);
+                        $stmt->execute(['acct_id' => $user_id]);
+                        
+                        if($stmt->rowCount() > 0) {
+                            while($transfer = $stmt->fetch(PDO::FETCH_ASSOC)) {
+                                $transferType = $transfer['trans_type'] ?? 'Wire Transfer';
+                                $transferStatus = $transfer['wire_status'];
+                                $statusText = 'Pending';
+                                
+                                if($transferStatus == 1) {
+                                    $statusText = 'Completed';
+                                } elseif($transferStatus == 2) {
+                                    $statusText = 'On Hold';
+                                } elseif($transferStatus == 3) {
+                                    $statusText = 'Cancelled';
+                                }
+                        ?>
+                        <div class="wire-transfer-item">
+                            <div class="transfer-icon outgoing">
+                                <i class="fas fa-arrow-right"></i>
+                            </div>
+                            <div class="transfer-details">
+                                <div class="transfer-info">
+                                    <div class="transfer-name"><?php echo $transfer['bank_name']; ?></div>
+                                    <div class="transfer-reference">REF: <?php echo $transfer['refrence_id']; ?></div>
+                                </div>
+                                <div class="transfer-date"><?php echo date('F d, Y', strtotime($transfer['createdAt'])); ?></div>
+                            </div>
+                            <div class="transfer-amount outgoing">
+                                <div class="amount">-<?php echo $currency . number_format($transfer['amount'], 2, '.', ','); ?></div>
+                                <div class="status <?php echo strtolower($statusText); ?>"><?php echo $statusText; ?></div>
+                            </div>
+                        </div>
+                        <?php 
+                            }
+                        } else { 
+                        ?>
+                        <div class="wire-transfer-item no-records">
+                            <div class="transfer-details" style="text-align: center; width: 100%; padding: 20px;">
+                                <div class="transfer-info">
+                                    <div class="transfer-name">No wire transfer records found</div>
+                                    <div class="transfer-reference">Your transfer history will appear here once you make a transfer</div>
+                                </div>
+                            </div>
+                        </div>
+                        <?php } ?>
+                    </div>
+                    <div class="view-all-transfers">
+                        <button class="btn-view-all" onclick="location.href='../user/wire-transaction.php'">View All Transfers</button>
+                    </div>
+                </div>
+
+                <!-- Transactions Table -->
+                <div class="transactions-section">
+                    <h2>Recent Transactions</h2>
+                    <table class="transactions-table">
+                        <thead>
                             <tr>
-                                <td><?= $sn++ ?></td>
-                                <td><strong><?=$currency. $result['amount'] ?></strong></td>
-                                <td><?= $result['refrence_id']?></td>
-                                <td><?= $result['bank_name'] ?></td>
-                                <td><?= $result['acct_name'] ?></td>
-                                <td><?= $result['acct_number'] ?></td>
-                                <td><?= $result['acct_type'] ?></td>
-                                <td><?= $result['trans_type'] ?></td>
-                                <td><?= $result['acct_country'] ?></td>
-                                <td><?= $result['acct_swift'] ?></td>
-                                <td><?= $result['acct_routing'] ?></td>
-                                <td><?= $result['createdAt'] ?></td>
+                                <th>Name</th>
+                                <th>ID</th>
+                                <th>Amount</th>
+                                <th>Status</th>
+                                <th>Date</th>
+                                <th>Type</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <?php
+                            // Get transaction information
+                            $sql = "SELECT * FROM transactions WHERE user_id = :user_id ORDER BY trans_id DESC LIMIT 4";
+                            $stmt = $conn->prepare($sql);
+                            $stmt->execute(['user_id' => $user_id]);
+                            
+                            if($stmt->rowCount() > 0) {
+                                while($transaction = $stmt->fetch(PDO::FETCH_ASSOC)) {
+                                    $transType = $transaction['trans_type'];
+                                    $transClass = $transType == '1' ? 'positive' : 'negative';
+                                    $transPrefix = $transType == '1' ? '+' : '-';
+                                    $transStatus = 'completed';
+                                    
+                                    // You can add logic to determine status based on your database structure
+                                    if(isset($transaction['status'])) {
+                                        if($transaction['status'] == 0) {
+                                            $transStatus = 'pending';
+                                        } elseif($transaction['status'] == 2) {
+                                            $transStatus = 'cancelled';
+                                        }
+                                    }
+                            ?>
+                            <tr>
                                 <td>
-                                    <?php if ($result['wire_status']==0){?>
-                                        <span class="status-badge status-progress">In Progress</span>
-                                    <?php } elseif ($result['wire_status']==1){ ?>
-                                        <span class="status-badge status-completed">Completed</span>
-                                    <?php } elseif ($result['wire_status']==2){ ?>
-                                        <span class="status-badge status-hold">Hold</span>
-                                    <?php } elseif ($result['wire_status']==3){ ?>
-                                        <span class="status-badge status-cancelled">Cancelled</span>
-                                    <?php } ?>
+                                    <div class="user">
+                                        <div style="width: 30px; height: 30px; background-color: #104042; color: white; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-weight: bold;">
+                                            <?php echo strtoupper(substr($transaction['sender_name'] ?? 'User', 0, 1)); ?>
+                                        </div>
+                                        <span><?php echo $transaction['sender_name'] ?? 'Unknown'; ?></span>
+                                    </div>
+                                </td>
+                                <td><?php echo $transaction['reference_id'] ?? $transaction['trans_id']; ?></td>
+                                <td class="<?php echo $transClass; ?>"><?php echo $transPrefix . $currency . number_format($transaction['amount'], 2, '.', ','); ?></td>
+                                <td><span class="status <?php echo $transStatus; ?>"><?php echo ucfirst($transStatus); ?></span></td>
+                                <td><?php echo date('d/m/y', strtotime($transaction['created_at'])); ?></td>
+                                <td>
+                                    <span class="card <?php echo $transType == '1' ? 'visa' : 'mastercard'; ?>">
+                                        <?php echo $transType == '1' ? 'Credit' : 'Debit'; ?>
+                                    </span>
                                 </td>
                             </tr>
-                        <?php } ?>
-                    </tbody>
-                </table>
-                
-                <div class="print-section">
-                    <a href="javascript:window.print()" class="btn btn-primary">
-                        <i class="fas fa-print"></i>
-                        Print Statement
-                    </a>
-                    <a href="./domestic-transaction.php" class="btn btn-outline">
-                        <i class="fas fa-eye"></i>
-                        View Domestic Transactions
-                    </a>
-                </div>
-            </div>
-        </div>
-
-        <!-- Credit/Debit Transactions Section -->
-        <div class="transactions-section">
-            <h2 class="section-title">
-                <i class="fas fa-exchange-alt"></i>
-                Credit / Debit Transactions
-            </h2>
-            
-            <div class="table-container">
-                <table class="table">
-                    <thead>
-                        <tr>
-                            <th>S/N</th>
-                            <th>Amount</th>
-                            <th>Type</th>
-                            <th>Sender / Receiver</th>
-                            <th>Description</th>
-                            <th>Created At</th>
-                            <th>Time Created</th>
-                            <th>Status</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        <?php
-                        $sql="SELECT * FROM transactions LEFT JOIN users ON transactions.user_id =users.id WHERE transactions.user_id =:acct_id order by transactions.trans_id DESC";
-                        $stmt = $conn->prepare($sql);
-                        $stmt->execute(['acct_id'=>$acct_id]);
-                        $sn=1;
-                        while ($result = $stmt->fetch(PDO::FETCH_ASSOC)){
-                            $transStatus = transStatus($result);
-                            if($result['trans_type'] === '1'){
-                                $trans_type = "<span class='text-success'><i class='fas fa-arrow-down'></i> Credit</span>";
-                            }else if($result['trans_type']=== '2'){
-                                $trans_type = "<span class='text-danger'><i class='fas fa-arrow-up'></i> Debit</span>";
-                            }
-                        ?>
+                            <?php 
+                                }
+                            } else { 
+                            ?>
                             <tr>
-                                <td><?= $sn++ ?></td>
-                                <td><strong><?=$currency. $result['amount'] ?></strong></td>
-                                <td><?= $trans_type ?></td>
-                                <td><?= $result['sender_name'] ?></td>
-                                <td><?=$result['description'] ?></td>
-                                <td><?= $result['created_at'] ?></td>
-                                <td><?= $result['time_created'] ?></td>
-                                <td><span class="status-badge status-completed">Completed</span></td>
+                                <td colspan="6" style="text-align: center;">
+                                    No transaction records found. Your transaction history will appear here once you make transactions.
+                                </td>
                             </tr>
-                        <?php } ?>
-                    </tbody>
-                </table>
-                
-                <div class="print-section">
-                    <a href="javascript:window.print()" class="btn btn-primary">
-                        <i class="fas fa-print"></i>
-                        Print Statement
-                    </a>
+                            <?php } ?>
+                        </tbody>
+                    </table>
                 </div>
             </div>
-        </div>
-    </div>
+        </main>
 
-    <!-- Modal for transactions (keeping original modal functionality) -->
-    <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
-        <div class="modal-dialog" role="document">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <h5 class="modal-title" id="exampleModalLabel">Quick Transfer</h5>
-                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                        <span aria-hidden="true">&times;</span>
-                    </button>
+        <!-- Right Sidebar -->
+        <aside class="right-sidebar">
+            <div class="balance-section">
+                <h3>Balance</h3>
+                <div class="balance-amount"><?php echo $currency . number_format($acct_balance, 2, '.', ','); ?></div>
+                <div class="balance-actions">
+                    <button class="btn-send" onclick="location.href='../user/domestic-transfer.php'">Send</button>
+                    <button class="btn-withdraw" onclick="location.href='../user/withdrawal.php'">Withdraw</button>
                 </div>
-                <div class="modal-body">
-                    <p>Select transfer type:</p>
-                    <div class="action-buttons">
-                        <a href="./domestic-transfer.php" class="btn btn-primary">Domestic Transfer</a>
-                        <a href="./wire-transfer.php" class="btn btn-secondary">Wire Transfer</a>
+            </div>
+
+            <div class="cards-section">
+                <div class="section-header">
+                    <h3>Cards</h3>
+                    <button class="more-options" onclick="location.href='../user/card.php'"><i class="fas fa-ellipsis-v"></i></button>
+                </div>
+                <?php
+                // Check if user has a card
+                if(isset($cardCheck) && $cardCheck) {
+                ?>
+                <div class="credit-card">
+                    <div class="card-network">
+                        <i class="fab fa-cc-mastercard"></i>
+                        <i class="fas fa-wifi"></i>
+                    </div>
+                    <div class="card-number"><?php echo chunk_split($cardCheck['card_number'], 4, ' '); ?></div>
+                    <div class="card-details">
+                        <div class="card-holder">
+                            <span>Name</span>
+                            <span><?php echo $fullName; ?></span>
+                        </div>
+                        <div class="card-expiry">
+                            <span>Exp Date</span>
+                            <span><?php echo $cardCheck['card_expiry']; ?></span>
+                        </div>
                     </div>
                 </div>
+                <?php } else { ?>
+                <div class="credit-card" style="background-color: #f5f5f5; display: flex; flex-direction: column; align-items: center; justify-content: center; padding: 20px;">
+                    <i class="fas fa-credit-card" style="font-size: 2rem; color: #104042; margin-bottom: 10px;"></i>
+                    <div style="text-align: center;">
+                        <p>No virtual card found</p>
+                        <button class="btn-send" onclick="location.href='../user/card.php'" style="margin-top: 10px;">Apply for Card</button>
+                    </div>
+                </div>
+                <?php } ?>
+
+                <!-- Card Requests Section -->
+                <div class="card-requests">
+                    <h3>Card Requests</h3>
+                    <?php
+                    // Check for card requests
+                    $sql = "SELECT * FROM card_request WHERE user_id = :user_id ORDER BY request_id DESC LIMIT 1";
+                    $stmt = $conn->prepare($sql);
+                    $stmt->execute(['user_id' => $user_id]);
+                    
+                    if($stmt->rowCount() > 0) {
+                        $request = $stmt->fetch(PDO::FETCH_ASSOC);
+                        $requestStatus = $request['status'] ?? 0;
+                        $statusText = 'Processing';
+                        
+                        if($requestStatus == 1) {
+                            $statusText = 'Approved';
+                        } elseif($requestStatus == 2) {
+                            $statusText = 'Declined';
+                        }
+                    ?>
+                    <div class="request-item">
+                        <div class="request-icon">
+                            <i class="fas fa-credit-card"></i>
+                        </div>
+                        <div class="request-details">
+                            <div class="request-type">Virtual Card</div>
+                            <div class="request-status pending"><?php echo $statusText; ?></div>
+                        </div>
+                        <div class="request-date"><?php echo date('d/m/y', strtotime($request['created_at'] ?? 'now')); ?></div>
+                    </div>
+                    <?php } else { ?>
+                    <div class="request-item" style="display: flex; justify-content: center; padding: 10px;">
+                        <div class="request-details" style="text-align: center;">
+                            <div class="request-type">No card requests</div>
+                        </div>
+                    </div>
+                    <?php } ?>
+                </div>
+
+                <!-- Messages Section -->
+                <div class="messages-section">
+                    <div class="section-header">
+                        <h3>Messages</h3>
+                        <button class="more-options"><i class="fas fa-ellipsis-v"></i></button>
+                    </div>
+                    <div class="message-list">
+                        <?php
+                        // Check for messages
+                        $sql = "SELECT * FROM messages WHERE user_id = :user_id ORDER BY message_id DESC LIMIT 2";
+                        $stmt = $conn->prepare($sql);
+                        $stmt->execute(['user_id' => $user_id]);
+                        
+                        if($stmt->rowCount() > 0) {
+                            while($message = $stmt->fetch(PDO::FETCH_ASSOC)) {
+                                $isRead = $message['is_read'] ?? 0;
+                                $messageClass = $isRead ? '' : 'unread';
+                        ?>
+                        <div class="message-item <?php echo $messageClass; ?>">
+                            <div class="message-avatar">
+                                <img src="/assets/images/admin-avatar.png" alt="Admin">
+                            </div>
+                            <div class="message-content">
+                                <div class="message-sender"><?php echo $message['sender'] ?? 'Admin'; ?></div>
+                                <div class="message-preview"><?php echo substr($message['message'], 0, 40) . '...'; ?></div>
+                                <div class="message-time"><?php echo date('h:i A', strtotime($message['created_at'])); ?></div>
+                            </div>
+                        </div>
+                        <?php 
+                            }
+                        } else { 
+                        ?>
+                        <div class="message-item">
+                            <div class="message-avatar">
+                                <img src="/assets/images/admin-avatar.png" alt="System">
+                            </div>
+                            <div class="message-content">
+                                <div class="message-sender">System</div>
+                                <div class="message-preview">Welcome to your dashboard. No new messages.</div>
+                                <div class="message-time">Today</div>
+                            </div>
+                        </div>
+                        <?php } ?>
+                    </div>
+                </div>
+
+                <div class="send-money-form">
+                    <div class="card-input">
+                        <div class="card-icon">
+                            <i class="fab fa-cc-mastercard"></i>
+                        </div>
+                        <input type="text" value="Quick Transfer" readonly>
+                    </div>
+                    <div class="recipient-input">
+                        <label>Recipient Name</label>
+                        <input type="text" placeholder="Enter recipient name">
+                    </div>
+                    <div class="amount-input">
+                        <label>Amount</label>
+                        <div class="amount-field">
+                            <select>
+                                <option><?php echo $row['acct_currency']; ?></option>
+                            </select>
+                            <input type="text" placeholder="0.00">
+                        </div>
+                    </div>
+                    <button class="btn-send-money" onclick="location.href='../user/domestic-transfer.php'">Send Money</button>
+                </div>
             </div>
-        </div>
+        </aside>
     </div>
-
-    <script>
-        // Add smooth scrolling and interactive elements
-        document.addEventListener('DOMContentLoaded', function() {
-            // Add click handlers for modal
-            const modalTrigger = document.getElementById('homeTransModal');
-            const modal = document.getElementById('exampleModal');
-            
-            if (modalTrigger && modal) {
-                modalTrigger.addEventListener('click', function() {
-                    modal.style.display = 'block';
-                });
-            }
-
-            // Close modal functionality
-            const closeButtons = document.querySelectorAll('.close, [data-dismiss="modal"]');
-            closeButtons.forEach(button => {
-                button.addEventListener('click', function() {
-                    const modals = document.querySelectorAll('.modal');
-                    modals.forEach(modal => {
-                        modal.style.display = 'none';
-                    });
-                });
-            });
-
-            // Add loading animation for tables
-            const tables = document.querySelectorAll('.table');
-            tables.forEach(table => {
-                table.style.opacity = '0';
-                table.style.transform = 'translateY(20px)';
-                
-                setTimeout(() => {
-                    table.style.transition = 'all 0.5s ease';
-                    table.style.opacity = '1';
-                    table.style.transform = 'translateY(0)';
-                }, 100);
-            });
-
-            // Add hover effects for cards
-            const cards = document.querySelectorAll('.card');
-            cards.forEach(card => {
-                card.addEventListener('mouseenter', function() {
-                    this.style.transform = 'translateY(-4px)';
-                });
-                
-                card.addEventListener('mouseleave', function() {
-                    this.style.transform = 'translateY(0)';
-                });
-            });
-        });
-
-        // Print functionality
-        function printStatement() {
-            window.print();
-        }
-
-        // Add animation on scroll
-        const observerOptions = {
-            threshold: 0.1,
-            rootMargin: '0px 0px -50px 0px'
-        };
-
-        const observer = new IntersectionObserver(function(entries) {
-            entries.forEach(entry => {
-                if (entry.isIntersecting) {
-                    entry.target.style.opacity = '1';
-                    entry.target.style.transform = 'translateY(0)';
-                }
-            });
-        }, observerOptions);
-
-        // Observe all cards and sections
-        document.querySelectorAll('.card, .transactions-section').forEach(el => {
-            el.style.opacity = '0';
-            el.style.transform = 'translateY(30px)';
-            el.style.transition = 'all 0.6s ease';
-            observer.observe(el);
-        });
-    </script>
-
-<?php
-include_once('layouts/footer.php');
-?>
+<?php include 'layout/footer.php'; ?>
+<?php include 'layout/footer.php'; ?>
