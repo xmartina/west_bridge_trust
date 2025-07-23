@@ -1,5 +1,22 @@
 <?php
-include_once("layout/header.php");
+ob_start();
+require_once("./include/loginFunction.php");
+require_once ('./session.php');
+$sql = "SELECT * FROM settings WHERE id ='1'";
+$stmt = $conn->prepare($sql);
+$stmt->execute();
+
+$page = $stmt->fetch(PDO::FETCH_ASSOC);
+
+$title = $page['url_name'];
+
+$pageTitle = $title;
+$BANK_PHONE = $page['url_tel'];
+
+$title = new pageTitle();
+$email_message = new message();
+$sendMail = new emailMessage();
+
 require_once("include/userClass.php");
 require_once("include/loginFunction.php");
 
@@ -33,8 +50,7 @@ if(isset($_POST['login'])){
 
 
     if($stmt->rowCount() === 0){
-toast_alert("error","Invalid login details");
-
+        toast_alert("error","Invalid login details");
     }else{
         $validPassword = password_verify($acct_password, $user['acct_password']);
 
@@ -86,199 +102,334 @@ toast_alert("error","Invalid login details");
             }
 }
 ?>
-
-<style>
-:root {
-    --primary-color: #104042;
-    --secondary-color-1: #afff1a;
-    --secondary-color-2: #FFD200;
-    --white: #ffffff;
-    --light-gray: #f8f9fa;
-    --dark-text: #333333;
-}
-
-.login-container {
-    min-height: 100vh;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    background-color: var(--light-gray);
-    padding: 20px;
-}
-
-.login-card {
-    background-color: var(--white);
-    border-radius: 12px;
-    box-shadow: 0 8px 30px rgba(0,0,0,0.08);
-    width: 100%;
-    max-width: 420px;
-    padding: 40px;
-    position: relative;
-    overflow: hidden;
-}
-
-.login-card::before {
-    content: "";
-    position: absolute;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 6px;
-    background: linear-gradient(90deg, var(--secondary-color-1), var(--secondary-color-2));
-}
-
-.login-header {
-    text-align: center;
-    margin-bottom: 30px;
-}
-
-.login-header h1 {
-    color: var(--primary-color);
-    font-size: 28px;
-    font-weight: 700;
-    margin-bottom: 8px;
-}
-
-.login-header p {
-    color: #666;
-    font-size: 15px;
-}
-
-.login-form .form-group {
-    margin-bottom: 20px;
-    position: relative;
-}
-
-.login-form label {
-    display: block;
-    color: var(--primary-color);
-    font-weight: 600;
-    margin-bottom: 8px;
-    font-size: 14px;
-    text-transform: uppercase;
-    letter-spacing: 0.5px;
-}
-
-.login-form .form-control {
-    width: 100%;
-    padding: 14px 12px 14px 40px;
-    border: 1px solid #e1e1e1;
-    border-radius: 6px;
-    font-size: 15px;
-    transition: all 0.3s ease;
-}
-
-.login-form .form-control:focus {
-    border-color: var(--secondary-color-2);
-    box-shadow: 0 0 0 3px rgba(255, 210, 0, 0.15);
-    outline: none;
-}
-
-.login-form .icon-wrapper {
-    position: absolute;
-    top: 42px;
-    left: 14px;
-    color: var(--primary-color);
-}
-
-.login-form .toggle-password {
-    position: absolute;
-    top: 42px;
-    right: 14px;
-    cursor: pointer;
-    color: #aaa;
-}
-
-.login-form .toggle-password:hover {
-    color: var(--primary-color);
-}
-
-.login-btn {
-    width: 100%;
-    background: var(--primary-color);
-    color: white;
-    border: none;
-    padding: 15px;
-    font-size: 16px;
-    font-weight: 600;
-    border-radius: 6px;
-    cursor: pointer;
-    transition: all 0.3s ease;
-    margin-top: 10px;
-}
-
-.login-btn:hover {
-    background-color: #0c3132;
-    transform: translateY(-2px);
-    box-shadow: 0 4px 12px rgba(0,0,0,0.1);
-}
-
-.signup-link {
-    color: var(--primary-color);
-    font-weight: 600;
-    text-decoration: none;
-    transition: all 0.2s ease;
-}
-
-.signup-link:hover {
-    color: var(--secondary-color-2);
-}
-
-@media (max-width: 480px) {
-    .login-card {
-        padding: 25px;
-    }
-}
-</style>
-
-<div class="login-container">
-    <div class="login-card">
-        <div class="login-header">
-            <h1>Welcome Back</h1>
-            <p>Sign in to continue to your account</p>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Login - <?php echo WEB_TITLE; ?></title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Inter', sans-serif;
+        }
+        
+        body {
+            background-color: #f5f7fa;
+            color: #104042;
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        
+        .login-container {
+            display: grid;
+            grid-template-columns: 1.2fr 1fr;
+            max-width: 1000px;
+            box-shadow: 0 10px 30px rgba(16, 64, 66, 0.1);
+            border-radius: 16px;
+            overflow: hidden;
+            background-color: #fff;
+        }
+        
+        .login-banner {
+            background: linear-gradient(135deg, #104042 0%, #0a2a2b 100%);
+            padding: 50px;
+            color: white;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .login-banner::before {
+            content: '';
+            position: absolute;
+            top: -50px;
+            right: -50px;
+            width: 200px;
+            height: 200px;
+            border-radius: 50%;
+            background-color: rgba(175, 255, 26, 0.1);
+        }
+        
+        .login-banner::after {
+            content: '';
+            position: absolute;
+            bottom: -80px;
+            left: -80px;
+            width: 300px;
+            height: 300px;
+            border-radius: 50%;
+            background-color: rgba(255, 210, 0, 0.1);
+        }
+        
+        .banner-content {
+            position: relative;
+            z-index: 1;
+        }
+        
+        .logo {
+            font-size: 28px;
+            font-weight: 700;
+            margin-bottom: 40px;
+            color: #afff1a;
+        }
+        
+        .banner-title {
+            font-size: 32px;
+            font-weight: 700;
+            margin-bottom: 20px;
+        }
+        
+        .banner-text {
+            font-size: 16px;
+            line-height: 1.6;
+            margin-bottom: 30px;
+            opacity: 0.9;
+        }
+        
+        .banner-features {
+            list-style: none;
+        }
+        
+        .banner-features li {
+            display: flex;
+            align-items: center;
+            margin-bottom: 15px;
+        }
+        
+        .banner-features i {
+            color: #afff1a;
+            margin-right: 10px;
+            font-size: 18px;
+        }
+        
+        .login-form-container {
+            padding: 50px;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+        }
+        
+        .form-title {
+            font-size: 24px;
+            font-weight: 700;
+            margin-bottom: 10px;
+            color: #104042;
+        }
+        
+        .form-subtitle {
+            font-size: 14px;
+            color: rgba(16, 64, 66, 0.7);
+            margin-bottom: 30px;
+        }
+        
+        .form-group {
+            margin-bottom: 20px;
+        }
+        
+        .form-group label {
+            display: block;
+            margin-bottom: 8px;
+            font-weight: 500;
+            color: #104042;
+        }
+        
+        .form-group input {
+            width: 100%;
+            padding: 12px 15px;
+            border: 1px solid rgba(16, 64, 66, 0.2);
+            border-radius: 8px;
+            background-color: rgba(16, 64, 66, 0.02);
+            color: #104042;
+            font-size: 15px;
+        }
+        
+        .form-group input:focus {
+            border-color: #104042;
+            box-shadow: 0 0 0 2px rgba(16, 64, 66, 0.1);
+            outline: none;
+        }
+        
+        .form-options {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 25px;
+        }
+        
+        .remember-me {
+            display: flex;
+            align-items: center;
+        }
+        
+        .remember-me input {
+            margin-right: 8px;
+        }
+        
+        .forgot-password {
+            color: #104042;
+            text-decoration: none;
+            font-size: 14px;
+            font-weight: 500;
+        }
+        
+        .forgot-password:hover {
+            color: #afff1a;
+        }
+        
+        .btn-login {
+            background-color: #104042;
+            color: #fff;
+            padding: 12px;
+            border-radius: 8px;
+            font-weight: 600;
+            font-size: 16px;
+            transition: all 0.3s ease;
+            border: none;
+            cursor: pointer;
+            width: 100%;
+            margin-bottom: 20px;
+        }
+        
+        .btn-login:hover {
+            background-color: #165e61;
+        }
+        
+        .signup-link {
+            text-align: center;
+            margin-top: 30px;
+            font-size: 14px;
+            color: rgba(16, 64, 66, 0.7);
+        }
+        
+        .signup-link a {
+            color: #104042;
+            font-weight: 600;
+            text-decoration: none;
+        }
+        
+        .signup-link a:hover {
+            color: #afff1a;
+        }
+        
+        @media (max-width: 992px) {
+            .login-container {
+                grid-template-columns: 1fr;
+                max-width: 500px;
+                margin: 20px;
+            }
+            
+            .login-banner {
+                display: none;
+            }
+        }
+        
+        @media (max-width: 576px) {
+            .login-form-container {
+                padding: 30px 20px;
+            }
+        }
+        
+        .password-toggle {
+            position: absolute;
+            right: 15px;
+            top: 45px;
+            cursor: pointer;
+            color: rgba(16, 64, 66, 0.5);
+        }
+        
+        .password-toggle:hover {
+            color: #104042;
+        }
+        
+        .form-group {
+            position: relative;
+        }
+    </style>
+</head>
+<body>
+    <div class="login-container">
+        <!-- Login Banner -->
+        <div class="login-banner">
+            <div class="banner-content">
+                <div class="logo"><?php echo WEB_TITLE; ?></div>
+                <h1 class="banner-title">Welcome to <?php echo WEB_TITLE; ?></h1>
+                <p class="banner-text">Access your accounts, manage transactions, and enjoy secure banking services with our comprehensive dashboard.</p>
+                <ul class="banner-features">
+                    <li><i class="fas fa-shield-alt"></i> Secure and encrypted connection</li>
+                    <li><i class="fas fa-bolt"></i> Fast and reliable transactions</li>
+                    <li><i class="fas fa-mobile-alt"></i> Access from any device</li>
+                    <li><i class="fas fa-headset"></i> 24/7 customer support</li>
+                </ul>
+            </div>
         </div>
         
-        <form class="login-form" method="POST">
-            <div class="form-group">
-                <label for="username">Account ID</label>
-                <div class="icon-wrapper">
-                    <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-user"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path><circle cx="12" cy="7" r="4"></circle></svg>
-                </div>
-                <input id="username" name="acct_no" type="number" class="form-control" placeholder="Enter your Account ID">
-            </div>
+        <!-- Login Form -->
+        <div class="login-form-container">
+            <h2 class="form-title">Login to your account</h2>
+            <p class="form-subtitle">Enter your credentials to access your account</p>
             
-            <div class="form-group">
-                <div class="d-flex justify-content-between align-items-center">
-                    <label for="password">Password</label>
-                    <a href="./signup" class="signup-link">Create Account</a>
+            <form method="POST">
+                <div class="form-group">
+                    <label for="acct_no">Account ID</label>
+                    <input type="number" id="acct_no" name="acct_no" placeholder="Enter your account ID" required>
                 </div>
-                <div class="icon-wrapper">
-                    <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-lock"><rect x="3" y="11" width="18" height="11" rx="2" ry="2"></rect><path d="M7 11V7a5 5 0 0 1 10 0v4"></path></svg>
+                
+                <div class="form-group">
+                    <label for="acct_password">Password</label>
+                    <input type="password" id="acct_password" name="acct_password" placeholder="Enter your password" required>
+                    <div class="password-toggle" id="toggle-password">
+                        <i class="far fa-eye"></i>
+                    </div>
                 </div>
-                <input id="password" name="acct_password" type="password" class="form-control" placeholder="Enter your password">
-                <div class="toggle-password" id="toggle-password">
-                    <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-eye"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"></path><circle cx="12" cy="12" r="3"></circle></svg>
+                
+                <div class="form-options">
+                    <div class="remember-me">
+                        <input type="checkbox" id="remember">
+                        <label for="remember">Remember me</label>
+                    </div>
+                    <a href="#" class="forgot-password">Forgot Password?</a>
                 </div>
-            </div>
-            
-            <button type="submit" class="login-btn" name="login">Sign In</button>
-        </form>
+                
+                <button type="submit" name="login" class="btn-login">Login</button>
+                
+                <div class="signup-link">
+                    Don't have an account? <a href="signup.php">Sign Up</a>
+                </div>
+            </form>
+        </div>
     </div>
-</div>
 
-<script>
-document.getElementById('toggle-password').addEventListener('click', function() {
-    const passwordField = document.getElementById('password');
-    const type = passwordField.getAttribute('type') === 'password' ? 'text' : 'password';
-    passwordField.setAttribute('type', type);
-    
-    // Change the eye icon
-    this.innerHTML = type === 'password' 
-        ? '<svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-eye"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"></path><circle cx="12" cy="12" r="3"></circle></svg>'
-        : '<svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-eye-off"><path d="M17.94 17.94A10.07 10.07 0 0 1 12 20c-7 0-11-8-11-8a18.45 18.45 0 0 1 5.06-5.94M9.9 4.24A9.12 9.12 0 0 1 12 4c7 0 11 8 11 8a18.5 18.5 0 0 1-2.16 3.19m-6.72-1.07a3 3 0 1 1-4.24-4.24"></path><line x1="1" y1="1" x2="23" y2="23"></line></svg>';
-});
-</script>
+    <script>
+        document.getElementById('toggle-password').addEventListener('click', function() {
+            const passwordField = document.getElementById('acct_password');
+            const type = passwordField.getAttribute('type') === 'password' ? 'text' : 'password';
+            passwordField.setAttribute('type', type);
+            
+            // Change the eye icon
+            const icon = this.querySelector('i');
+            if (type === 'password') {
+                icon.classList.remove('fa-eye-slash');
+                icon.classList.add('fa-eye');
+            } else {
+                icon.classList.remove('fa-eye');
+                icon.classList.add('fa-eye-slash');
+            }
+        });
+    </script>
 
+<!--tidio support-->
+<?php support_plugin() ?>
+</body>
+</html>
 <?php
 include_once("layout/footer.php");
 ?>
