@@ -1,7 +1,15 @@
 <?php
 $pageName = "Wire Transfer";
-include_once("layouts/header.php");
-require_once("userPinfunction.php");
+include_once("../user/layouts/header.php");
+require_once("../user/userPinfunction.php");
+
+// Debug information
+echo "<pre style='background: #fff; padding: 20px; margin: 20px; border: 1px solid #ddd;'>";
+echo "DEBUG INFORMATION:\n";
+echo "acct_stat: " . (isset($acct_stat) ? $acct_stat : 'Not set') . "\n";
+echo "page['transfer']: " . (isset($page['transfer']) ? $page['transfer'] : 'Not set') . "\n";
+echo "row['transfer']: " . (isset($row['transfer']) ? $row['transfer'] : 'Not set') . "\n";
+echo "</pre>";
 
 //List usa banks
 $list_us_banks_sql = "SELECT * FROM list_banks";
@@ -480,7 +488,7 @@ $list_us_banks = $stmt->fetchAll(PDO::FETCH_ASSOC);
 </div>
 
 <?php
-include_once("layouts/footer.php");
+include_once("../user/layouts/footer.php");
 ?>
 
 <script>

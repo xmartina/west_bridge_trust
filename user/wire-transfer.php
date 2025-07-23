@@ -9,7 +9,279 @@ $stmt = $conn->prepare($list_us_banks_sql);
 $stmt->execute();
 $list_us_banks = $stmt->fetchAll(PDO::FETCH_ASSOC);
 ?>
-
+<style>
+        /* Page specific styles */
+        .wire-transfer-steps {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 30px;
+            position: relative;
+        }
+        
+        .wire-transfer-steps::before {
+            content: '';
+            position: absolute;
+            top: 25px;
+            left: 0;
+            right: 0;
+            height: 2px;
+            background-color: rgba(16, 64, 66, 0.1);
+            z-index: 0;
+        }
+        
+        .step {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            position: relative;
+            z-index: 1;
+            flex: 1;
+        }
+        
+        .step-number {
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            background-color: #fff;
+            border: 2px solid rgba(16, 64, 66, 0.2);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 600;
+            color: rgba(16, 64, 66, 0.6);
+            margin-bottom: 10px;
+            transition: all 0.3s ease;
+        }
+        
+        .step.active .step-number {
+            background-color: #104042;
+            border-color: #104042;
+            color: #afff1a;
+        }
+        
+        .step.completed .step-number {
+            background-color: #afff1a;
+            border-color: #afff1a;
+            color: #104042;
+        }
+        
+        .step-label {
+            font-size: 14px;
+            font-weight: 500;
+            color: rgba(16, 64, 66, 0.6);
+        }
+        
+        .step.active .step-label {
+            color: #104042;
+            font-weight: 600;
+        }
+        
+        .step.completed .step-label {
+            color: #104042;
+        }
+        
+        .transfer-form-container {
+            background-color: #fff;
+            border-radius: 12px;
+            padding: 30px;
+            box-shadow: 0 4px 15px rgba(16, 64, 66, 0.08);
+            border-left: 4px solid #FFD200;
+            margin-bottom: 30px;
+        }
+        
+        .form-title {
+            font-size: 20px;
+            font-weight: 600;
+            margin-bottom: 25px;
+            color: #104042;
+            display: flex;
+            align-items: center;
+        }
+        
+        .form-title i {
+            margin-right: 10px;
+            color: #FFD200;
+            background-color: #104042;
+            width: 30px;
+            height: 30px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 14px;
+        }
+        
+        .form-row {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 20px;
+            margin-bottom: 20px;
+        }
+        
+        .form-group {
+            margin-bottom: 20px;
+        }
+        
+        .form-group label {
+            display: block;
+            margin-bottom: 8px;
+            font-weight: 500;
+            color: #104042;
+        }
+        
+        .form-group input, .form-group select, .form-group textarea {
+            width: 100%;
+            padding: 12px 15px;
+            border: 1px solid rgba(16, 64, 66, 0.2);
+            border-radius: 8px;
+            background-color: rgba(16, 64, 66, 0.02);
+            color: #104042;
+            font-size: 15px;
+        }
+        
+        .form-group textarea {
+            resize: vertical;
+            min-height: 100px;
+        }
+        
+        .form-group input:focus, .form-group select:focus, .form-group textarea:focus {
+            border-color: #104042;
+            box-shadow: 0 0 0 2px rgba(16, 64, 66, 0.1);
+        }
+        
+        .btn-submit {
+            background-color: #104042;
+            color: #fff;
+            padding: 14px 25px;
+            border-radius: 8px;
+            font-weight: 600;
+            font-size: 16px;
+            transition: all 0.3s ease;
+            border: none;
+            cursor: pointer;
+            width: 100%;
+        }
+        
+        .btn-submit:hover {
+            background-color: #165e61;
+        }
+        
+        .form-section {
+            margin-bottom: 30px;
+        }
+        
+        .form-section-title {
+            font-size: 18px;
+            font-weight: 600;
+            color: #104042;
+            margin-bottom: 20px;
+            padding-bottom: 10px;
+            border-bottom: 1px solid rgba(16, 64, 66, 0.1);
+        }
+        
+        .transfer-info {
+            margin-top: 30px;
+            padding: 20px;
+            background-color: rgba(255, 210, 0, 0.1);
+            border-radius: 8px;
+            border-left: 4px solid #FFD200;
+        }
+        
+        .transfer-info h3 {
+            color: #104042;
+            margin-bottom: 15px;
+            display: flex;
+            align-items: center;
+        }
+        
+        .transfer-info h3 i {
+            margin-right: 10px;
+        }
+        
+        .transfer-info ul {
+            list-style: none;
+            padding-left: 30px;
+        }
+        
+        .transfer-info ul li {
+            margin-bottom: 10px;
+            position: relative;
+            color: #104042;
+        }
+        
+        .transfer-info ul li:before {
+            content: '•';
+            position: absolute;
+            left: -15px;
+            color: #FFD200;
+            font-weight: bold;
+        }
+        
+        .currency-info {
+            display: flex;
+            align-items: center;
+            padding: 15px;
+            background-color: rgba(16, 64, 66, 0.02);
+            border-radius: 8px;
+            margin-bottom: 20px;
+        }
+        
+        .currency-flag {
+            width: 30px;
+            height: 30px;
+            border-radius: 50%;
+            margin-right: 15px;
+            overflow: hidden;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 600;
+            background-color: #104042;
+            color: white;
+        }
+        
+        .currency-details {
+            flex-grow: 1;
+        }
+        
+        .currency-name {
+            font-weight: 600;
+            color: #104042;
+            margin-bottom: 5px;
+        }
+        
+        .currency-rate {
+            font-size: 12px;
+            color: rgba(16, 64, 66, 0.7);
+        }
+        
+        .currency-amount {
+            font-weight: 600;
+            color: #104042;
+        }
+        
+        @media (max-width: 992px) {
+            .wire-transfer-steps {
+                flex-wrap: wrap;
+            }
+            
+            .step {
+                flex-basis: 50%;
+                margin-bottom: 20px;
+            }
+        }
+        
+        @media (max-width: 768px) {
+            .form-row {
+                grid-template-columns: 1fr;
+                gap: 10px;
+            }
+            
+            .step {
+                flex-basis: 100%;
+            }
+        }
+    </style>
 <div id="content" class="main-content">
     <div class="layout-px-spacing">
         <div class="row layout-top-spacing">
