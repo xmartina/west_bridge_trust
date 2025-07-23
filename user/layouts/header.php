@@ -113,7 +113,7 @@ $sendSms = new twilioController();
         <!-- Sidebar -->
         <aside class="sidebar">
             <div class="logo">
-                <img src="<?php echo WEB_URL; ?>/assets/new_img/logo/logo.png" alt="logo">
+                <img src="assets/images/logo/logo.png" alt="logo">
             </div>
             <nav class="nav-menu">
                 <ul class="menu-list">
