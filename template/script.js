@@ -20,7 +20,7 @@ document.addEventListener('DOMContentLoaded', function() {
         alert('Transfer functionality would be implemented here');
     });
 
-    // Handle submenu toggles
+    // Handle submenu toggles with vanilla JS
     const submenuToggles = document.querySelectorAll('.submenu-toggle');
     submenuToggles.forEach(toggle => {
         toggle.addEventListener('click', function(e) {

@@ -297,7 +297,7 @@ unset($_SESSION['wire_transfer'], $_SESSION['dom_transfer']);
                                     <div class="user">
                                         <div style="width: 30px; height: 30px; background-color: #104042; color: white; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-weight: bold;">
                                             <?php echo strtoupper(substr($transaction['sender_name'] ?? 'User', 0, 1)); ?>
-                                        </div>
+                                    </div>
                                         <span><?php echo $transaction['sender_name'] ?? 'Unknown'; ?></span>
                                     </div>
                                 </td>

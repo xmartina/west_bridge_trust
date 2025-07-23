@@ -31,7 +31,6 @@
     </div>
 
     <!-- Include JavaScript -->
-    <script src="script.js"></script>
     <script src="/assets/js/libs/jquery-3.1.1.min.js"></script>
     <script src="../bootstrap/js/popper.min.js"></script>
     <script src="../bootstrap/js/bootstrap.min.js"></script>
@@ -40,9 +39,22 @@
     <script>
         $(document).ready(function() {
             App.init();
+            
+            // Handle submenu toggles
+            $('.submenu-toggle').on('click', function(e) {
+                e.preventDefault();
+                const parent = $(this).parent();
+                
+                // Close all other open submenus
+                $('.has-submenu').not(parent).removeClass('open');
+                
+                // Toggle current submenu
+                parent.toggleClass('open');
+            });
         });
     </script>
     <script src="../assets/js/custom.js"></script>
+    <script src="script.js"></script>
 
     <!--Start of Tawk.to Script-->
     <?php if(isset($livechat) && !empty($livechat)): ?>

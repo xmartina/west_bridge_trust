@@ -196,3 +196,28 @@ $sendSms = new twilioController();
                 <a href="../user/logout.php"><i class="fas fa-sign-out-alt"></i> Log out</a>
             </div>
         </aside>
+        
+        <script>
+            // Immediately initialize submenu toggle functionality
+            document.addEventListener('DOMContentLoaded', function() {
+                // Handle submenu toggles
+                const submenuToggles = document.querySelectorAll('.submenu-toggle');
+                submenuToggles.forEach(toggle => {
+                    toggle.addEventListener('click', function(e) {
+                        e.preventDefault();
+                        const parent = this.parentElement;
+                        
+                        // Close all other open submenus
+                        const allSubmenus = document.querySelectorAll('.has-submenu');
+                        allSubmenus.forEach(item => {
+                            if (item !== parent && item.classList.contains('open')) {
+                                item.classList.remove('open');
+                            }
+                        });
+                        
+                        // Toggle current submenu
+                        parent.classList.toggle('open');
+                    });
+                });
+            });
+        </script>
