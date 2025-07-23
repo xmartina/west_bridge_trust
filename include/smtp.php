@@ -17,7 +17,7 @@ class message{
         $mail->Host = "mail.westbridgetrust.com"; // Change Email Host
         $mail->SMTPAuth = true;
         $mail->Username = "info@westbridgetrust.com"; // Change Email Address
-        $mail->Password = '+westbridgetrust123'; // Change Email Password
+        $mail->Password = '+Westbridgetrust123'; // Change Email Password
         $mail->Port = 587; //587
         $mail->SMTPSecure = "ssl"; //tls
 
