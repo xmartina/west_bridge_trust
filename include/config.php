@@ -1,6 +1,6 @@
 <?php
-error_reporting(E_ALL);
-ini_set('display_errors', 1);
+// error_reporting(E_ALL);
+// ini_set('display_errors', 1);
 define("WEB_TITLE","Western National Bank of America"); // Change Bank Name
 define("WEB_URL","https://dashboard.westbridgetrust.com"); // Change No "/" Ending splash
 define("WEB_EMAIL","contact@westbridgetrust.com"); // Change Your Website Email
