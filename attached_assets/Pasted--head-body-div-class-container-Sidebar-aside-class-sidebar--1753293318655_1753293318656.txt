@@ -1,0 +1,87 @@
+</head>
+<body>
+    <div class="container">
+        <!-- Sidebar -->
+        <aside class="sidebar">
+            <div class="logo">OFSPACE</div>
+            <nav class="nav-menu">
+                <ul class="menu-list">
+                    <li>
+                        <a href="dash.html">
+                            <i class="fas fa-th-large"></i>
+                            <span>Dashboard</span>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="online-deposit.html">
+                            <i class="fas fa-dollar-sign"></i>
+                            <span>Online Deposit</span>
+                        </a>
+                    </li>
+                    <li class="active">
+                        <a href="domestic-transfer.html">
+                            <i class="fas fa-share"></i>
+                            <span>Domestic Transfer</span>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="wire-transfer.html">
+                            <i class="fas fa-wifi"></i>
+                            <span>Wire Transfer</span>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="virtual-card.html">
+                            <i class="fas fa-credit-card"></i>
+                            <span>Virtual Card</span>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="loan.html">
+                            <i class="fas fa-download"></i>
+                            <span>Loan & Mortgages</span>
+                        </a>
+                    </li>
+                    <li class="has-submenu">
+                        <a href="#" class="submenu-toggle">
+                            <i class="fas fa-credit-card"></i>
+                            <span>All Transaction Logs</span>
+                            <i class="fas fa-chevron-right submenu-arrow"></i>
+                        </a>
+                        <ul class="submenu">
+                            <li><a href="credit-debit-transaction.html">Credit / Debit Transaction</a></li>
+                            <li><a href="wire-transaction.html">Wire Transaction</a></li>
+                            <li><a href="domestic-transaction.html">Domestic Transaction</a></li>
+                            <li><a href="loan-transaction.html">Loan Transaction</a></li>
+                            <li><a href="withdrawal-transaction.html">All Withdrawal</a></li>
+                        </ul>
+                    </li>
+                    <li>
+                        <a href="withdrawal.html">
+                            <i class="fas fa-dollar-sign"></i>
+                            <span>Withdrawal</span>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="account-manager.html">
+                            <i class="fas fa-dollar-sign"></i>
+                            <span>Account Manager</span>
+                        </a>
+                    </li>
+                    <li class="has-submenu">
+                        <a href="#" class="submenu-toggle">
+                            <i class="fas fa-cog"></i>
+                            <span>Settings</span>
+                            <i class="fas fa-chevron-right submenu-arrow"></i>
+                        </a>
+                        <ul class="submenu">
+                            <li><a href="profile.html">Profile</a></li>
+                            <li><a href="account.html">Account</a></li>
+                        </ul>
+                    </li>
+                </ul>
+            </nav>
+            <div class="logout">
+                <a href="#"><i class="fas fa-sign-out-alt"></i> Log out</a>
+            </div>
+        </aside>
