@@ -1,10 +1,15 @@
 <?php
+const rootDir = '/home/multistream6/domains/dashboard.westbridgetrust.com/public_html/';
+require rootDir . 'include/vendor/autoload.php';
+ob_start();
 // Import required files and initialize session
 require_once('../include/vendor/autoload.php');
 require_once('../session.php');
 require_once("../include/loginFunction.php");
 require_once("../include/userClass.php");
 require_once("../include/twilioController.php");
+
+
 
 // Session timeout check
 if(isset($_SESSION["name"])) {
@@ -29,6 +34,7 @@ $page = $stmt->fetch(PDO::FETCH_ASSOC);
 
 $title = $page['url_name'];
 $pageTitle = $title;
+$testApi = NULL;
 $url_email = $page['url_email'];
 $livechat = $page['livechat'];
 $trans_limit_min = $page['trans_limit_min'];
@@ -70,6 +76,22 @@ $avail_balance = $row['avail_balance'];
 $fullName = $row['firstname']." ".$row['lastname'];
 $email = $row['acct_email'];
 
+// Check if user has card
+$sql2 = "SELECT * FROM card WHERE user_id=:user_id";
+$cardstmt = $conn->prepare($sql2);
+$cardstmt->execute([
+    'user_id' => $user_id
+]);
+$cardCheck = $cardstmt->fetch(PDO::FETCH_ASSOC);
+
+$userStatus = userStatus($row);
+
+// Initialize classes
+$title = new pageTitle();
+$email_message = new message();
+$sendMail = new emailMessage();
+$sendSms = new twilioController();
+
 // Set currency symbol
 if ($row['acct_currency'] === 'USD') {
     $currency = "$";
@@ -82,21 +104,8 @@ if ($row['acct_currency'] === 'USD') {
 } elseif ($row['acct_currency'] === 'CAD') {
     $currency = "¢";
 }
-
-// Check if user has card
-$sql2 = "SELECT * FROM card WHERE user_id=:user_id";
-$cardstmt = $conn->prepare($sql2);
-$cardstmt->execute([
-    'user_id' => $user_id
-]);
-$cardCheck = $cardstmt->fetch(PDO::FETCH_ASSOC);
-
-// Initialize classes
-$title = new pageTitle();
-$email_message = new message();
-$sendMail = new emailMessage();
-$sendSms = new twilioController();
 ?>
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
