@@ -104,197 +104,428 @@ if(isset($_POST['change_password'])) {
         }
     }
 }
-
-
-
-
-
 ?>
 
-<!--  BEGIN CONTENT AREA  -->
-<div id="content" class="main-content">
-    <div class="layout-px-spacing">
+<!-- Add profile edit page styles -->
+<style>
+    /* Page specific styles */
+    .profile-edit-container {
+        background-color: #fff;
+        border-radius: 12px;
+        padding: 30px;
+        box-shadow: 0 4px 15px rgba(16, 64, 66, 0.08);
+        margin-bottom: 30px;
+    }
+    
+    .profile-header {
+        display: flex;
+        align-items: center;
+        margin-bottom: 30px;
+    }
+    
+    .profile-avatar-edit {
+        width: 100px;
+        height: 100px;
+        border-radius: 50%;
+        background-color: #104042;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        color: #fff;
+        font-size: 36px;
+        font-weight: 600;
+        margin-right: 20px;
+        position: relative;
+        overflow: hidden;
+    }
+    
+    .profile-avatar-edit img {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+    }
+    
+    .avatar-overlay {
+        position: absolute;
+        top: 0;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        background-color: rgba(16, 64, 66, 0.5);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        opacity: 0;
+        transition: all 0.3s ease;
+        cursor: pointer;
+    }
+    
+    .profile-avatar-edit:hover .avatar-overlay {
+        opacity: 1;
+    }
+    
+    .avatar-overlay i {
+        color: #fff;
+        font-size: 24px;
+    }
+    
+    .profile-upload-info {
+        flex-grow: 1;
+    }
+    
+    .profile-upload-info h3 {
+        font-size: 18px;
+        font-weight: 600;
+        color: #104042;
+        margin-bottom: 5px;
+    }
+    
+    .profile-upload-info p {
+        font-size: 14px;
+        color: rgba(16, 64, 66, 0.7);
+        margin-bottom: 15px;
+    }
+    
+    .btn-upload {
+        background-color: rgba(16, 64, 66, 0.1);
+        color: #104042;
+        padding: 8px 15px;
+        border-radius: 6px;
+        font-weight: 500;
+        font-size: 14px;
+        transition: all 0.3s ease;
+        border: none;
+        cursor: pointer;
+    }
+    
+    .btn-upload:hover {
+        background-color: rgba(16, 64, 66, 0.2);
+    }
+    
+    .form-section {
+        margin-bottom: 30px;
+    }
+    
+    .form-section-title {
+        font-size: 18px;
+        font-weight: 600;
+        color: #104042;
+        margin-bottom: 20px;
+        padding-bottom: 10px;
+        border-bottom: 1px solid rgba(16, 64, 66, 0.1);
+        display: flex;
+        align-items: center;
+    }
+    
+    .form-section-title i {
+        margin-right: 10px;
+        color: #afff1a;
+        background-color: #104042;
+        width: 28px;
+        height: 28px;
+        border-radius: 50%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 14px;
+    }
+    
+    .form-row {
+        display: grid;
+        grid-template-columns: repeat(2, 1fr);
+        gap: 20px;
+        margin-bottom: 20px;
+    }
+    
+    .form-group {
+        margin-bottom: 20px;
+    }
+    
+    .form-group label {
+        display: block;
+        margin-bottom: 8px;
+        font-weight: 500;
+        color: #104042;
+    }
+    
+    .form-group input, .form-group select {
+        width: 100%;
+        padding: 12px 15px;
+        border: 1px solid rgba(16, 64, 66, 0.2);
+        border-radius: 8px;
+        background-color: rgba(16, 64, 66, 0.02);
+        color: #104042;
+        font-size: 15px;
+    }
+    
+    .form-group input:focus, .form-group select:focus {
+        border-color: #104042;
+        box-shadow: 0 0 0 2px rgba(16, 64, 66, 0.1);
+    }
+    
+    .form-actions {
+        display: flex;
+        justify-content: flex-end;
+        gap: 15px;
+        margin-top: 30px;
+    }
+    
+    .btn-cancel {
+        background-color: transparent;
+        color: #104042;
+        padding: 12px 25px;
+        border-radius: 8px;
+        font-weight: 600;
+        font-size: 16px;
+        transition: all 0.3s ease;
+        border: 1px solid rgba(16, 64, 66, 0.2);
+        cursor: pointer;
+    }
+    
+    .btn-cancel:hover {
+        background-color: rgba(16, 64, 66, 0.05);
+    }
+    
+    .btn-save {
+        background-color: #104042;
+        color: #fff;
+        padding: 12px 25px;
+        border-radius: 8px;
+        font-weight: 600;
+        font-size: 16px;
+        transition: all 0.3s ease;
+        border: none;
+        cursor: pointer;
+    }
+    
+    .btn-save:hover {
+        background-color: #165e61;
+    }
+    
+    @media (max-width: 768px) {
+        .form-row {
+            grid-template-columns: 1fr;
+            gap: 10px;
+        }
+        
+        .profile-header {
+            flex-direction: column;
+            align-items: flex-start;
+        }
+        
+        .profile-avatar-edit {
+            margin-right: 0;
+            margin-bottom: 20px;
+        }
+        
+        .form-actions {
+            flex-direction: column;
+        }
+        
+        .btn-cancel, .btn-save {
+            width: 100%;
+        }
+    }
+</style>
 
-        <div class="account-settings-container layout-top-spacing">
-
-            <div class="account-content">
-                <div class="scrollspy-example" data-spy="scroll" data-target="#account-settings-scroll" data-offset="-100">
-                    <div class="row">
-                        <div class="col-xl-12 col-lg-12 col-md-12 layout-spacing">
-                            <form id="general-info" class="section general-info" enctype="multipart/form-data" method="POST">
-
-                                <div class="info">
-                                    <h6 class="">General Information</h6>
-                                    <div class="row">
-                                        <div class="col-lg-11 mx-auto">
-                                            <div class="row">
-                                                <div class="col-xl-2 col-lg-12 col-md-4 text-center">
-                                                    <!--<div class="upload mt-4 pr-md-4">
-                                                       <center>
-                                                           <input type="file" id="input-file-max-fs" class="dropify" data-default-file="../assets/profile/<?= $row['image']?>" name="image" data-max-file-size="2M" />
-                                                       </center>
-                                                        <p class="mt-2"><i class="flaticon-cloud-upload mr-1"></i> Upload Picture</p>
-                                                        <div class="form-group text-center" >
-                                                            <button class="btn btn-primary " name="upload_picture">Save</button>
-                                                        </div>
-                                                    </div> -->
-                                                </div>
-                                                <div class="col-xl-10 col-lg-12 col-md-8 mt-md-0 mt-4">
-                                                    <div class="form">
-                                                        <div class="row">
-                                                            <div class="col-sm-6">
-                                                                <div class="form-group">
-                                                                    <label for="fullName">Account No</label>
-                                                                    <input type="text" class="form-control mb-4" id="fullName" placeholder="Full Name" value="<?= $row['acct_no'] ?>" readonly>
-                                                                </div>
-                                                            </div>
-                                                            <div class="col-sm-6">
-                                                                <div class="form-group">
-                                                                    <label for="profession">Account Type</label>
-                                                                    <input type="text" class="form-control mb-4" id="profession" placeholder="" value="<?= $row['acct_type'] ?>" readonly>
-                                                                </div>
-                                                            </div>
-                                                        </div>
-
-                                                        <div class="row">
-                                                            <div class="col-sm-6">
-                                                                <div class="form-group">
-                                                                    <label for="fullName">Email</label>
-                                                                    <input type="text" class="form-control mb-4" id="fullName" placeholder="Full Name" value="<?= $row['acct_email'] ?>" readonly>
-                                                                </div>
-                                                            </div>
-                                                            <div class="col-sm-6">
-                                                                <div class="form-group">
-                                                                    <label for="profession">Date Of Birth</label>
-                                                                    <input type="text" class="form-control mb-4" id="profession" placeholder="Date Of Birth" value="<?= $row['acct_dob'] ?>" readonly>
-                                                                </div>
-                                                            </div>
-                                                        </div>
-
-                                                        <div class="row">
-                                                            <div class="col-sm-6">
-                                                                <div class="form-group">
-                                                                    <label for="fullName">Occupation</label>
-                                                                    <input type="text" class="form-control mb-4"  placeholder="Ocuppation" value="<?= $row['acct_occupation'] ?>" readonly>
-                                                                </div>
-                                                            </div>
-                                                            <div class="col-sm-6">
-                                                                <div class="form-group">
-                                                                    <label for="profession">Phone Number</label>
-                                                                    <input type="text" class="form-control mb-4" id="profession" placeholder="Date Of Birth" value="<?= $row['acct_phone'] ?>" readonly>
-                                                                </div>
-                                                            </div>
-                                                        </div>
-
-                                                        <div class="row">
-                                                            <div class="col-sm-6">
-                                                                <div class="form-group">
-                                                                    <label for="fullName">Gender</label>
-                                                                    <input type="text" class="form-control mb-4 text-capitalize"  placeholder="Ocuppation" value="<?= $row['acct_gender'] ?>" readonly>
-                                                                </div>
-                                                            </div>
-                                                            <div class="col-sm-6">
-                                                                <div class="form-group">
-                                                                    <label for="profession">Marital Status</label>
-                                                                    <input type="text" class="form-control mb-4 text-capitalize" id="profession" placeholder="Date Of Birth" value="<?= $row['marital_status'] ?>" readonly>
-                                                                </div>
-                                                            </div>
-
-
-
-                                                        </div>
-
-
-
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                            </form>
-                        </div>
-
-                    <div class="col-xl-12 col-lg-12 col-md-12 layout-spacing">
-                        <form class="section about">
-                            <div class="info">
-                                <h5 class="">Contact Information</h5>
-                                <div class="row">
-                                    <div class="col-md-11 mx-auto">
-                                        <div class="form-group">
-                                            <label>Contact Address</label>
-                                            <input type="text" class="form-control mb-4" name="acct_address" placeholder="Designer" value="<?= $row['acct_address'] ?>" readonly>
-                                        </div>
-                                    </div>
-                                </div>
-
-                            </div>
-                        </form>
-                    </div>
-
-                    <div class="col-xl-6 col-lg-6 col-md-6 layout-spacing">
-                        <form class="section about" method="post">
-                            <div class="info">
-                                <h5 class="">Change Password</h5>
-                                <div class="row">
-                                    <div class="col-md-11 mx-auto">
-                                        <div class="form-group">
-                                            <label>Old Password</label>
-                                            <input type="password" class="form-control mb-4" name="old_password" placeholder="Old Password" value="">
-                                        </div>
-                                        <div class="form-group">
-                                                <label>New Password</label>
-                                            <input type="password" class="form-control mb-4" name="new_password" placeholder="New Password" value="">
-                                        </div>
-
-                                        <div class="form-group">
-                                            <label>Confirm Password</label>
-                                            <input type="password" class="form-control mb-4" name="confirm_password" placeholder="Confirm Password">
-                                        </div>
-
-                                        <div class="form-group">
-                                            <button class="btn btn-primary" name="change_password">Change Password</button>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </form>
-                    </div>
-                    <div class="col-xl-6 col-lg-6 col-md-6 layout-spacing">
-                            <form class="section about" method="post" autocomplete="off" autofocus="off">
-                                <div class="info">
-                                    <h5 class="">Change Pin</h5>
-                                    <div class="row">
-                                        <div class="col-md-11 mx-auto">
-                                            <div class="form-group">
-                                                <label>Current Pin</label>
-                                                <input type="password" class="form-control mb-4" name="current_pin" placeholder="Current Pin" value="">
-                                            </div>
-                                            <div class="form-group">
-                                                <label>New Pin</label>
-                                                <input type="password" class="form-control mb-4" name="new_pin" placeholder="New Pin" value="">
-                                            </div>
-
-                                            <div class="form-group">
-                                                <label>Confirm Pin</label>
-                                                <input type="password" class="form-control mb-4" name="confirm_pin" placeholder="Confirm Pin">
-                                            </div>
-                                            <div class="form-group">
-                                                <button class="btn btn-primary" name="change_pin">Change Pin</button>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                            </form>
-                        </div>
-
-
-                    </div>
+<!-- Main Content -->
+<div class="main-content">
+    <header class="header">
+        <h1>Edit Profile</h1>
+        <div class="search-notification">
+            <div class="search-bar">
+                <i class="fas fa-search"></i>
+                <input type="text" placeholder="Search">
             </div>
+            <div class="user-profile">
+                <div class="notification">
+                    <i class="far fa-bell"></i>
+                </div>
+                <div class="avatar">
+                    <?php if($row['image'] == null): ?>
+                        <div style="width: 40px; height: 40px; background-color: #104042; color: white; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-weight: 600;">
+                            <?php echo substr($fullName, 0, 1); ?>
+                        </div>
+                    <?php else: ?>
+                        <img src="../assets/profile/<?php echo $row['image']; ?>" alt="User avatar">
+                    <?php endif; ?>
+                </div>
+                <div class="user-name"><?php echo $fullName; ?></div>
+            </div>
+        </div>
+    </header>
+
+    <!-- Dashboard Content -->
+    <div class="dashboard-content">
+        <div class="profile-edit-container">
+            <!-- Profile Photo Edit -->
+            <div class="profile-header">
+                <div class="profile-avatar-edit">
+                    <?php if($row['image'] == null): ?>
+                        <div style="width: 100px; height: 100px; background-color: #104042; color: white; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 36px; font-weight: 600;">
+                            <?php echo substr($fullName, 0, 1); ?>
+                        </div>
+                    <?php else: ?>
+                        <img src="../assets/profile/<?php echo $row['image']; ?>" alt="User profile picture">
+                    <?php endif; ?>
+                    <div class="avatar-overlay">
+                        <i class="fas fa-camera"></i>
+                    </div>
+                </div>
+                <div class="profile-upload-info">
+                    <h3>Profile Photo</h3>
+                    <p>Upload a new profile photo. Recommended size: 300x300px, max 5MB.</p>
+                    <form method="POST" enctype="multipart/form-data" id="upload-form" style="display: none;">
+                        <input type="file" name="image" id="profile-upload" accept="image/*">
+                    </form>
+                    <button class="btn-upload" onclick="document.getElementById('profile-upload').click();">Upload New Photo</button>
+                </div>
             </div>
 
+            <!-- Account Information -->
+            <div class="form-section">
+                <div class="form-section-title">
+                    <i class="fas fa-university"></i>
+                    Account Information
+                </div>
+                <div class="form-row">
+                    <div class="form-group">
+                        <label for="acct_no">Account Number</label>
+                        <input type="text" id="acct_no" value="<?= $row['acct_no'] ?>" readonly>
+                    </div>
+                    <div class="form-group">
+                        <label for="acct_type">Account Type</label>
+                        <input type="text" id="acct_type" value="<?= $row['acct_type'] ?>" readonly>
+                    </div>
+                </div>
+                <div class="form-row">
+                    <div class="form-group">
+                        <label for="acct_email">Email</label>
+                        <input type="email" id="acct_email" value="<?= $row['acct_email'] ?>" readonly>
+                    </div>
+                    <div class="form-group">
+                        <label for="acct_dob">Date of Birth</label>
+                        <input type="text" id="acct_dob" value="<?= $row['acct_dob'] ?>" readonly>
+                    </div>
+                </div>
+                <div class="form-row">
+                    <div class="form-group">
+                        <label for="acct_occupation">Occupation</label>
+                        <input type="text" id="acct_occupation" value="<?= $row['acct_occupation'] ?>" readonly>
+                    </div>
+                    <div class="form-group">
+                        <label for="acct_phone">Phone Number</label>
+                        <input type="text" id="acct_phone" value="<?= $row['acct_phone'] ?>" readonly>
+                    </div>
+                </div>
+                <div class="form-row">
+                    <div class="form-group">
+                        <label for="acct_gender">Gender</label>
+                        <input type="text" class="text-capitalize" id="acct_gender" value="<?= $row['acct_gender'] ?>" readonly>
+                    </div>
+                    <div class="form-group">
+                        <label for="marital_status">Marital Status</label>
+                        <input type="text" class="text-capitalize" id="marital_status" value="<?= $row['marital_status'] ?>" readonly>
+                    </div>
+                </div>
+            </div>
 
+            <!-- Address Information -->
+            <div class="form-section">
+                <div class="form-section-title">
+                    <i class="fas fa-map-marker-alt"></i>
+                    Address Information
+                </div>
+                <div class="form-group">
+                    <label for="acct_address">Contact Address</label>
+                    <input type="text" id="acct_address" value="<?= $row['acct_address'] ?>" readonly>
+                </div>
+            </div>
 
+            <!-- Change Password Form -->
+            <form method="post" class="form-section">
+                <div class="form-section-title">
+                    <i class="fas fa-lock"></i>
+                    Change Password
+                </div>
+                <div class="form-group">
+                    <label for="old_password">Current Password</label>
+                    <input type="password" id="old_password" name="old_password" placeholder="Enter your current password">
+                </div>
+                <div class="form-row">
+                    <div class="form-group">
+                        <label for="new_password">New Password</label>
+                        <input type="password" id="new_password" name="new_password" placeholder="Enter new password">
+                    </div>
+                    <div class="form-group">
+                        <label for="confirm_password">Confirm New Password</label>
+                        <input type="password" id="confirm_password" name="confirm_password" placeholder="Confirm new password">
+                    </div>
+                </div>
+                <p style="font-size: 13px; color: rgba(16, 64, 66, 0.7); margin-top: -10px; margin-bottom: 20px;">
+                    Leave password fields blank if you don't want to change your password.
+                </p>
+                <div class="form-actions">
+                    <a href="profile.php"><button type="button" class="btn-cancel">Cancel</button></a>
+                    <button type="submit" name="change_password" class="btn-save">Change Password</button>
+                </div>
+            </form>
+
+            <!-- Change PIN Form -->
+            <form method="post" class="form-section" autocomplete="off" autofocus="off">
+                <div class="form-section-title">
+                    <i class="fas fa-key"></i>
+                    Change PIN
+                </div>
+                <div class="form-group">
+                    <label for="current_pin">Current PIN</label>
+                    <input type="password" id="current_pin" name="current_pin" placeholder="Enter your current PIN">
+                </div>
+                <div class="form-row">
+                    <div class="form-group">
+                        <label for="new_pin">New PIN</label>
+                        <input type="password" id="new_pin" name="new_pin" placeholder="Enter new PIN">
+                    </div>
+                    <div class="form-group">
+                        <label for="confirm_pin">Confirm PIN</label>
+                        <input type="password" id="confirm_pin" name="confirm_pin" placeholder="Confirm new PIN">
+                    </div>
+                </div>
+                <p style="font-size: 13px; color: rgba(16, 64, 66, 0.7); margin-top: -10px; margin-bottom: 20px;">
+                    Leave PIN fields blank if you don't want to change your PIN.
+                </p>
+                <div class="form-actions">
+                    <a href="profile.php"><button type="button" class="btn-cancel">Cancel</button></a>
+                    <button type="submit" name="change_pin" class="btn-save">Change PIN</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+<script>
+    // Handle profile image upload
+    document.addEventListener('DOMContentLoaded', function() {
+        const profileUpload = document.getElementById('profile-upload');
+        const uploadForm = document.getElementById('upload-form');
+        
+        if (profileUpload) {
+            profileUpload.addEventListener('change', function() {
+                if (this.files && this.files[0]) {
+                    // Add a hidden submit button to the form
+                    const submitBtn = document.createElement('button');
+                    submitBtn.type = 'submit';
+                    submitBtn.name = 'upload_picture';
+                    submitBtn.style.display = 'none';
+                    uploadForm.appendChild(submitBtn);
+                    
+                    // Submit the form
+                    submitBtn.click();
+                }
+            });
+        }
+    });
+</script>
 
 <?php
 include_once("layouts/footer.php");
