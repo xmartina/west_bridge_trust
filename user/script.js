@@ -1,23 +1,21 @@
 // Wait for the DOM to be fully loaded
 document.addEventListener('DOMContentLoaded', function() {
-    // Add event listeners to buttons
+    // Add event listeners to buttons - alerts removed for production
     document.querySelector('.btn-send')?.addEventListener('click', function() {
-        alert('Send functionality would be implemented here');
+        // Send functionality
     });
 
     document.querySelector('.btn-withdraw')?.addEventListener('click', function() {
-        alert('Withdraw functionality would be implemented here');
+        // Withdraw functionality
     });
 
     document.querySelector('.btn-send-money')?.addEventListener('click', function() {
-        const amount = document.querySelector('.amount-field input').value;
-        const recipient = document.querySelector('.recipient-input input').value;
-        alert(`Successfully sent $${amount} to ${recipient}`);
+        // Send money functionality
     });
 
     // Quick action button in balance card
     document.querySelector('.btn-quick-action')?.addEventListener('click', function() {
-        alert('Transfer functionality would be implemented here');
+        // Transfer functionality
     });
 
     // Handle submenu toggles
@@ -59,47 +57,31 @@ document.addEventListener('DOMContentLoaded', function() {
     const quickActionCards = document.querySelectorAll('.quick-action-card');
     quickActionCards.forEach(card => {
         card.addEventListener('click', function() {
-            const action = this.querySelector('.action-title').textContent;
-            switch(action) {
-                case 'Domestic Transfer':
-                    alert('Domestic Transfer form would open here');
-                    break;
-                case 'Wire Transfer':
-                    alert('Wire Transfer form would open here');
-                    break;
-                case 'Deposit':
-                    alert('Deposit form would open here');
-                    break;
-                case 'Withdrawal':
-                    alert('Withdrawal form would open here');
-                    break;
-            }
+            // Quick action functionality - alerts removed for production
         });
     });
 
     // Loan payment button
     document.querySelector('.btn-pay-loan')?.addEventListener('click', function() {
-        alert('Loan payment form would open here');
+        // Loan payment functionality
     });
 
     // Wire transfer items click
     const wireTransferItems = document.querySelectorAll('.wire-transfer-item');
     wireTransferItems.forEach(item => {
         item.addEventListener('click', function() {
-            const bankName = this.querySelector('.transfer-name').textContent;
-            const reference = this.querySelector('.transfer-reference').textContent;
-            alert(`Wire transfer details for ${bankName} (${reference}) would be shown here`);
+            // Wire transfer details functionality
         });
     });
 
     // View all transfers button
     document.querySelector('.btn-view-all')?.addEventListener('click', function() {
-        alert('All wire transfers would be shown here');
+        // View all transfers functionality
     });
 
     // Card request item
     document.querySelector('.request-item')?.addEventListener('click', function() {
-        alert('Card request details would be shown here');
+        // Card request details functionality
     });
 
     // Message items
@@ -109,8 +91,7 @@ document.addEventListener('DOMContentLoaded', function() {
             if (this.classList.contains('unread')) {
                 this.classList.remove('unread');
             }
-            const sender = this.querySelector('.message-sender').textContent;
-            alert(`Message from ${sender} would open here`);
+            // Message functionality
         });
     });
 
@@ -123,19 +104,7 @@ document.addEventListener('DOMContentLoaded', function() {
             // Add active class to clicked item
             this.classList.add('active');
             
-            // Handle specific actions based on navigation item
-            const action = this.querySelector('span').textContent.toLowerCase();
-            switch(action) {
-                case 'withdraw':
-                    alert('Withdraw functionality would be implemented here');
-                    break;
-                case 'transfer':
-                    alert('Transfer functionality would be implemented here');
-                    break;
-                case 'profile':
-                    alert('Profile page would be loaded here');
-                    break;
-            }
+            // Mobile navigation functionality - alerts removed for production
             
             e.preventDefault();
         });
@@ -229,7 +198,7 @@ document.querySelector('.search-bar input')?.addEventListener('input', function(
 const notificationIcon = document.querySelector('.notification i');
 if (notificationIcon) {
     notificationIcon.addEventListener('click', function() {
-        alert('You have no new notifications');
+        // Notification functionality
     });
 }
 
