@@ -115,48 +115,52 @@ document.addEventListener('DOMContentLoaded', function() {
 function createMobileMenu() {
     const container = document.querySelector('.container');
     const sidebar = document.querySelector('.sidebar');
-    const overlay = document.querySelector('.mobile-overlay');
+    let overlay = document.querySelector('.mobile-overlay');
     
     if (!container || !sidebar) return;
+    
+    // Create overlay if it doesn't exist
+    if (!overlay) {
+        overlay = document.createElement('div');
+        overlay.classList.add('mobile-overlay');
+        document.body.appendChild(overlay);
+    }
     
     // Create toggle button
     const toggleBtn = document.createElement('button');
     toggleBtn.classList.add('mobile-menu-toggle');
     toggleBtn.innerHTML = '<i class="fas fa-bars"></i>';
     
-    // Add to DOM
-    document.querySelector('.header')?.prepend(toggleBtn);
+    // Add to body instead of header
+    document.body.appendChild(toggleBtn);
     
     // Add event listener to open menu
     toggleBtn.addEventListener('click', function() {
         sidebar.classList.add('show-mobile');
         overlay.classList.add('active');
+        document.body.style.overflow = 'hidden'; // Prevent background scrolling
     });
     
     // Add event listener to close menu when clicking overlay
     overlay.addEventListener('click', function() {
         sidebar.classList.remove('show-mobile');
         overlay.classList.remove('active');
+        document.body.style.overflow = '';
     });
     
-    // Add close button to sidebar
-    const closeBtn = document.createElement('button');
-    closeBtn.classList.add('sidebar-close');
-    closeBtn.innerHTML = '<i class="fas fa-times"></i>';
-    closeBtn.style.position = 'absolute';
-    closeBtn.style.top = '10px';
-    closeBtn.style.right = '10px';
-    closeBtn.style.background = 'none';
-    closeBtn.style.border = 'none';
-    closeBtn.style.fontSize = '20px';
-    closeBtn.style.color = '#666';
-    closeBtn.style.cursor = 'pointer';
-    
-    sidebar.prepend(closeBtn);
+    // Add close button to sidebar if it doesn't exist
+    let closeBtn = sidebar.querySelector('.sidebar-close');
+    if (!closeBtn) {
+        closeBtn = document.createElement('button');
+        closeBtn.classList.add('sidebar-close');
+        closeBtn.innerHTML = '<i class="fas fa-times"></i>';
+        sidebar.prepend(closeBtn);
+    }
     
     closeBtn.addEventListener('click', function() {
         sidebar.classList.remove('show-mobile');
         overlay.classList.remove('active');
+        document.body.style.overflow = '';
     });
     
     // Add media query for mobile
@@ -168,6 +172,7 @@ function createMobileMenu() {
             container.classList.remove('mobile-layout');
             sidebar.classList.remove('show-mobile');
             overlay.classList.remove('active');
+            document.body.style.overflow = '';
         }
     }
     
@@ -182,6 +187,7 @@ function createMobileMenu() {
         if (e.key === 'Escape' && sidebar.classList.contains('show-mobile')) {
             sidebar.classList.remove('show-mobile');
             overlay.classList.remove('active');
+            document.body.style.overflow = '';
         }
     });
 }
