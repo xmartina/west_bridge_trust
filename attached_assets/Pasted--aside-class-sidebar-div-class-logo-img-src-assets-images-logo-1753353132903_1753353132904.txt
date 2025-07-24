@@ -1,0 +1,85 @@
+<aside class="sidebar">
+            <div class="logo">
+                <img src="/assets/images/logo/logo.png" alt="logo">
+            </div>
+            <nav class="nav-menu">
+                <ul class="menu-list">
+                    <li class="<?php active('dashboard.php');?>">
+                        <a href="../user/dashboard.php">
+                            <i class="fas fa-th-large"></i>
+                            <span>Dashboard</span>
+                        </a>
+                    </li>
+                    <li class="<?php active('deposit.php');?>">
+                        <a href="../user/deposit.php">
+                            <i class="fas fa-dollar-sign"></i>
+                            <span>Online Deposit</span>
+                        </a>
+                    </li>
+                    <li class="<?php active('domestic-transfer.php');?>">
+                        <a href="../user/domestic-transfer.php">
+                            <i class="fas fa-share"></i>
+                            <span>Domestic Transfer</span>
+                        </a>
+                    </li>
+                    <li class="<?php active('wire-transfer.php');?>">
+                        <a href="../user/wire-transfer.php">
+                            <i class="fas fa-wifi"></i>
+                            <span>Wire Transfer</span>
+                        </a>
+                    </li>
+                    <li class="<?php active('card.php');?>">
+                        <a href="../user/card.php">
+                            <i class="fas fa-credit-card"></i>
+                            <span>Virtual Card</span>
+                        </a>
+                    </li>
+                    <li class="<?php active('loan.php');?>">
+                        <a href="../user/loan.php">
+                            <i class="fas fa-download"></i>
+                            <span>Loan & Mortgages</span>
+                        </a>
+                    </li>
+                    <li class="has-submenu">
+                        <a href="#" class="submenu-toggle">
+                            <i class="fas fa-credit-card"></i>
+                            <span>All Transaction Logs</span>
+                            <i class="fas fa-chevron-right submenu-arrow"></i>
+                        </a>
+                        <ul class="submenu">
+                            <li><a href="../user/credit-debit_transaction.php">Credit / Debit Transaction</a></li>
+                            <li><a href="../user/wire-transaction.php">Wire Transaction</a></li>
+                            <li><a href="../user/domestic-transaction.php">Domestic Transaction</a></li>
+                            <li><a href="../user/loan-transaction.php">Loan Transaction</a></li>
+                            <li><a href="../user/withdrawal-transaction.php">All Withdrawal</a></li>
+                        </ul>
+                    </li>
+                    <li class="<?php active('withdrawal.php');?>">
+                        <a href="../user/withdrawal.php">
+                            <i class="fas fa-dollar-sign"></i>
+                            <span>Withdrawal</span>
+                        </a>
+                    </li>
+                    <li class="<?php active('account-manager.php');?>">
+                        <a href="../user/account-manager.php">
+                            <i class="fas fa-dollar-sign"></i>
+                            <span>Account Manager</span>
+                        </a>
+                    </li>
+                    <li class="has-submenu">
+                        <a href="#" class="submenu-toggle">
+                            <i class="fas fa-cog"></i>
+                            <span>Settings</span>
+                            <i class="fas fa-chevron-right submenu-arrow"></i>
+                        </a>
+                        <ul class="submenu">
+                            <li><a href="../user/profile.php">Profile</a></li>
+                            <li><a href="../user/edit-profile.php">Account</a></li>
+                        </ul>
+                    </li>
+                </ul>
+            </nav>
+            <div class="logout">
+                <a href="../user/logout.php"><i class="fas fa-sign-out-alt"></i> Log out</a>
+            </div>
+        </aside>
