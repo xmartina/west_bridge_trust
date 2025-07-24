@@ -126,13 +126,18 @@ function createMobileMenu() {
         document.body.appendChild(overlay);
     }
     
-    // Create toggle button
-    const toggleBtn = document.createElement('button');
-    toggleBtn.classList.add('mobile-menu-toggle');
-    toggleBtn.innerHTML = '<i class="fas fa-bars"></i>';
-    
-    // Add to body instead of header
-    document.body.appendChild(toggleBtn);
+    // Check if toggle button already exists
+    let toggleBtn = document.querySelector('.mobile-menu-toggle');
+    if (!toggleBtn) {
+        // Create toggle button
+        toggleBtn = document.createElement('button');
+        toggleBtn.classList.add('mobile-menu-toggle');
+        toggleBtn.innerHTML = '<i class="fas fa-bars"></i>';
+        toggleBtn.style.display = 'block';
+        
+        // Add to body
+        document.body.appendChild(toggleBtn);
+    }
     
     // Add event listener to open menu
     toggleBtn.addEventListener('click', function() {
@@ -168,11 +173,13 @@ function createMobileMenu() {
     function handleScreenChange(e) {
         if (e.matches) {
             container.classList.add('mobile-layout');
+            toggleBtn.style.display = 'block';
         } else {
             container.classList.remove('mobile-layout');
             sidebar.classList.remove('show-mobile');
             overlay.classList.remove('active');
             document.body.style.overflow = '';
+            toggleBtn.style.display = 'none';
         }
     }
     
@@ -181,6 +188,15 @@ function createMobileMenu() {
     
     // Add listener for changes
     mediaQuery.addEventListener('change', handleScreenChange);
+    
+    // Force visibility check on window resize
+    window.addEventListener('resize', function() {
+        if (window.innerWidth <= 768) {
+            toggleBtn.style.display = 'block';
+        } else {
+            toggleBtn.style.display = 'none';
+        }
+    });
     
     // Handle escape key to close menu
     document.addEventListener('keydown', function(e) {
