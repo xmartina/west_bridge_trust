@@ -21,15 +21,6 @@
     <!-- Mobile Menu Overlay -->
     <div class="mobile-overlay"></div>
 
-    <div class="footer-wrapper">
-        <div class="footer-section f-section-1">
-            <p class="">Copyright © <?php echo date('Y'); ?> <?php echo $pageTitle ?>, All rights reserved.</p>
-        </div>
-        <div class="footer-section f-section-2">
-            <p class=""><?php echo $pageTitle ?> </p>
-        </div>
-    </div>
-
     <!-- Include JavaScript -->
     <script src="/assets/js/libs/jquery-3.1.1.min.js"></script>
     <script src="../bootstrap/js/popper.min.js"></script>

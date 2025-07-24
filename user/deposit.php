@@ -114,7 +114,7 @@ if(isset($_POST['deposit'])) {
 /* Page specific styles */
 .deposit-methods {
     display: grid;
-    grid-template-columns: repeat(3, 1fr);
+    grid-template-columns: repeat(2, 1fr);
     gap: 20px;
     margin-bottom: 30px;
 }
@@ -508,81 +508,6 @@ if(isset($_POST['deposit'])) {
     </div>
 </div>
 
-<!-- Bank Details Modal -->
-<div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
-    <div class="modal-dialog" role="document">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h5 class="modal-title" id="exampleModalLabel">Banking Details</h5>
-                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                    <span aria-hidden="true">&times;</span>
-                </button>
-            </div>
-            <div class="modal-body">
-                <div class="row">
-                    <div class="col-md-6">
-                        <div class="form-group">
-                            <label>Bank Name</label>
-                            <div class="input-group">
-                                <input type="text" class="form-control" id="bank_name" 
-                                       value="<?= $deposit['bank_name'] ?>" readonly>
-                                <button type="button" class="btn btn-primary" data-clipboard-action="copy" 
-                                        data-clipboard-target="#bank_name">
-                                    <i class="fas fa-copy"></i> Copy
-                                </button>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="col-md-6">
-                        <div class="form-group">
-                            <label>Account Number</label>
-                            <div class="input-group">
-                                <input type="text" class="form-control" id="acct_no" 
-                                       value="<?= $deposit['acct_no'] ?>" readonly>
-                                <button type="button" class="btn btn-primary" data-clipboard-action="copy" 
-                                        data-clipboard-target="#acct_no">
-                                    <i class="fas fa-copy"></i> Copy
-                                </button>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-
-                <div class="row">
-                    <div class="col-md-6">
-                        <div class="form-group">
-                            <label>Routine Number</label>
-                            <div class="input-group">
-                                <input type="text" class="form-control" id="routine_no" 
-                                       value="<?= $deposit['routine_no'] ?>" readonly>
-                                <button type="button" class="btn btn-primary" data-clipboard-action="copy" 
-                                        data-clipboard-target="#routine_no">
-                                    <i class="fas fa-copy"></i> Copy
-                                </button>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="col-md-6">
-                        <div class="form-group">
-                            <label>Swift Code</label>
-                            <div class="input-group">
-                                <input type="text" class="form-control" id="swift_code" 
-                                       value="<?= $deposit['swift_code'] ?>" readonly>
-                                <button type="button" class="btn btn-primary" data-clipboard-action="copy" 
-                                        data-clipboard-target="#swift_code">
-                                    <i class="fas fa-copy"></i> Copy
-                                </button>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-            <div class="modal-footer">
-                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-            </div>
-        </div>
-    </div>
-</div>
 
 <script>
 // Crypto type selection function
