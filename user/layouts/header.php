@@ -148,15 +148,15 @@ if ($row['acct_currency'] === 'USD') {
         }
         
         /* Hide close button on desktop, only show on mobile */
-        .sidebar-close {
+        /* .sidebar-close {
             display: none;
-        }
+        } */
         
-        @media (max-width: 768px) {
+        /* @media (max-width: 768px) {
             .sidebar-close {
                 display: block !important;
             }
-        }
+        } */
     </style>
     <script src="script.js"></script>
 </head>
