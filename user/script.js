@@ -26,7 +26,7 @@ document.addEventListener('DOMContentLoaded', function() {
         toggle.addEventListener('click', function(e) {
             e.preventDefault();
             const parent = this.parentElement;
-            
+
             // Close all other open submenus
             const allSubmenus = document.querySelectorAll('.has-submenu');
             allSubmenus.forEach(item => {
@@ -34,7 +34,7 @@ document.addEventListener('DOMContentLoaded', function() {
                     item.classList.remove('open');
                 }
             });
-            
+
             // Toggle current submenu
             parent.classList.toggle('open');
         });
@@ -234,4 +234,4 @@ if (notificationIcon) {
 }
 
 // Call the function to set up mobile menu
-createMobileMenu(); 
+createMobileMenu();

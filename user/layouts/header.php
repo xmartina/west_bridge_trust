@@ -116,6 +116,38 @@ if ($row['acct_currency'] === 'USD') {
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <link rel="icon" type="image/x-icon" href="/assets/images/logo/favicon.png" />
+    <style>
+        /* Submenu styles */
+        .has-submenu .submenu {
+            display: none;
+            padding-left: 20px;
+        }
+        
+        .has-submenu.open .submenu {
+            display: block;
+        }
+        
+        .submenu-arrow {
+            transition: transform 0.3s ease;
+            margin-left: auto;
+        }
+        
+        .has-submenu.open .submenu-arrow {
+            transform: rotate(90deg);
+        }
+        
+        .submenu li a {
+            padding: 8px 15px;
+            font-size: 14px;
+            color: rgba(255, 255, 255, 0.8);
+        }
+        
+        .submenu li a:hover {
+            background-color: rgba(175, 255, 26, 0.1);
+            color: #afff1a;
+        }
+    </style>
+    <script src="script.js"></script>
 </head>
 <body>
     <div class="container">
@@ -206,27 +238,4 @@ if ($row['acct_currency'] === 'USD') {
             </div>
         </aside>
         
-        <script>
-            // Immediately initialize submenu toggle functionality
-            document.addEventListener('DOMContentLoaded', function() {
-                // Handle submenu toggles
-                const submenuToggles = document.querySelectorAll('.submenu-toggle');
-                submenuToggles.forEach(toggle => {
-                    toggle.addEventListener('click', function(e) {
-                        e.preventDefault();
-                        const parent = this.parentElement;
-                        
-                        // Close all other open submenus
-                        const allSubmenus = document.querySelectorAll('.has-submenu');
-                        allSubmenus.forEach(item => {
-                            if (item !== parent && item.classList.contains('open')) {
-                                item.classList.remove('open');
-                            }
-                        });
-                        
-                        // Toggle current submenu
-                        parent.classList.toggle('open');
-                    });
-                });
-            });
         </script>
