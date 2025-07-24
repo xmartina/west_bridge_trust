@@ -1,21 +1,23 @@
 // Wait for the DOM to be fully loaded
 document.addEventListener('DOMContentLoaded', function() {
-    // Add event listeners to buttons - alerts removed for production
+    // Add event listeners to buttons
     document.querySelector('.btn-send')?.addEventListener('click', function() {
-        // Send functionality
+        alert('Send functionality would be implemented here');
     });
 
     document.querySelector('.btn-withdraw')?.addEventListener('click', function() {
-        // Withdraw functionality
+        alert('Withdraw functionality would be implemented here');
     });
 
     document.querySelector('.btn-send-money')?.addEventListener('click', function() {
-        // Send money functionality
+        const amount = document.querySelector('.amount-field input').value;
+        const recipient = document.querySelector('.recipient-input input').value;
+        alert(`Successfully sent $${amount} to ${recipient}`);
     });
 
     // Quick action button in balance card
     document.querySelector('.btn-quick-action')?.addEventListener('click', function() {
-        // Transfer functionality
+        alert('Transfer functionality would be implemented here');
     });
 
     // Handle submenu toggles
@@ -57,31 +59,47 @@ document.addEventListener('DOMContentLoaded', function() {
     const quickActionCards = document.querySelectorAll('.quick-action-card');
     quickActionCards.forEach(card => {
         card.addEventListener('click', function() {
-            // Quick action functionality - alerts removed for production
+            const action = this.querySelector('.action-title').textContent;
+            switch(action) {
+                case 'Domestic Transfer':
+                    alert('Domestic Transfer form would open here');
+                    break;
+                case 'Wire Transfer':
+                    alert('Wire Transfer form would open here');
+                    break;
+                case 'Deposit':
+                    alert('Deposit form would open here');
+                    break;
+                case 'Withdrawal':
+                    alert('Withdrawal form would open here');
+                    break;
+            }
         });
     });
 
     // Loan payment button
     document.querySelector('.btn-pay-loan')?.addEventListener('click', function() {
-        // Loan payment functionality
+        alert('Loan payment form would open here');
     });
 
     // Wire transfer items click
     const wireTransferItems = document.querySelectorAll('.wire-transfer-item');
     wireTransferItems.forEach(item => {
         item.addEventListener('click', function() {
-            // Wire transfer details functionality
+            const bankName = this.querySelector('.transfer-name').textContent;
+            const reference = this.querySelector('.transfer-reference').textContent;
+            alert(`Wire transfer details for ${bankName} (${reference}) would be shown here`);
         });
     });
 
     // View all transfers button
     document.querySelector('.btn-view-all')?.addEventListener('click', function() {
-        // View all transfers functionality
+        alert('All wire transfers would be shown here');
     });
 
     // Card request item
     document.querySelector('.request-item')?.addEventListener('click', function() {
-        // Card request details functionality
+        alert('Card request details would be shown here');
     });
 
     // Message items
@@ -91,7 +109,8 @@ document.addEventListener('DOMContentLoaded', function() {
             if (this.classList.contains('unread')) {
                 this.classList.remove('unread');
             }
-            // Message functionality
+            const sender = this.querySelector('.message-sender').textContent;
+            alert(`Message from ${sender} would open here`);
         });
     });
 
@@ -104,7 +123,19 @@ document.addEventListener('DOMContentLoaded', function() {
             // Add active class to clicked item
             this.classList.add('active');
             
-            // Mobile navigation functionality - alerts removed for production
+            // Handle specific actions based on navigation item
+            const action = this.querySelector('span').textContent.toLowerCase();
+            switch(action) {
+                case 'withdraw':
+                    alert('Withdraw functionality would be implemented here');
+                    break;
+                case 'transfer':
+                    alert('Transfer functionality would be implemented here');
+                    break;
+                case 'profile':
+                    alert('Profile page would be loaded here');
+                    break;
+            }
             
             e.preventDefault();
         });
@@ -115,57 +146,48 @@ document.addEventListener('DOMContentLoaded', function() {
 function createMobileMenu() {
     const container = document.querySelector('.container');
     const sidebar = document.querySelector('.sidebar');
-    let overlay = document.querySelector('.mobile-overlay');
+    const overlay = document.querySelector('.mobile-overlay');
     
     if (!container || !sidebar) return;
     
-    // Create overlay if it doesn't exist
-    if (!overlay) {
-        overlay = document.createElement('div');
-        overlay.classList.add('mobile-overlay');
-        document.body.appendChild(overlay);
-    }
+    // Create toggle button
+    const toggleBtn = document.createElement('button');
+    toggleBtn.classList.add('mobile-menu-toggle');
+    toggleBtn.innerHTML = '<i class="fas fa-bars"></i>';
     
-    // Check if toggle button already exists
-    let toggleBtn = document.querySelector('.mobile-menu-toggle');
-    if (!toggleBtn) {
-        // Create toggle button
-        toggleBtn = document.createElement('button');
-        toggleBtn.classList.add('mobile-menu-toggle');
-        toggleBtn.innerHTML = '<i class="fas fa-bars"></i>';
-        toggleBtn.style.display = 'block';
-        
-        // Add to body
-        document.body.appendChild(toggleBtn);
-    }
+    // Add to DOM
+    document.querySelector('.header')?.prepend(toggleBtn);
     
     // Add event listener to open menu
     toggleBtn.addEventListener('click', function() {
         sidebar.classList.add('show-mobile');
         overlay.classList.add('active');
-        document.body.style.overflow = 'hidden'; // Prevent background scrolling
     });
     
     // Add event listener to close menu when clicking overlay
     overlay.addEventListener('click', function() {
         sidebar.classList.remove('show-mobile');
         overlay.classList.remove('active');
-        document.body.style.overflow = '';
     });
     
-    // Add close button to sidebar if it doesn't exist
-    let closeBtn = sidebar.querySelector('.sidebar-close');
-    if (!closeBtn) {
-        closeBtn = document.createElement('button');
-        closeBtn.classList.add('sidebar-close');
-        closeBtn.innerHTML = '<i class="fas fa-times"></i>';
-        sidebar.prepend(closeBtn);
-    }
+    // Add close button to sidebar
+    const closeBtn = document.createElement('button');
+    closeBtn.classList.add('sidebar-close');
+    closeBtn.innerHTML = '<i class="fas fa-times"></i>';
+    closeBtn.style.position = 'absolute';
+    closeBtn.style.top = '10px';
+    closeBtn.style.right = '10px';
+    closeBtn.style.background = 'none';
+    closeBtn.style.border = 'none';
+    closeBtn.style.fontSize = '20px';
+    closeBtn.style.color = '#666';
+    closeBtn.style.cursor = 'pointer';
+    
+    sidebar.prepend(closeBtn);
     
     closeBtn.addEventListener('click', function() {
         sidebar.classList.remove('show-mobile');
         overlay.classList.remove('active');
-        document.body.style.overflow = '';
     });
     
     // Add media query for mobile
@@ -173,13 +195,10 @@ function createMobileMenu() {
     function handleScreenChange(e) {
         if (e.matches) {
             container.classList.add('mobile-layout');
-            toggleBtn.style.display = 'block';
         } else {
             container.classList.remove('mobile-layout');
             sidebar.classList.remove('show-mobile');
             overlay.classList.remove('active');
-            document.body.style.overflow = '';
-            toggleBtn.style.display = 'none';
         }
     }
     
@@ -189,21 +208,11 @@ function createMobileMenu() {
     // Add listener for changes
     mediaQuery.addEventListener('change', handleScreenChange);
     
-    // Force visibility check on window resize
-    window.addEventListener('resize', function() {
-        if (window.innerWidth <= 768) {
-            toggleBtn.style.display = 'block';
-        } else {
-            toggleBtn.style.display = 'none';
-        }
-    });
-    
     // Handle escape key to close menu
     document.addEventListener('keydown', function(e) {
         if (e.key === 'Escape' && sidebar.classList.contains('show-mobile')) {
             sidebar.classList.remove('show-mobile');
             overlay.classList.remove('active');
-            document.body.style.overflow = '';
         }
     });
 }
@@ -220,7 +229,7 @@ document.querySelector('.search-bar input')?.addEventListener('input', function(
 const notificationIcon = document.querySelector('.notification i');
 if (notificationIcon) {
     notificationIcon.addEventListener('click', function() {
-        // Notification functionality
+        alert('You have no new notifications');
     });
 }
 

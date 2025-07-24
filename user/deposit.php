@@ -509,9 +509,6 @@ if(isset($_POST['deposit'])) {
 </div>
 
 
-<!-- Include Clipboard.js library -->
-<script src="../assets/js/clipboard/clipboard.min.js"></script>
-
 <script>
 // Crypto type selection function
 function crypto_type(value) {
@@ -527,38 +524,10 @@ function crypto_type(value) {
     }
 }
 
-// Initialize clipboard functionality
-document.addEventListener('DOMContentLoaded', function() {
-    var clipboard = new ClipboardJS('[data-clipboard-action="copy"]');
-    
-    clipboard.on('success', function(e) {
-        // Show success feedback
-        const button = e.trigger;
-        const originalText = button.innerHTML;
-        button.innerHTML = '<i class="fas fa-check"></i> Copied!';
-        button.style.backgroundColor = '#28a745';
-        
-        setTimeout(function() {
-            button.innerHTML = originalText;
-            button.style.backgroundColor = '';
-        }, 2000);
-        
-        e.clearSelection();
-    });
-    
-    clipboard.on('error', function(e) {
-        // Show error feedback
-        const button = e.trigger;
-        const originalText = button.innerHTML;
-        button.innerHTML = '<i class="fas fa-times"></i> Failed';
-        button.style.backgroundColor = '#dc3545';
-        
-        setTimeout(function() {
-            button.innerHTML = originalText;
-            button.style.backgroundColor = '';
-        }, 2000);
-    });
-});
+// Initialize clipboard functionality if available
+if (typeof ClipboardJS !== 'undefined') {
+    new ClipboardJS('[data-clipboard-action="copy"]');
+}
 </script>
 
 <?php

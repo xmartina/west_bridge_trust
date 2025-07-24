@@ -146,17 +146,6 @@ if ($row['acct_currency'] === 'USD') {
             background-color: rgba(175, 255, 26, 0.1);
             color: #afff1a;
         }
-        
-        /* Hide close button on desktop, only show on mobile */
-        .sidebar-close {
-            display: none;
-        }
-        
-        @media (max-width: 768px) {
-            .sidebar-close {
-                display: block !important;
-            }
-        }
     </style>
     <script src="script.js"></script>
 </head>
