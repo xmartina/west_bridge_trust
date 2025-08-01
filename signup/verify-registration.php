@@ -107,84 +107,112 @@ if(isset($_POST['regSubmit'])){
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Create Your Bank Account - Registration</title>
+    <title>Create Account - <?php echo WEB_TITLE; ?></title>
+    <link rel="icon" type="image/x-icon" href="/assets/images/logo/favicon.png" />
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <style>
         * {
             margin: 0;
             padding: 0;
             box-sizing: border-box;
+            font-family: 'Inter', sans-serif;
         }
 
         body {
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-            background: #ffffff;
-            color: #333;
-            line-height: 1.6;
-        }
-
-        .registration-container {
+            background-color: #f5f7fa;
+            color: #104042;
             min-height: 100vh;
             display: flex;
             align-items: center;
             justify-content: center;
-            padding: 20px;
-            background: linear-gradient(135deg, #f8f9fa 0%, #e9ecef 100%);
+            padding: 20px 0;
         }
 
-        .registration-card {
-            background: #ffffff;
-            border-radius: 20px;
-            box-shadow: 0 20px 40px rgba(16, 64, 66, 0.1);
-            overflow: hidden;
+        .signup-container {
+            display: grid;
+            grid-template-columns: 1.2fr 1fr;
+            max-width: 1400px;
             width: 100%;
-            max-width: 900px;
-            position: relative;
+            box-shadow: 0 10px 30px rgba(16, 64, 66, 0.1);
+            border-radius: 16px;
+            overflow: hidden;
+            background-color: #fff;
+            min-height: 90vh;
         }
 
-        .registration-header {
-            background: linear-gradient(135deg, #104042 0%, #0d3335 100%);
+        .signup-banner {
+            background: linear-gradient(135deg, #104042 0%, #0a2a2b 100%);
+            padding: 50px;
             color: white;
-            padding: 40px 30px;
-            text-align: center;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
             position: relative;
             overflow: hidden;
         }
 
-        .registration-header::before {
+        .signup-banner::before {
             content: '';
             position: absolute;
-            top: -50%;
-            right: -50%;
-            width: 200%;
-            height: 200%;
-            background: radial-gradient(circle, rgba(175, 255, 26, 0.1) 0%, transparent 70%);
-            animation: float 6s ease-in-out infinite;
+            top: -50px;
+            right: -50px;
+            width: 200px;
+            height: 200px;
+            border-radius: 50%;
+            background-color: rgba(175, 255, 26, 0.1);
         }
 
-        @keyframes float {
-            0%, 100% { transform: translateY(0px) rotate(0deg); }
-            50% { transform: translateY(-20px) rotate(180deg); }
+        .signup-banner::after {
+            content: '';
+            position: absolute;
+            bottom: -80px;
+            left: -80px;
+            width: 300px;
+            height: 300px;
+            border-radius: 50%;
+            background-color: rgba(255, 210, 0, 0.1);
         }
 
-        .registration-header h1 {
-            font-size: 2.5rem;
+        .banner-content {
+            position: relative;
+            z-index: 1;
+        }
+
+        .logo {
+            font-size: 28px;
             font-weight: 700;
-            margin-bottom: 10px;
-            position: relative;
-            z-index: 2;
+            margin-bottom: 40px;
+            color: #afff1a;
         }
 
-        .registration-header p {
-            font-size: 1.1rem;
+        .banner-title {
+            font-size: 32px;
+            font-weight: 700;
+            margin-bottom: 20px;
+        }
+
+        .banner-text {
+            font-size: 16px;
+            line-height: 1.6;
+            margin-bottom: 30px;
             opacity: 0.9;
-            position: relative;
-            z-index: 2;
         }
 
-        .progress-container {
-            padding: 30px;
-            background: #f8f9fa;
-            border-bottom: 1px solid #e9ecef;
+        .banner-features {
+            list-style: none;
+        }
+
+        .banner-features li {
+            display: flex;
+            align-items: center;
+            margin-bottom: 15px;
+        }
+
+        .banner-features i {
+            color: #afff1a;
+            margin-right: 10px;
+            font-size: 18px;
         }
 
         .progress-steps {
@@ -192,7 +220,7 @@ if(isset($_POST['regSubmit'])){
             justify-content: center;
             align-items: center;
             list-style: none;
-            margin: 0;
+            margin: 0 0 30px 0;
             padding: 0;
         }
 
@@ -206,7 +234,7 @@ if(isset($_POST['regSubmit'])){
             content: '';
             width: 60px;
             height: 2px;
-            background: #e9ecef;
+            background: rgba(175, 255, 26, 0.3);
             margin: 0 15px;
             transition: all 0.3s ease;
         }
@@ -217,24 +245,24 @@ if(isset($_POST['regSubmit'])){
         }
 
         .step-circle {
-            width: 50px;
-            height: 50px;
+            width: 40px;
+            height: 40px;
             border-radius: 50%;
-            background: #e9ecef;
-            color: #6c757d;
+            background: rgba(175, 255, 26, 0.3);
+            color: white;
             display: flex;
             align-items: center;
             justify-content: center;
             font-weight: 600;
-            font-size: 1.1rem;
+            font-size: 1rem;
             transition: all 0.3s ease;
             position: relative;
             z-index: 2;
         }
 
         .progress-steps li.active .step-circle {
-            background: #104042;
-            color: white;
+            background: #afff1a;
+            color: #104042;
             transform: scale(1.1);
         }
 
@@ -243,8 +271,28 @@ if(isset($_POST['regSubmit'])){
             color: #104042;
         }
 
-        .form-container {
-            padding: 40px;
+        .signup-form-container {
+            padding: 50px;
+            display: flex;
+            flex-direction: column;
+            justify-content: flex-start;
+            overflow-y: auto;
+            max-height: 90vh;
+        }
+
+        .form-title {
+            font-size: 24px;
+            font-weight: 700;
+            margin-bottom: 10px;
+            color: #104042;
+            text-align: center;
+        }
+
+        .form-subtitle {
+            font-size: 14px;
+            color: rgba(16, 64, 66, 0.7);
+            margin-bottom: 30px;
+            text-align: center;
         }
 
         .form-step {
@@ -262,10 +310,10 @@ if(isset($_POST['regSubmit'])){
         }
 
         .step-title {
-            font-size: 1.8rem;
+            font-size: 20px;
             font-weight: 600;
             color: #104042;
-            margin-bottom: 30px;
+            margin-bottom: 25px;
             text-align: center;
         }
 
@@ -278,71 +326,45 @@ if(isset($_POST['regSubmit'])){
 
         .form-group {
             position: relative;
-            margin-bottom: 25px;
+            margin-bottom: 20px;
         }
 
         .form-group.full-width {
             grid-column: 1 / -1;
         }
 
-        .form-control {
+        .form-group label {
+            display: block;
+            margin-bottom: 8px;
+            font-weight: 500;
+            color: #104042;
+        }
+
+        .form-group input,
+        .form-group select {
             width: 100%;
-            padding: 15px 20px;
-            border: 2px solid #e9ecef;
-            border-radius: 12px;
-            font-size: 1rem;
+            padding: 12px 15px;
+            border: 1px solid rgba(16, 64, 66, 0.2);
+            border-radius: 8px;
+            background-color: rgba(16, 64, 66, 0.02);
+            color: #104042;
+            font-size: 15px;
             transition: all 0.3s ease;
-            background: #ffffff;
-            outline: none;
         }
 
-        .form-control:focus {
+        .form-group input:focus,
+        .form-group select:focus {
             border-color: #104042;
-            box-shadow: 0 0 0 3px rgba(16, 64, 66, 0.1);
-        }
-
-        .form-control:focus + .form-label,
-        .form-control:not(:placeholder-shown) + .form-label {
-            transform: translateY(-35px) scale(0.85);
-            color: #104042;
-            background: white;
-            padding: 0 8px;
-        }
-
-        .form-label {
-            position: absolute;
-            left: 20px;
-            top: 15px;
-            color: #6c757d;
-            font-size: 1rem;
-            transition: all 0.3s ease;
-            pointer-events: none;
-            background: transparent;
-        }
-
-        select.form-control {
-            cursor: pointer;
-        }
-
-        select.form-control + .form-label {
-            transform: translateY(-35px) scale(0.85);
-            color: #104042;
-            background: white;
-            padding: 0 8px;
-        }
-
-        .password-field {
-            position: relative;
+            box-shadow: 0 0 0 2px rgba(16, 64, 66, 0.1);
+            outline: none;
         }
 
         .password-toggle {
             position: absolute;
             right: 15px;
-            top: 50%;
-            transform: translateY(-50%);
+            top: 45px;
             cursor: pointer;
-            color: #6c757d;
-            transition: color 0.3s ease;
+            color: rgba(16, 64, 66, 0.5);
         }
 
         .password-toggle:hover {
@@ -353,17 +375,17 @@ if(isset($_POST['regSubmit'])){
             display: flex;
             justify-content: space-between;
             align-items: center;
-            margin-top: 40px;
-            padding-top: 30px;
-            border-top: 1px solid #e9ecef;
+            margin-top: 30px;
+            padding-top: 20px;
+            border-top: 1px solid rgba(16, 64, 66, 0.1);
         }
 
         .btn {
-            padding: 12px 30px;
+            padding: 12px 25px;
             border: none;
-            border-radius: 25px;
-            font-size: 1rem;
+            border-radius: 8px;
             font-weight: 600;
+            font-size: 16px;
             cursor: pointer;
             transition: all 0.3s ease;
             text-decoration: none;
@@ -373,41 +395,41 @@ if(isset($_POST['regSubmit'])){
         }
 
         .btn-primary {
-            background: linear-gradient(135deg, #104042 0%, #0d3335 100%);
-            color: white;
+            background-color: #104042;
+            color: #fff;
         }
 
         .btn-primary:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 8px 25px rgba(16, 64, 66, 0.3);
+            background-color: #165e61;
+            transform: translateY(-1px);
         }
 
         .btn-secondary {
-            background: #f8f9fa;
-            color: #6c757d;
-            border: 2px solid #e9ecef;
+            background-color: rgba(16, 64, 66, 0.1);
+            color: #104042;
+            border: 1px solid rgba(16, 64, 66, 0.2);
         }
 
         .btn-secondary:hover {
-            background: #e9ecef;
-            color: #495057;
+            background-color: rgba(16, 64, 66, 0.15);
         }
 
         .btn-success {
-            background: linear-gradient(135deg, #afff1a 0%, #9ee619 100%);
+            background-color: #afff1a;
             color: #104042;
             font-weight: 700;
         }
 
         .btn-success:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 8px 25px rgba(175, 255, 26, 0.4);
+            background-color: #9ee619;
+            transform: translateY(-1px);
         }
 
         .login-link {
             text-align: center;
             margin-top: 20px;
-            color: #6c757d;
+            color: rgba(16, 64, 66, 0.7);
+            font-size: 14px;
         }
 
         .login-link a {
@@ -438,14 +460,14 @@ if(isset($_POST['regSubmit'])){
             display: flex;
             align-items: center;
             justify-content: center;
-            padding: 40px 20px;
-            border: 2px dashed #e9ecef;
-            border-radius: 12px;
-            background: #f8f9fa;
+            padding: 30px 20px;
+            border: 2px dashed rgba(16, 64, 66, 0.2);
+            border-radius: 8px;
+            background: rgba(16, 64, 66, 0.02);
             cursor: pointer;
             transition: all 0.3s ease;
             text-align: center;
-            color: #6c757d;
+            color: rgba(16, 64, 66, 0.7);
         }
 
         .file-upload-label:hover {
@@ -455,34 +477,17 @@ if(isset($_POST['regSubmit'])){
         }
 
         .upload-icon {
-            font-size: 2rem;
+            font-size: 1.5rem;
             margin-bottom: 10px;
         }
 
-        @media (max-width: 768px) {
-            .registration-header h1 {
-                font-size: 2rem;
-            }
-
-            .form-row {
-                grid-template-columns: 1fr;
-                gap: 15px;
-            }
-
-            .form-container {
-                padding: 30px 20px;
-            }
-
-            .progress-steps li:not(:last-child)::after {
-                width: 30px;
-                margin: 0 10px;
-            }
-
-            .step-circle {
-                width: 40px;
-                height: 40px;
-                font-size: 1rem;
-            }
+        .section-title {
+            color: #104042;
+            margin: 25px 0 15px 0;
+            font-size: 1.1rem;
+            font-weight: 600;
+            border-bottom: 1px solid rgba(16, 64, 66, 0.1);
+            padding-bottom: 5px;
         }
 
         .error-message {
@@ -497,19 +502,58 @@ if(isset($_POST['regSubmit'])){
         }
 
         .form-control.error:focus {
-            box-shadow: 0 0 0 3px rgba(220, 53, 69, 0.1);
+            box-shadow: 0 0 0 2px rgba(220, 53, 69, 0.1);
+        }
+
+        @media (max-width: 992px) {
+            .signup-container {
+                grid-template-columns: 1fr;
+                max-width: 600px;
+                margin: 20px;
+            }
+
+            .signup-banner {
+                display: none;
+            }
+
+            .form-row {
+                grid-template-columns: 1fr;
+                gap: 15px;
+            }
+
+            .signup-form-container {
+                padding: 30px 20px;
+            }
+        }
+
+        @media (max-width: 576px) {
+            .signup-form-container {
+                padding: 20px 15px;
+            }
+
+            .step-circle {
+                width: 35px;
+                height: 35px;
+                font-size: 0.9rem;
+            }
+
+            .progress-steps li:not(:last-child)::after {
+                width: 30px;
+                margin: 0 10px;
+            }
         }
     </style>
 </head>
 <body>
-    <div class="registration-container">
-        <div class="registration-card">
-            <div class="registration-header">
-                <h1>Create Your Bank Account</h1>
-                <p>Join thousands of satisfied customers worldwide</p>
-            </div>
+    <div class="signup-container">
+        <!-- Signup Banner -->
+        <div class="signup-banner">
+            <div class="banner-content">
+                <div class="logo"><?php echo WEB_TITLE; ?></div>
+                <h1 class="banner-title">Join <?php echo WEB_TITLE; ?></h1>
+                <p class="banner-text">Create your secure banking account and start managing your finances with confidence. Join thousands of satisfied customers worldwide.</p>
 
-            <div class="progress-container">
+                <!-- Progress Steps in Banner -->
                 <ul class="progress-steps">
                     <li class="active" data-step="1">
                         <div class="step-circle">1</div>
@@ -520,439 +564,217 @@ if(isset($_POST['regSubmit'])){
                     <li data-step="3">
                         <div class="step-circle">3</div>
                     </li>
-                    <li data-step="4">
-                        <div class="step-circle">✓</div>
-                    </li>
+                </ul>
+
+                <ul class="banner-features">
+                    <li><i class="fas fa-shield-alt"></i> Secure and encrypted registration</li>
+                    <li><i class="fas fa-user-check"></i> Quick account verification</li>
+                    <li><i class="fas fa-mobile-alt"></i> Access from any device</li>
+                    <li><i class="fas fa-headset"></i> 24/7 customer support</li>
                 </ul>
             </div>
+        </div>
 
-            <div class="form-container">
-                <form action="" method="post" enctype="multipart/form-data" id="registrationForm">
-                    <!-- Step 1: Personal Information -->
-                    <div class="form-step active" data-step="1">
-                        <h2 class="step-title">Personal Information</h2>
-                        
-                        <div class="form-row">
-                            <div class="form-group">
-                                <input type="text" class="form-control" name="firstname" placeholder=" " required>
-                                <label class="form-label">First Name *</label>
-                                <div class="error-message">Please enter your first name</div>
-                            </div>
-                            <div class="form-group">
-                                <input type="text" class="form-control" name="lastname" placeholder=" " required>
-                                <label class="form-label">Last Name *</label>
-                                <div class="error-message">Please enter your last name</div>
-                            </div>
+        <!-- Signup Form -->
+        <div class="signup-form-container">
+            <h2 class="form-title">Create Your Account</h2>
+            <p class="form-subtitle">Fill in your details to get started</p>
+
+            <form method="POST" enctype="multipart/form-data" id="registrationForm">
+                <!-- Step 1: Personal Information -->
+                <div class="form-step active" data-step="1">
+                    <h3 class="step-title">Personal Information</h3>
+
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label for="firstname">First Name *</label>
+                            <input type="text" id="firstname" name="firstname" placeholder="Enter your first name" required>
+                            <div class="error-message">Please enter your first name</div>
                         </div>
-
-                        <div class="form-row">
-                            <div class="form-group">
-                                <select class="form-control" name="acct_currency" required>
-                                    <option value="">Select Currency Type</option>
-                                    <option value="USD">USD</option>
-                                    <option value="Euro">Euro</option>
-                                    <option value="Yuan">Yuan</option>
-                                    <option value="GBP">GBP</option>
-                                    <option value="CAD">CAD</option>
-                                </select>
-                                <label class="form-label">Currency Type *</label>
-                                <div class="error-message">Please select a currency</div>
-                            </div>
-                            <div class="form-group">
-                                <select class="form-control" name="acct_type" required>
-                                    <option value="">Select Account Type</option>
-                                    <option value="Savings">Savings Account</option>
-                                    <option value="Current">Current Account</option>
-                                </select>
-                                <label class="form-label">Account Type *</label>
-                                <div class="error-message">Please select an account type</div>
-                            </div>
-                        </div>
-
-                        <div class="form-row">
-                            <div class="form-group">
-                                <input type="text" class="form-control" name="occupation" placeholder=" ">
-                                <label class="form-label">Occupation</label>
-                            </div>
-                            <div class="form-group">
-                                <select class="form-control" name="country" required>
-                                    <option value="">Select Country</option>
-                                    <option value="Afghanistan">Afghanistan</option>
-                                    <option value="Albania">Albania</option>
-                                    <option value="Algeria">Algeria</option>
-                                    <option value="American Samoa">American Samoa</option>
-                                    <option value="Andorra">Andorra</option>
-                                    <option value="Angola">Angola</option>
-                                    <option value="Anguilla">Anguilla</option>
-                                    <option value="Antigua & Barbuda">Antigua & Barbuda</option>
-                                    <option value="Argentina">Argentina</option>
-                                    <option value="Armenia">Armenia</option>
-                                    <option value="Aruba">Aruba</option>
-                                    <option value="Australia">Australia</option>
-                                    <option value="Austria">Austria</option>
-                                    <option value="Azerbaijan">Azerbaijan</option>
-                                    <option value="Bahamas">Bahamas</option>
-                                    <option value="Bahrain">Bahrain</option>
-                                    <option value="Bangladesh">Bangladesh</option>
-                                    <option value="Barbados">Barbados</option>
-                                    <option value="Belarus">Belarus</option>
-                                    <option value="Belgium">Belgium</option>
-                                    <option value="Belize">Belize</option>
-                                    <option value="Benin">Benin</option>
-                                    <option value="Bermuda">Bermuda</option>
-                                    <option value="Bhutan">Bhutan</option>
-                                    <option value="Bolivia">Bolivia</option>
-                                    <option value="Bonaire">Bonaire</option>
-                                    <option value="Bosnia & Herzegovina">Bosnia & Herzegovina</option>
-                                    <option value="Botswana">Botswana</option>
-                                    <option value="Brazil">Brazil</option>
-                                    <option value="British Indian Ocean Ter">British Indian Ocean Ter</option>
-                                    <option value="Brunei">Brunei</option>
-                                    <option value="Bulgaria">Bulgaria</option>
-                                    <option value="Burkina Faso">Burkina Faso</option>
-                                    <option value="Burundi">Burundi</option>
-                                    <option value="Cambodia">Cambodia</option>
-                                    <option value="Cameroon">Cameroon</option>
-                                    <option value="Canada">Canada</option>
-                                    <option value="Canary Islands">Canary Islands</option>
-                                    <option value="Cape Verde">Cape Verde</option>
-                                    <option value="Cayman Islands">Cayman Islands</option>
-                                    <option value="Central African Republic">Central African Republic</option>
-                                    <option value="Chad">Chad</option>
-                                    <option value="Channel Islands">Channel Islands</option>
-                                    <option value="Chile">Chile</option>
-                                    <option value="China">China</option>
-                                    <option value="Christmas Island">Christmas Island</option>
-                                    <option value="Cocos Island">Cocos Island</option>
-                                    <option value="Colombia">Colombia</option>
-                                    <option value="Comoros">Comoros</option>
-                                    <option value="Congo">Congo</option>
-                                    <option value="Cook Islands">Cook Islands</option>
-                                    <option value="Costa Rica">Costa Rica</option>
-                                    <option value="Cote DIvoire">Cote DIvoire</option>
-                                    <option value="Croatia">Croatia</option>
-                                    <option value="Cuba">Cuba</option>
-                                    <option value="Curacao">Curacao</option>
-                                    <option value="Cyprus">Cyprus</option>
-                                    <option value="Czech Republic">Czech Republic</option>
-                                    <option value="Denmark">Denmark</option>
-                                    <option value="Djibouti">Djibouti</option>
-                                    <option value="Dominica">Dominica</option>
-                                    <option value="Dominican Republic">Dominican Republic</option>
-                                    <option value="East Timor">East Timor</option>
-                                    <option value="Ecuador">Ecuador</option>
-                                    <option value="Egypt">Egypt</option>
-                                    <option value="El Salvador">El Salvador</option>
-                                    <option value="Equatorial Guinea">Equatorial Guinea</option>
-                                    <option value="Eritrea">Eritrea</option>
-                                    <option value="Estonia">Estonia</option>
-                                    <option value="Ethiopia">Ethiopia</option>
-                                    <option value="Falkland Islands">Falkland Islands</option>
-                                    <option value="Faroe Islands">Faroe Islands</option>
-                                    <option value="Fiji">Fiji</option>
-                                    <option value="Finland">Finland</option>
-                                    <option value="France">France</option>
-                                    <option value="French Guiana">French Guiana</option>
-                                    <option value="French Polynesia">French Polynesia</option>
-                                    <option value="French Southern Ter">French Southern Ter</option>
-                                    <option value="Gabon">Gabon</option>
-                                    <option value="Gambia">Gambia</option>
-                                    <option value="Georgia">Georgia</option>
-                                    <option value="Germany">Germany</option>
-                                    <option value="Ghana">Ghana</option>
-                                    <option value="Gibraltar">Gibraltar</option>
-                                    <option value="Great Britain">Great Britain</option>
-                                    <option value="Greece">Greece</option>
-                                    <option value="Greenland">Greenland</option>
-                                    <option value="Grenada">Grenada</option>
-                                    <option value="Guadeloupe">Guadeloupe</option>
-                                    <option value="Guam">Guam</option>
-                                    <option value="Guatemala">Guatemala</option>
-                                    <option value="Guinea">Guinea</option>
-                                    <option value="Guyana">Guyana</option>
-                                    <option value="Haiti">Haiti</option>
-                                    <option value="Hawaii">Hawaii</option>
-                                    <option value="Honduras">Honduras</option>
-                                    <option value="Hong Kong">Hong Kong</option>
-                                    <option value="Hungary">Hungary</option>
-                                    <option value="Iceland">Iceland</option>
-                                    <option value="Indonesia">Indonesia</option>
-                                    <option value="India">India</option>
-                                    <option value="Iran">Iran</option>
-                                    <option value="Iraq">Iraq</option>
-                                    <option value="Ireland">Ireland</option>
-                                    <option value="Isle of Man">Isle of Man</option>
-                                    <option value="Israel">Israel</option>
-                                    <option value="Italy">Italy</option>
-                                    <option value="Jamaica">Jamaica</option>
-                                    <option value="Japan">Japan</option>
-                                    <option value="Jordan">Jordan</option>
-                                    <option value="Kazakhstan">Kazakhstan</option>
-                                    <option value="Kenya">Kenya</option>
-                                    <option value="Kiribati">Kiribati</option>
-                                    <option value="Korea North">Korea North</option>
-                                    <option value="Korea South">Korea South</option>
-                                    <option value="Kuwait">Kuwait</option>
-                                    <option value="Kyrgyzstan">Kyrgyzstan</option>
-                                    <option value="Laos">Laos</option>
-                                    <option value="Latvia">Latvia</option>
-                                    <option value="Lebanon">Lebanon</option>
-                                    <option value="Lesotho">Lesotho</option>
-                                    <option value="Liberia">Liberia</option>
-                                    <option value="Libya">Libya</option>
-                                    <option value="Liechtenstein">Liechtenstein</option>
-                                    <option value="Lithuania">Lithuania</option>
-                                    <option value="Luxembourg">Luxembourg</option>
-                                    <option value="Macau">Macau</option>
-                                    <option value="Macedonia">Macedonia</option>
-                                    <option value="Madagascar">Madagascar</option>
-                                    <option value="Malaysia">Malaysia</option>
-                                    <option value="Malawi">Malawi</option>
-                                    <option value="Maldives">Maldives</option>
-                                    <option value="Mali">Mali</option>
-                                    <option value="Malta">Malta</option>
-                                    <option value="Marshall Islands">Marshall Islands</option>
-                                    <option value="Martinique">Martinique</option>
-                                    <option value="Mauritania">Mauritania</option>
-                                    <option value="Mauritius">Mauritius</option>
-                                    <option value="Mayotte">Mayotte</option>
-                                    <option value="Mexico">Mexico</option>
-                                    <option value="Midway Islands">Midway Islands</option>
-                                    <option value="Moldova">Moldova</option>
-                                    <option value="Monaco">Monaco</option>
-                                    <option value="Mongolia">Mongolia</option>
-                                    <option value="Montserrat">Montserrat</option>
-                                    <option value="Morocco">Morocco</option>
-                                    <option value="Mozambique">Mozambique</option>
-                                    <option value="Myanmar">Myanmar</option>
-                                    <option value="Namibia">Namibia</option>
-                                    <option value="Nauru">Nauru</option>
-                                    <option value="Nepal">Nepal</option>
-                                    <option value="Netherland Antilles">Netherland Antilles</option>
-                                    <option value="Netherlands">Netherlands (Holland, Europe)</option>
-                                    <option value="Nevis">Nevis</option>
-                                    <option value="New Caledonia">New Caledonia</option>
-                                    <option value="New Zealand">New Zealand</option>
-                                    <option value="Nicaragua">Nicaragua</option>
-                                    <option value="Niger">Niger</option>
-                                    <option value="Nigeria">Nigeria</option>
-                                    <option value="Niue">Niue</option>
-                                    <option value="Norfolk Island">Norfolk Island</option>
-                                    <option value="Norway">Norway</option>
-                                    <option value="Oman">Oman</option>
-                                    <option value="Pakistan">Pakistan</option>
-                                    <option value="Palau Island">Palau Island</option>
-                                    <option value="Palestine">Palestine</option>
-                                    <option value="Panama">Panama</option>
-                                    <option value="Papua New Guinea">Papua New Guinea</option>
-                                    <option value="Paraguay">Paraguay</option>
-                                    <option value="Peru">Peru</option>
-                                    <option value="Philippines">Philippines</option>
-                                    <option value="Pitcairn Island">Pitcairn Island</option>
-                                    <option value="Poland">Poland</option>
-                                    <option value="Portugal">Portugal</option>
-                                    <option value="Puerto Rico">Puerto Rico</option>
-                                    <option value="Qatar">Qatar</option>
-                                    <option value="Republic of Montenegro">Republic of Montenegro</option>
-                                    <option value="Republic of Serbia">Republic of Serbia</option>
-                                    <option value="Reunion">Reunion</option>
-                                    <option value="Romania">Romania</option>
-                                    <option value="Russia">Russia</option>
-                                    <option value="Rwanda">Rwanda</option>
-                                    <option value="St Barthelemy">St Barthelemy</option>
-                                    <option value="St Eustatius">St Eustatius</option>
-                                    <option value="St Helena">St Helena</option>
-                                    <option value="St Kitts-Nevis">St Kitts-Nevis</option>
-                                    <option value="St Lucia">St Lucia</option>
-                                    <option value="St Maarten">St Maarten</option>
-                                    <option value="St Pierre & Miquelon">St Pierre & Miquelon</option>
-                                    <option value="St Vincent & Grenadines">St Vincent & Grenadines</option>
-                                    <option value="Saipan">Saipan</option>
-                                    <option value="Samoa">Samoa</option>
-                                    <option value="Samoa American">Samoa American</option>
-                                    <option value="San Marino">San Marino</option>
-                                    <option value="Sao Tome & Principe">Sao Tome & Principe</option>
-                                    <option value="Saudi Arabia">Saudi Arabia</option>
-                                    <option value="Senegal">Senegal</option>
-                                    <option value="Seychelles">Seychelles</option>
-                                    <option value="Sierra Leone">Sierra Leone</option>
-                                    <option value="Singapore">Singapore</option>
-                                    <option value="Slovakia">Slovakia</option>
-                                    <option value="Slovenia">Slovenia</option>
-                                    <option value="Solomon Islands">Solomon Islands</option>
-                                    <option value="Somalia">Somalia</option>
-                                    <option value="South Africa">South Africa</option>
-                                    <option value="Spain">Spain</option>
-                                    <option value="Sri Lanka">Sri Lanka</option>
-                                    <option value="Sudan">Sudan</option>
-                                    <option value="Suriname">Suriname</option>
-                                    <option value="Swaziland">Swaziland</option>
-                                    <option value="Sweden">Sweden</option>
-                                    <option value="Switzerland">Switzerland</option>
-                                    <option value="Syria">Syria</option>
-                                    <option value="Tahiti">Tahiti</option>
-                                    <option value="Taiwan">Taiwan</option>
-                                    <option value="Tajikistan">Tajikistan</option>
-                                    <option value="Tanzania">Tanzania</option>
-                                    <option value="Thailand">Thailand</option>
-                                    <option value="Togo">Togo</option>
-                                    <option value="Tokelau">Tokelau</option>
-                                    <option value="Tonga">Tonga</option>
-                                    <option value="Trinidad & Tobago">Trinidad & Tobago</option>
-                                    <option value="Tunisia">Tunisia</option>
-                                    <option value="Turkey">Turkey</option>
-                                    <option value="Turkmenistan">Turkmenistan</option>
-                                    <option value="Turks & Caicos Is">Turks & Caicos Is</option>
-                                    <option value="Tuvalu">Tuvalu</option>
-                                    <option value="Uganda">Uganda</option>
-                                    <option value="United Kingdom">United Kingdom</option>
-                                    <option value="Ukraine">Ukraine</option>
-                                    <option value="United Arab Emirates">United Arab Emirates</option>
-                                    <option value="United States of America">United States of America</option>
-                                    <option value="Uruguay">Uruguay</option>
-                                    <option value="Uzbekistan">Uzbekistan</option>
-                                    <option value="Vanuatu">Vanuatu</option>
-                                    <option value="Vatican City State">Vatican City State</option>
-                                    <option value="Venezuela">Venezuela</option>
-                                    <option value="Vietnam">Vietnam</option>
-                                    <option value="Virgin Islands (Brit)">Virgin Islands (Brit)</option>
-                                    <option value="Virgin Islands (USA)">Virgin Islands (USA)</option>
-                                    <option value="Wake Island">Wake Island</option>
-                                    <option value="Wallis & Futana Is">Wallis & Futana Is</option>
-                                    <option value="Yemen">Yemen</option>
-                                    <option value="Zaire">Zaire</option>
-                                    <option value="Zambia">Zambia</option>
-                                    <option value="Zimbabwe">Zimbabwe</option>
-                                </select>
-                                <label class="form-label">Country *</label>
-                                <div class="error-message">Please select your country</div>
-                            </div>
-                        </div>
-
-                        <h3 style="color: #104042; margin: 30px 0 20px 0; font-size: 1.3rem;">Residential Address</h3>
-                        
-                        <div class="form-group full-width">
-                            <input type="text" class="form-control" name="address" placeholder=" " required>
-                            <label class="form-label">Street Address *</label>
-                            <div class="error-message">Please enter your street address</div>
-                        </div>
-
-                        <div class="form-row">
-                            <div class="form-group">
-                                <input type="text" class="form-control" name="suite" placeholder=" ">
-                                <label class="form-label">Apt/Suite/Unit</label>
-                            </div>
-                            <div class="form-group">
-                                <input type="text" class="form-control" name="city" placeholder=" " required>
-                                <label class="form-label">City *</label>
-                                <div class="error-message">Please enter your city</div>
-                            </div>
-                        </div>
-
-                        <div class="form-row">
-                            <div class="form-group">
-                                <input type="text" class="form-control" name="state" placeholder=" " required>
-                                <label class="form-label">State *</label>
-                                <div class="error-message">Please enter your state</div>
-                            </div>
-                            <div class="form-group">
-                                <input type="text" class="form-control" name="zipcode" placeholder=" " required>
-                                <label class="form-label">Zip Code *</label>
-                                <div class="error-message">Please enter your zip code</div>
-                            </div>
-                        </div>
-
-                        <input name="radio-name" type="hidden" value="male">
-
-                        <div class="form-navigation">
-                            <div class="login-link">
-                                Already have an account? <a href="../login">Login here</a>
-                            </div>
-                            <button type="button" class="btn btn-primary next-step">
-                                Next Step →
-                            </button>
+                        <div class="form-group">
+                            <label for="lastname">Last Name *</label>
+                            <input type="text" id="lastname" name="lastname" placeholder="Enter your last name" required>
+                            <div class="error-message">Please enter your last name</div>
                         </div>
                     </div>
 
-                    <!-- Step 2: Login Credentials -->
-                    <div class="form-step" data-step="2">
-                        <h2 class="step-title">Create Your Login</h2>
-                        
-                        <div class="form-group full-width">
-                            <input type="email" class="form-control" name="acct_email" placeholder=" " required>
-                            <label class="form-label">Email Address *</label>
-                            <div class="error-message">Please enter a valid email address</div>
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label for="acct_currency">Currency Type *</label>
+                            <select id="acct_currency" name="acct_currency" required>
+                                <option value="">Select Currency Type</option>
+                                <option value="USD">USD</option>
+                                <option value="Euro">Euro</option>
+                                <option value="Yuan">Yuan</option>
+                                <option value="GBP">GBP</option>
+                                <option value="CAD">CAD</option>
+                            </select>
+                            <div class="error-message">Please select a currency</div>
                         </div>
-
-                        <div class="form-row">
-                            <div class="form-group">
-                                <input type="tel" class="form-control" name="phoneNumber" placeholder=" " required>
-                                <label class="form-label">Phone Number *</label>
-                                <div class="error-message">Please enter your phone number</div>
-                            </div>
-                            <div class="form-group">
-                                <input type="text" class="form-control" name="username" placeholder=" " required>
-                                <label class="form-label">Username *</label>
-                                <div class="error-message">Please enter a username</div>
-                            </div>
-                        </div>
-
-                        <div class="form-row">
-                            <div class="form-group password-field">
-                                <input type="password" class="form-control" name="acct_password" placeholder=" " required>
-                                <label class="form-label">Password *</label>
-                                <div class="password-toggle" onclick="togglePassword(this)">👁️</div>
-                                <div class="error-message">Please enter a password</div>
-                            </div>
-                            <div class="form-group password-field">
-                                <input type="password" class="form-control" name="confirmPassword" placeholder=" " required>
-                                <label class="form-label">Confirm Password *</label>
-                                <div class="password-toggle" onclick="togglePassword(this)">👁️</div>
-                                <div class="error-message">Passwords do not match</div>
-                            </div>
-                        </div>
-
-                        <input type="hidden" name="acct_pin" value="1234">
-
-                        <div class="form-navigation">
-                            <button type="button" class="btn btn-secondary prev-step">
-                                ← Previous
-                            </button>
-                            <button type="button" class="btn btn-primary next-step">
-                                Next Step →
-                            </button>
+                        <div class="form-group">
+                            <label for="acct_type">Account Type *</label>
+                            <select id="acct_type" name="acct_type" required>
+                                <option value="">Select Account Type</option>
+                                <option value="Savings">Savings Account</option>
+                                <option value="Current">Current Account</option>
+                            </select>
+                            <div class="error-message">Please select an account type</div>
                         </div>
                     </div>
 
-                    <!-- Step 3: Profile Image -->
-                    <div class="form-step" data-step="3">
-                        <h2 class="step-title">Upload Profile Image</h2>
-                        
-                        <div class="form-group full-width">
-                            <div class="file-upload">
-                                <input type="file" name="profile_pic" accept="image/*" required>
-                                <div class="file-upload-label">
-                                    <div>
-                                        <div class="upload-icon">📷</div>
-                                        <div><strong>Click to upload</strong> or drag and drop</div>
-                                        <div style="font-size: 0.9rem; margin-top: 5px;">PNG, JPG, JPEG up to 10MB</div>
-                                    </div>
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label for="occupation">Occupation</label>
+                            <input type="text" id="occupation" name="occupation" placeholder="Enter your occupation">
+                        </div>
+                        <div class="form-group">
+                            <label for="country">Country *</label>
+                            <select id="country" name="country" required>
+                                <option value="">Select Country</option>
+                                <option value="United States of America">United States of America</option>
+                                <option value="Canada">Canada</option>
+                                <option value="United Kingdom">United Kingdom</option>
+                                <option value="Australia">Australia</option>
+                                <option value="Germany">Germany</option>
+                                <option value="France">France</option>
+                                <option value="Japan">Japan</option>
+                                <option value="China">China</option>
+                                <option value="India">India</option>
+                                <option value="Brazil">Brazil</option>
+                                <!-- Add more countries as needed -->
+                            </select>
+                            <div class="error-message">Please select your country</div>
+                        </div>
+                    </div>
+
+                    <h4 class="section-title">Residential Address</h4>
+
+                    <div class="form-group full-width">
+                        <label for="address">Street Address *</label>
+                        <input type="text" id="address" name="address" placeholder="Enter your street address" required>
+                        <div class="error-message">Please enter your street address</div>
+                    </div>
+
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label for="suite">Apt/Suite/Unit</label>
+                            <input type="text" id="suite" name="suite" placeholder="Apt/Suite/Unit">
+                        </div>
+                        <div class="form-group">
+                            <label for="city">City *</label>
+                            <input type="text" id="city" name="city" placeholder="Enter your city" required>
+                            <div class="error-message">Please enter your city</div>
+                        </div>
+                    </div>
+
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label for="state">State *</label>
+                            <input type="text" id="state" name="state" placeholder="Enter your state" required>
+                            <div class="error-message">Please enter your state</div>
+                        </div>
+                        <div class="form-group">
+                            <label for="zipcode">Zip Code *</label>
+                            <input type="text" id="zipcode" name="zipcode" placeholder="Enter your zip code" required>
+                            <div class="error-message">Please enter your zip code</div>
+                        </div>
+                    </div>
+
+                    <input name="radio-name" type="hidden" value="male">
+
+                    <div class="form-navigation">
+                        <div class="login-link">
+                            Already have an account? <a href="../login.php">Login here</a>
+                        </div>
+                        <button type="button" class="btn btn-primary next-step">
+                            Next Step <i class="fas fa-arrow-right"></i>
+                        </button>
+                    </div>
+                </div>
+
+                <!-- Step 2: Login Credentials -->
+                <div class="form-step" data-step="2">
+                    <h3 class="step-title">Create Your Login</h3>
+
+                    <div class="form-group full-width">
+                        <label for="acct_email">Email Address *</label>
+                        <input type="email" id="acct_email" name="acct_email" placeholder="Enter your email address" required>
+                        <div class="error-message">Please enter a valid email address</div>
+                    </div>
+
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label for="phoneNumber">Phone Number *</label>
+                            <input type="tel" id="phoneNumber" name="phoneNumber" placeholder="Enter your phone number" required>
+                            <div class="error-message">Please enter your phone number</div>
+                        </div>
+                        <div class="form-group">
+                            <label for="username">Username *</label>
+                            <input type="text" id="username" name="username" placeholder="Choose a username" required>
+                            <div class="error-message">Please enter a username</div>
+                        </div>
+                    </div>
+
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label for="acct_password">Password *</label>
+                            <input type="password" id="acct_password" name="acct_password" placeholder="Create a password" required>
+                            <div class="password-toggle" onclick="togglePassword('acct_password')">
+                                <i class="far fa-eye"></i>
+                            </div>
+                            <div class="error-message">Please enter a password</div>
+                        </div>
+                        <div class="form-group">
+                            <label for="confirmPassword">Confirm Password *</label>
+                            <input type="password" id="confirmPassword" name="confirmPassword" placeholder="Confirm your password" required>
+                            <div class="password-toggle" onclick="togglePassword('confirmPassword')">
+                                <i class="far fa-eye"></i>
+                            </div>
+                            <div class="error-message">Passwords do not match</div>
+                        </div>
+                    </div>
+
+                    <input type="hidden" name="acct_pin" value="1234">
+
+                    <div class="form-navigation">
+                        <button type="button" class="btn btn-secondary prev-step">
+                            <i class="fas fa-arrow-left"></i> Previous
+                        </button>
+                        <button type="button" class="btn btn-primary next-step">
+                            Next Step <i class="fas fa-arrow-right"></i>
+                        </button>
+                    </div>
+                </div>
+
+                <!-- Step 3: Profile Image -->
+                <div class="form-step" data-step="3">
+                    <h3 class="step-title">Upload Profile Image</h3>
+
+                    <div class="form-group full-width">
+                        <label>Profile Image *</label>
+                        <div class="file-upload">
+                            <input type="file" name="profile_pic" accept="image/*" required>
+                            <div class="file-upload-label">
+                                <div>
+                                    <div class="upload-icon"><i class="fas fa-camera"></i></div>
+                                    <div><strong>Click to upload</strong> or drag and drop</div>
+                                    <div style="font-size: 0.9rem; margin-top: 5px; opacity: 0.7;">PNG, JPG, JPEG up to 10MB</div>
                                 </div>
                             </div>
-                            <div class="error-message">Please upload a profile image</div>
                         </div>
-
-                        <div class="form-navigation">
-                            <button type="button" class="btn btn-secondary prev-step">
-                                ← Previous
-                            </button>
-                            <button type="submit" name="regSubmit" class="btn btn-success">
-                                Create Account ✓
-                            </button>
-                        </div>
+                        <div class="error-message">Please upload a profile image</div>
                     </div>
-                </form>
-            </div>
+
+                    <div class="form-navigation">
+                        <button type="button" class="btn btn-secondary prev-step">
+                            <i class="fas fa-arrow-left"></i> Previous
+                        </button>
+                        <button type="submit" name="regSubmit" class="btn btn-success">
+                            <i class="fas fa-check"></i> Create Account
+                        </button>
+                    </div>
+                </div>
+            </form>
         </div>
     </div>
 
@@ -965,7 +787,7 @@ if(isset($_POST['regSubmit'])){
         document.addEventListener('DOMContentLoaded', function() {
             updateProgressSteps();
             showStep(currentStep);
-            
+
             // Next step buttons
             document.querySelectorAll('.next-step').forEach(btn => {
                 btn.addEventListener('click', function() {
@@ -997,20 +819,19 @@ if(isset($_POST['regSubmit'])){
                         const label = this.nextElementSibling;
                         label.innerHTML = `
                             <div>
-                                <div class="upload-icon">✓</div>
+                                <div class="upload-icon"><i class="fas fa-check-circle" style="color: #afff1a;"></i></div>
                                 <div><strong>${file.name}</strong></div>
-                                <div style="font-size: 0.9rem; margin-top: 5px;">File selected successfully</div>
+                                <div style="font-size: 0.9rem; margin-top: 5px; color: #afff1a;">File selected successfully</div>
                             </div>
                         `;
                         label.style.borderColor = '#afff1a';
                         label.style.background = 'rgba(175, 255, 26, 0.1)';
-                        label.style.color = '#104042';
                     }
                 });
             }
 
             // Form validation on input
-            document.querySelectorAll('.form-control').forEach(input => {
+            document.querySelectorAll('input, select').forEach(input => {
                 input.addEventListener('input', function() {
                     if (this.classList.contains('error') && this.value.trim()) {
                         this.classList.remove('error');
@@ -1019,16 +840,6 @@ if(isset($_POST['regSubmit'])){
                     }
                 });
             });
-
-            // Form submission validation
-            const regForm = document.getElementById('registrationForm');
-            if (regForm) {
-                regForm.addEventListener('submit', function(e) {
-                    if (!validateStep(currentStep)) {
-                        e.preventDefault();
-                    }
-                });
-            }
         });
 
         function updateProgressSteps() {
@@ -1051,28 +862,26 @@ if(isset($_POST['regSubmit'])){
             const formSteps = document.querySelectorAll('.form-step');
             formSteps.forEach(s => {
                 s.classList.remove('active');
-                s.style.display = 'none';
             });
-            
+
             const currentStepElement = document.querySelector(`.form-step[data-step="${step}"]`);
             if (currentStepElement) {
                 currentStepElement.classList.add('active');
-                currentStepElement.style.display = 'block';
             }
-            
+
             updateProgressSteps();
         }
 
         function validateStep(step) {
             const currentStepElement = document.querySelector(`[data-step="${step}"]`);
             if (!currentStepElement) return true;
-            
+
             const requiredFields = currentStepElement.querySelectorAll('[required]');
             let isValid = true;
 
             requiredFields.forEach(field => {
                 const errorElement = field.parentElement.querySelector('.error-message');
-                
+
                 if (!field.value.trim()) {
                     field.classList.add('error');
                     if (errorElement) errorElement.style.display = 'block';
@@ -1113,17 +922,24 @@ if(isset($_POST['regSubmit'])){
         }
 
         // Password toggle functionality
-        function togglePassword(element) {
-            const input = element.previousElementSibling.previousElementSibling;
+        function togglePassword(fieldId) {
+            const input = document.getElementById(fieldId);
+            const icon = input.parentElement.querySelector('.password-toggle i');
+
             if (input.type === 'password') {
                 input.type = 'text';
-                element.textContent = '🙈';
+                icon.classList.remove('fa-eye');
+                icon.classList.add('fa-eye-slash');
             } else {
                 input.type = 'password';
-                element.textContent = '👁️';
+                icon.classList.remove('fa-eye-slash');
+                icon.classList.add('fa-eye');
             }
         }
     </script>
+
+    <!--tidio support-->
+    <?php support_plugin() ?>
 </body>
 </html>
 
