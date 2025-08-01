@@ -117,6 +117,103 @@ if ($row['acct_currency'] === 'USD') {
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <link rel="icon" type="image/x-icon" href="/assets/images/logo/favicon.png" />
     <style>
+        /* Mobile Header Styles */
+        .mobile-header {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 60px;
+            background: #1a1a1a;
+            z-index: 1001;
+            align-items: center;
+            justify-content: space-between;
+            padding: 0 15px;
+        }
+        
+        .mobile-logo img {
+            height: 35px;
+        }
+        
+        .mobile-menu-toggle {
+            background: none;
+            border: none;
+            width: 30px;
+            height: 25px;
+            position: relative;
+            cursor: pointer;
+            flex-direction: column;
+            justify-content: space-between;
+            display: flex;
+        }
+        
+        .mobile-menu-toggle span {
+            display: block;
+            height: 3px;
+            width: 100%;
+            background: #afff1a;
+            transition: all 0.3s ease;
+        }
+        
+        .mobile-menu-toggle.active span:nth-child(1) {
+            transform: rotate(45deg) translate(5px, 5px);
+        }
+        
+        .mobile-menu-toggle.active span:nth-child(2) {
+            opacity: 0;
+        }
+        
+        .mobile-menu-toggle.active span:nth-child(3) {
+            transform: rotate(-45deg) translate(7px, -6px);
+        }
+        
+        .mobile-overlay {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.5);
+            z-index: 999;
+        }
+        
+        .mobile-overlay.active {
+            display: block;
+        }
+        
+        /* Responsive Styles */
+        @media (max-width: 768px) {
+            .mobile-header {
+                display: flex;
+            }
+            
+            .container {
+                padding-top: 60px;
+            }
+            
+            .sidebar {
+                position: fixed;
+                left: -280px;
+                top: 0;
+                height: 100vh;
+                width: 280px;
+                z-index: 1000;
+                transition: left 0.3s ease;
+                overflow-y: auto;
+            }
+            
+            .sidebar.show-mobile {
+                left: 0;
+            }
+            
+            .main-content {
+                margin-left: 0;
+                width: 100%;
+            }
+        }
+
         /* Submenu styles */
         .has-submenu .submenu {
             display: none;
@@ -151,8 +248,23 @@ if ($row['acct_currency'] === 'USD') {
 </head>
 <body>
     <div class="container">
+        <!-- Mobile Header -->
+        <div class="mobile-header">
+            <div class="mobile-logo">
+                <img src="/assets/images/logo/logo.png" alt="logo">
+            </div>
+            <button class="mobile-menu-toggle" id="mobile-menu-toggle">
+                <span></span>
+                <span></span>
+                <span></span>
+            </button>
+        </div>
+        
+        <!-- Mobile Overlay -->
+        <div class="mobile-overlay" id="mobile-overlay"></div>
+
         <!-- Sidebar -->
-        <aside class="sidebar">
+        <aside class="sidebar" id="sidebar">
             <div class="logo">
                 <img src="/assets/images/logo/logo.png" alt="logo">
             </div>

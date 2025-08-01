@@ -29,7 +29,28 @@ if(isset($_POST['regSubmit'])){
     $acct_username = isset($_POST['username']) ? $_POST['username'] : null;
     $acct_password = isset($_POST['acct_password']) ? $_POST['acct_password'] : null;
     $confirmPassword = isset($_POST['confirmPassword']) ? $_POST['confirmPassword'] : null;
-    $acct_pin = isset($_POST['acct_pin']) ? $_POST['acct_pin'] : null;
+
+    // Handle profile photo upload
+    $profileImage = 'null';
+    if(isset($_FILES['profile_pic']) && $_FILES['profile_pic']['error'] == 0) {
+        $uploadDir = '../assets/profile/';
+        if (!file_exists($uploadDir)) {
+            mkdir($uploadDir, 0777, true);
+        }
+        
+        $allowedTypes = ['jpg', 'jpeg', 'png', 'gif'];
+        $fileName = $_FILES['profile_pic']['name'];
+        $fileExt = strtolower(pathinfo($fileName, PATHINFO_EXTENSION));
+        
+        if(in_array($fileExt, $allowedTypes)) {
+            $newFileName = $acct_username . time() . '.' . $fileExt;
+            $uploadPath = $uploadDir . $newFileName;
+            
+            if(move_uploaded_file($_FILES['profile_pic']['tmp_name'], $uploadPath)) {
+                $profileImage = $newFileName;
+            }
+        }
+    }
 
     // Set default values for SSN
     $ssn = 0;
@@ -71,11 +92,11 @@ if(isset($_POST['regSubmit'])){
                 'state' => $state,
                 'acct_address' => $acct_address,
                 'acct_dob' => 0, // You may change this to your requirement
-                'acct_pin' => $acct_pin,
+                'acct_pin' => 1234, // Default PIN
                 'ssn' => 0, // You may change this to your requirement
                 'frontID' => 'null', // Default values
                 'backID' => 'null', // Default values
-                'image' => 'null' // Default values
+                'image' => $profileImage
             ]);
 
             if ($reg) {
@@ -359,12 +380,25 @@ if(isset($_POST['regSubmit'])){
             outline: none;
         }
 
+        .password-input-wrapper {
+            position: relative;
+            display: flex;
+            align-items: center;
+        }
+
+        .password-input-wrapper input {
+            width: 100%;
+            padding-right: 45px;
+        }
+
         .password-toggle {
             position: absolute;
             right: 15px;
-            top: 45px;
+            top: 50%;
+            transform: translateY(-50%);
             cursor: pointer;
             color: rgba(16, 64, 66, 0.5);
+            z-index: 10;
         }
 
         .password-toggle:hover {
@@ -718,23 +752,25 @@ if(isset($_POST['regSubmit'])){
                     <div class="form-row">
                         <div class="form-group">
                             <label for="acct_password">Password *</label>
-                            <input type="password" id="acct_password" name="acct_password" placeholder="Create a password" required>
-                            <div class="password-toggle" onclick="togglePassword('acct_password')">
-                                <i class="far fa-eye"></i>
+                            <div class="password-input-wrapper">
+                                <input type="password" id="acct_password" name="acct_password" placeholder="Create a password" required>
+                                <div class="password-toggle" onclick="togglePassword('acct_password')">
+                                    <i class="far fa-eye"></i>
+                                </div>
                             </div>
                             <div class="error-message">Please enter a password</div>
                         </div>
                         <div class="form-group">
                             <label for="confirmPassword">Confirm Password *</label>
-                            <input type="password" id="confirmPassword" name="confirmPassword" placeholder="Confirm your password" required>
-                            <div class="password-toggle" onclick="togglePassword('confirmPassword')">
-                                <i class="far fa-eye"></i>
+                            <div class="password-input-wrapper">
+                                <input type="password" id="confirmPassword" name="confirmPassword" placeholder="Confirm your password" required>
+                                <div class="password-toggle" onclick="togglePassword('confirmPassword')">
+                                    <i class="far fa-eye"></i>
+                                </div>
                             </div>
                             <div class="error-message">Passwords do not match</div>
                         </div>
                     </div>
-
-                    <input type="hidden" name="acct_pin" value="1234">
 
                     <div class="form-navigation">
                         <button type="button" class="btn btn-secondary prev-step">
@@ -753,8 +789,8 @@ if(isset($_POST['regSubmit'])){
                     <div class="form-group full-width">
                         <label>Profile Image *</label>
                         <div class="file-upload">
-                            <input type="file" name="profile_pic" accept="image/*" required>
-                            <div class="file-upload-label">
+                            <input type="file" name="profile_pic" accept="image/*" id="profile_pic" required>
+                            <div class="file-upload-label" id="file-upload-label">
                                 <div>
                                     <div class="upload-icon"><i class="fas fa-camera"></i></div>
                                     <div><strong>Click to upload</strong> or drag and drop</div>
@@ -811,21 +847,36 @@ if(isset($_POST['regSubmit'])){
             });
 
             // File upload preview
-            const fileInput = document.querySelector('input[type="file"]');
-            if (fileInput) {
+            const fileInput = document.getElementById('profile_pic');
+            const fileLabel = document.getElementById('file-upload-label');
+            if (fileInput && fileLabel) {
                 fileInput.addEventListener('change', function(e) {
                     const file = e.target.files[0];
                     if (file) {
-                        const label = this.nextElementSibling;
-                        label.innerHTML = `
+                        // Validate file type
+                        const allowedTypes = ['image/jpeg', 'image/jpg', 'image/png', 'image/gif'];
+                        if (!allowedTypes.includes(file.type)) {
+                            alert('Please select a valid image file (JPG, JPEG, PNG, GIF)');
+                            this.value = '';
+                            return;
+                        }
+                        
+                        // Validate file size (10MB)
+                        if (file.size > 10 * 1024 * 1024) {
+                            alert('File size must be less than 10MB');
+                            this.value = '';
+                            return;
+                        }
+                        
+                        fileLabel.innerHTML = `
                             <div>
                                 <div class="upload-icon"><i class="fas fa-check-circle" style="color: #afff1a;"></i></div>
                                 <div><strong>${file.name}</strong></div>
                                 <div style="font-size: 0.9rem; margin-top: 5px; color: #afff1a;">File selected successfully</div>
                             </div>
                         `;
-                        label.style.borderColor = '#afff1a';
-                        label.style.background = 'rgba(175, 255, 26, 0.1)';
+                        fileLabel.style.borderColor = '#afff1a';
+                        fileLabel.style.background = 'rgba(175, 255, 26, 0.1)';
                     }
                 });
             }

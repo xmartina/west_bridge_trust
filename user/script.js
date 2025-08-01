@@ -1,5 +1,35 @@
 // Wait for the DOM to be fully loaded
 document.addEventListener('DOMContentLoaded', function() {
+    // Mobile Menu Toggle
+    const mobileToggle = document.getElementById('mobile-menu-toggle');
+    const sidebar = document.getElementById('sidebar');
+    const overlay = document.getElementById('mobile-overlay');
+    
+    if (mobileToggle && sidebar && overlay) {
+        mobileToggle.addEventListener('click', function() {
+            this.classList.toggle('active');
+            sidebar.classList.toggle('show-mobile');
+            overlay.classList.toggle('active');
+        });
+        
+        overlay.addEventListener('click', function() {
+            mobileToggle.classList.remove('active');
+            sidebar.classList.remove('show-mobile');
+            overlay.classList.remove('active');
+        });
+        
+        // Close menu when clicking on menu items
+        const menuLinks = sidebar.querySelectorAll('a');
+        menuLinks.forEach(link => {
+            link.addEventListener('click', function() {
+                if (window.innerWidth <= 768) {
+                    mobileToggle.classList.remove('active');
+                    sidebar.classList.remove('show-mobile');
+                    overlay.classList.remove('active');
+                }
+            });
+        });
+    }
     // Add event listeners to buttons
     document.querySelector('.btn-send')?.addEventListener('click', function() {
         alert('Send functionality would be implemented here');
