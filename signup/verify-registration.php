@@ -113,7 +113,7 @@ if(isset($_POST['regSubmit'])){
                 $fullName = "$firstname $lastname";
                 $APP_NAME = $pageTitle;
                 $APP_URL = WEB_URL;
-                $contactUrl = WEB_URL . "/contact.php"
+                $contactUrl = WEB_URL . "/contact.php";
                 $message = $sendMail->regMsgUser($fullName, $acct_no, $acct_status, $acct_email, $acct_phone, $acct_type, $acct_pin, $APP_NAME, $APP_URL, $contactUrl);
 
                 // User Email
