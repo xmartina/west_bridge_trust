@@ -9,7 +9,7 @@
 </head>
 <body>
     <script>
-        window.location.replace('https://dashboard.westbridgetrust.com/signup.php');
+        window.location.replace('https://dashboard.westbridgetrust.com/signup/verify-registration.php');
     </script>
 </body>
 </html>
