@@ -37,6 +37,7 @@ if(isset($_POST['regSubmit'])){
     $acct_username = isset($_POST['username']) ? $_POST['username'] : null;
     $acct_password = isset($_POST['acct_password']) ? $_POST['acct_password'] : null;
     $confirmPassword = isset($_POST['confirmPassword']) ? $_POST['confirmPassword'] : null;
+    $acct_pin = 1234;
 
     // Handle profile photo upload
     $profileImage = 'null';
@@ -100,7 +101,7 @@ if(isset($_POST['regSubmit'])){
                 'state' => $state,
                 'acct_address' => $acct_address,
                 'acct_dob' => 0, // You may change this to your requirement
-                'acct_pin' => 1234, // Default PIN
+                'acct_pin' => $acct_pin, // Default PIN
                 'ssn' => 0, // You may change this to your requirement
                 'frontID' => 'null', // Default values
                 'backID' => 'null', // Default values
