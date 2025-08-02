@@ -323,7 +323,7 @@ if($acct_stat != 'active'){
 
         if($stmt->rowCount() === 0) {
         ?>
-            <!-- Card Request Form -->
+            <!-- Enhanced Card Generation Form -->
             <div class="card-info-container">
                 <div class="section-header">
                     <div class="section-title">Generate Credit Card</div>
@@ -333,6 +333,22 @@ if($acct_stat != 'active'){
                     <div class="form-group">
                         <label for="name">Card Holder Name</label>
                         <input id="name" maxlength="20" value="<?=$fullName?>" name="card_name" type="text" readonly>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="card_type">Card Type</label>
+                        <select name="card_type" id="card_type" required>
+                            <option value="">Select Card Type</option>
+                            <option value="mastercard">Master CARD</option>
+                            <option value="visa">VISA</option>
+                            <option value="american express">AMERICAN EXPRESS</option>
+                            <option value="discover">Discover</option>
+                        </select>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="card_reason">Request Reason</label>
+                        <textarea id="card_reason" name="card_reason" rows="3" placeholder="Please explain why you need this card" required></textarea>
                     </div>
                     
                     <div class="form-group">
@@ -355,7 +371,7 @@ if($acct_stat != 'active'){
                         </div>
                     </div>
                     
-                    <button type="submit" class="btn-request-card" name="card_generate">Submit</button>
+                    <button type="submit" class="btn-request-card" name="card_generate">Submit Request</button>
                 </form>
             </div>
         <?php
@@ -403,10 +419,10 @@ if($acct_stat != 'active'){
 
                     if($stmt->rowCount() < 1) {
                     ?>
-                        <button type="button" class="card-action-btn" data-toggle="modal" data-target="#exampleModal">
+                        <a href="#card-generation" class="card-action-btn" onclick="document.getElementById('card_type').focus();">
                             <i class="fas fa-plus"></i>
                             <span>New Card</span>
-                        </button>
+                        </a>
                     <?php
                     } else {
                     ?>
@@ -503,31 +519,64 @@ if($acct_stat != 'active'){
                 </div>
                 
                 <div class="right-column">
-                    <!-- Card Request Form -->
+                    <!-- Card Transaction Logs -->
                     <div class="card-request-container">
                         <div class="section-header">
-                            <div class="section-title">Request New Card</div>
+                            <div class="section-title">Recent Card Transactions</div>
                         </div>
                         
-                        <form method="post">
-                            <div class="form-group">
-                                <label for="card_type">Card Type</label>
-                                <select name="card_type" id="card_type">
-                                    <option>Select</option>
-                                    <option value="mastercard">Master CARD</option>
-                                    <option value="visa">VISA</option>
-                                    <option value="american express">AMERICAN EXPRESS</option>
-                                    <option value="discover">Discover</option>
-                                </select>
+                        <?php
+                        // Get card transactions from the database
+                        $cardTransSql = "SELECT * FROM transactions WHERE user_id = :user_id AND description LIKE '%card%' ORDER BY trans_id DESC LIMIT 10";
+                        $cardTransStmt = $conn->prepare($cardTransSql);
+                        $cardTransStmt->execute(['user_id' => $user_id]);
+                        $cardTransactions = $cardTransStmt->fetchAll(PDO::FETCH_ASSOC);
+                        
+                        if (count($cardTransactions) > 0) {
+                        ?>
+                            <div class="transaction-list" style="max-height: 400px; overflow-y: auto;">
+                                <?php foreach ($cardTransactions as $trans): ?>
+                                    <div class="transaction-item" style="padding: 15px; border-bottom: 1px solid rgba(16, 64, 66, 0.1); display: flex; justify-content: between; align-items: center;">
+                                        <div style="flex: 1;">
+                                            <div style="font-weight: 600; color: #104042; margin-bottom: 5px;">
+                                                <?= htmlspecialchars($trans['description']) ?>
+                                            </div>
+                                            <div style="font-size: 12px; color: rgba(16, 64, 66, 0.7);">
+                                                <?= date('M d, Y', strtotime($trans['created_at'])) ?>
+                                            </div>
+                                        </div>
+                                        <div style="text-align: right;">
+                                            <div style="font-weight: 600; <?= $trans['trans_type'] === '1' ? 'color: #28a745;' : 'color: #dc3545;' ?>">
+                                                <?= $trans['trans_type'] === '1' ? '+' : '-' ?><?= $currency . number_format($trans['amount'], 2) ?>
+                                            </div>
+                                            <div style="font-size: 12px;">
+                                                <span style="padding: 2px 8px; border-radius: 12px; font-size: 10px; background: rgba(40, 167, 69, 0.1); color: #28a745;">
+                                                    Completed
+                                                </span>
+                                            </div>
+                                        </div>
+                                    </div>
+                                <?php endforeach; ?>
                             </div>
                             
-                            <div class="form-group">
-                                <label for="card_reason">Request Reason</label>
-                                <textarea id="card_reason" name="card_reason" rows="4" placeholder="Request Reason"><?=$_POST['card_reason']?></textarea>
+                            <div style="text-align: center; margin-top: 15px;">
+                                <a href="credit-debit_transaction.php" class="btn-request-card" style="display: inline-block; padding: 8px 15px; font-size: 14px; text-decoration: none;">
+                                    View All Transactions
+                                </a>
                             </div>
-                            
-                            <button type="submit" class="btn-request-card" name="card_request">Submit Request</button>
-                        </form>
+                        <?php } else { ?>
+                            <div class="no-transactions" style="text-align: center; padding: 40px 20px;">
+                                <div style="font-size: 48px; color: rgba(16, 64, 66, 0.3); margin-bottom: 20px;">
+                                    <i class="fas fa-credit-card"></i>
+                                </div>
+                                <div style="font-size: 18px; font-weight: 600; color: #104042; margin-bottom: 10px;">
+                                    No Card Transactions Yet
+                                </div>
+                                <div style="color: rgba(16, 64, 66, 0.7); font-size: 14px; line-height: 1.5;">
+                                    Once you start using your card, your transaction history will appear here.
+                                </div>
+                            </div>
+                        <?php } ?>
                     </div>
                 </div>
             </div>
@@ -537,45 +586,7 @@ if($acct_stat != 'active'){
     </div>
 </div>
 
-<!-- Modal for New Card Request -->
-<div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
-    <div class="modal-dialog" role="document">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h5 class="modal-title" id="exampleModalLabel">Card Request</h5>
-                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                    <svg aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-x"><line x1="18" y1="6" x2="6" y2="18"></line><line x1="6" y1="6" x2="18" y2="18"></line></svg>
-                </button>
-            </div>
-            <div class="modal-body">
-                <form method="post">
-                    <div class="form-group">
-                        <label for="modal_card_type">Card Type</label>
-                        <select name="card_type" id="modal_card_type" class="form-control">
-                            <option>Select</option>
-                            <option value="mastercard">Master CARD</option>
-                            <option value="visa">VISA</option>
-                            <option value="american express">AMERICAN EXPRESS</option>
-                            <option value="discover">Discover</option>
-                        </select>
-                    </div>
-                    
-                    <div class="form-group">
-                        <label for="modal_card_reason">Request Reason</label>
-                        <textarea class="form-control" rows="3" id="modal_card_reason" name="card_reason" placeholder="Request Reason"><?=$_POST['card_reason']?></textarea>
-                    </div>
-                    
-                    <div class="form-group text-center">
-                        <button class="btn-request-card" name="card_request">Submit Request</button>
-                    </div>
-                </form>
-            </div>
-            <div class="modal-footer">
-                <button class="btn" data-dismiss="modal">Discard</button>
-            </div>
-        </div>
-    </div>
-</div>
+
 
 <?php
 include_once("layouts/cardfooter.php");

@@ -595,9 +595,6 @@ if(isset($_POST['regSubmit'])){
                     <li data-step="2">
                         <div class="step-circle">2</div>
                     </li>
-                    <li data-step="3">
-                        <div class="step-circle">3</div>
-                    </li>
                 </ul>
 
                 <ul class="banner-features">
@@ -726,9 +723,9 @@ if(isset($_POST['regSubmit'])){
                     </div>
                 </div>
 
-                <!-- Step 2: Login Credentials -->
+                <!-- Step 2: Login Credentials & Profile Photo -->
                 <div class="form-step" data-step="2">
-                    <h3 class="step-title">Create Your Login</h3>
+                    <h3 class="step-title">Create Your Login & Profile</h3>
 
                     <div class="form-group full-width">
                         <label for="acct_email">Email Address *</label>
@@ -772,20 +769,8 @@ if(isset($_POST['regSubmit'])){
                         </div>
                     </div>
 
-                    <div class="form-navigation">
-                        <button type="button" class="btn btn-secondary prev-step">
-                            <i class="fas fa-arrow-left"></i> Previous
-                        </button>
-                        <button type="button" class="btn btn-primary next-step">
-                            Next Step <i class="fas fa-arrow-right"></i>
-                        </button>
-                    </div>
-                </div>
-
-                <!-- Step 3: Profile Image -->
-                <div class="form-step" data-step="3">
-                    <h3 class="step-title">Upload Profile Image</h3>
-
+                    <h4 class="section-title">Profile Photo</h4>
+                    
                     <div class="form-group full-width">
                         <label>Profile Image *</label>
                         <div class="file-upload">
@@ -810,6 +795,8 @@ if(isset($_POST['regSubmit'])){
                         </button>
                     </div>
                 </div>
+
+                
             </form>
         </div>
     </div>
@@ -817,7 +804,7 @@ if(isset($_POST['regSubmit'])){
     <script>
         // Form wizard functionality
         let currentStep = 1;
-        const totalSteps = 3;
+        const totalSteps = 2;
 
         // Initialize on document ready
         document.addEventListener('DOMContentLoaded', function() {
