@@ -1,6 +1,6 @@
 <?php
 $pageName = "My Profile";
-include_once("layouts/headerprofile.php");
+include_once("layouts/header.php");
 require_once("../include/config.php");
 require_once("../include/userFunction.php");
 
