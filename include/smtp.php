@@ -12,14 +12,14 @@ class message{
 
         $mail = new PHPMailer();
         //SMTP Settings
-        //$mail->isSMTP();
-        $mail->isMail();
+        $mail->isSMTP();
         $mail->Host = "mail.westbridgetrust.com"; // Change Email Host
         $mail->SMTPAuth = true;
         $mail->Username = "info@westbridgetrust.com"; // Change Email Address
         $mail->Password = '+Westbridgetrust123'; // Change Email Password
         $mail->Port = 587; //587
-        $mail->SMTPSecure = "ssl"; //tls
+        $mail->SMTPSecure = "tls"; //tls
+        $mail->SMTPDebug = 0; // Disable debug output
 
         //Email Settings
         $mail->isHTML(true);

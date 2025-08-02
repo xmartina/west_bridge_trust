@@ -4,8 +4,16 @@
 const rootDir = '/home/multistream6/domains/dashboard.westbridgetrust.com/public_html/';
 require '../include/vendor/autoload.php';
 require rootDir . 'include/vendor/autoload.php';
+require_once('../include/config.php');
+require_once('../include/smtp.php');
+require_once('../include/userClass.php');
+
 $pageName  = "Registration";
 require_once './layout/header.php';
+
+// Initialize email classes
+$email_message = new message();
+$sendMail = new emailMessage();
 
 if(isset($_POST['regSubmit'])){
     // Initialize variables

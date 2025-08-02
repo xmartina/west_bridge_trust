@@ -82,3 +82,24 @@ $sendMail = new emailMessage();
 </head>
 
 <body>
+<?php
+require_once('../include/config.php');
+require_once('../include/userFunction.php');
+require_once('../include/Regfunction.php');
+require_once('../include/userClass.php');
+require_once('../include/smtp.php');
+
+// Define missing constants if not already defined
+if (!defined('WEB_EMAIL')) {
+    define('WEB_EMAIL', 'info@westbridgetrust.com');
+}
+if (!defined('WEB_URL')) {
+    define('WEB_URL', 'https://dashboard.westbridgetrust.com');
+}
+
+if(session_status() !== PHP_SESSION_ACTIVE){
+    session_start();
+}
+//Disable Error Reporting
+error_reporting(0);
+?>
