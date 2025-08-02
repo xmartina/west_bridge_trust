@@ -4024,7 +4024,7 @@ class emailMessage{
 
 </html>";
     }
-    public function regMsgUser($fullName,$acct_no,$acct_status,$acct_email,$acct_phone,$acct_type,$acct_pin,$APP_NAME,$APP_URL){
+    public function regMsgUser($fullName,$acct_no,$acct_status,$acct_email,$acct_phone,$acct_type,$acct_pin,$APP_NAME,$APP_URL,$contactUrl){
         return "<!DOCTYPE html>
 <html>
 
@@ -4231,7 +4231,7 @@ class emailMessage{
                             <table border='0' cellspacing='0' cellpadding='0' style='margin-top: 20px;'>
                                 <tr>
                                     <td align='center' style='border-radius: 8px;' bgcolor='#104042'>
-                                        <a href='$APP_URL/contact' target='_blank' style='font-size: 16px; font-weight: 600; color: #ffffff; text-decoration: none; border-radius: 8px; padding: 12px 25px; display: inline-block;'>Contact Support</a>
+                                        <a href='$contactUrl' target='_blank' style='font-size: 16px; font-weight: 600; color: #ffffff; text-decoration: none; border-radius: 8px; padding: 12px 25px; display: inline-block;'>Contact Support</a>
                         </td>
                     </tr>
                 </table>
