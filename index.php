@@ -9,7 +9,7 @@
 </head>
 <body>
 	<script>
-		window.location.replace('https://wnbamerica.com');
+		window.location.replace('https://westbridgetrust.com');
 	</script>
 </body>
 </html>
