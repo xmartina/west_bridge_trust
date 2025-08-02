@@ -576,6 +576,21 @@ if(isset($_POST['regSubmit'])){
                 margin: 0 10px;
             }
         }
+
+        /* added style */
+        .btn-login {
+            background-color: #104042;
+            color: #fff;
+            padding: 12px;
+            border-radius: 8px;
+            font-weight: 600;
+            font-size: 16px;
+            transition: all 0.3s ease;
+            border: none;
+            cursor: pointer;
+            width: 100%;
+            margin-bottom: 20px;
+        }
     </style>
 </head>
 <body>
@@ -584,8 +599,8 @@ if(isset($_POST['regSubmit'])){
         <div class="signup-banner">
             <div class="banner-content">
                 <div class="logo"><?php echo WEB_TITLE; ?></div>
-                <h1 class="banner-title">Join <?php echo WEB_TITLE; ?></h1>
-                <p class="banner-text">Create your secure banking account and start managing your finances with confidence. Join thousands of satisfied customers worldwide.</p>
+                <h1 class="banner-title text-white">Join <?php echo WEB_TITLE; ?></h1>
+                <p class="banner-text text-white">Create your secure banking account and start managing your finances with confidence. Join thousands of satisfied customers worldwide.</p>
 
                 <!-- Progress Steps in Banner -->
                 <ul class="progress-steps">
@@ -717,7 +732,7 @@ if(isset($_POST['regSubmit'])){
                         <div class="login-link">
                             Already have an account? <a href="../login.php">Login here</a>
                         </div>
-                        <button type="button" class="btn btn-primary next-step">
+                        <button type="button" class="btn btn-login next-step">
                             Next Step <i class="fas fa-arrow-right"></i>
                         </button>
                     </div>
@@ -787,7 +802,7 @@ if(isset($_POST['regSubmit'])){
                     </div>
 
                     <div class="form-navigation">
-                        <button type="button" class="btn btn-secondary prev-step">
+                        <button type="button" class="btn btn-login prev-step">
                             <i class="fas fa-arrow-left"></i> Previous
                         </button>
                         <button type="submit" name="regSubmit" class="btn btn-success">
