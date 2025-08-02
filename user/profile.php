@@ -10,115 +10,6 @@ if (!$_SESSION['acct_no']) {
     die;
 }
 
-// Handle profile photo upload
-if (isset($_POST['upload_picture'])) {
-    if (isset($_FILES['image'])) {
-        $file = $_FILES['image'];
-        $name = $file['name'];
-        $tmp_name = $file['tmp_name'];
-        $error = $file['error'];
-        $size = $file['size'];
-
-        // Check for upload errors
-        if ($error === 0) {
-            // Get file extension
-            $file_ext = strtolower(pathinfo($name, PATHINFO_EXTENSION));
-            $allowed_extensions = array('jpg', 'jpeg', 'png', 'gif');
-
-            // Validate file type
-            if (in_array($file_ext, $allowed_extensions)) {
-                // Check file size (max 5MB)
-                if ($size <= 5000000) {
-                    // Generate unique filename
-                    $new_name = $fullName . uniqid('', true) . '.' . $file_ext;
-                    $destination = '../assets/profile/' . $new_name;
-
-                    // Move uploaded file
-                    if (move_uploaded_file($tmp_name, $destination)) {
-                        // Update database
-                        $sql = "UPDATE account SET image = :image WHERE id = :id";
-                        $stmt = $conn->prepare($sql);
-                        $stmt->execute([
-                            'image' => $new_name,
-                            'id' => $acct_id
-                        ]);
-
-                        if ($stmt->rowCount() > 0) {
-                            echo "<script>
-                                document.addEventListener('DOMContentLoaded', function() {
-                                    Swal.fire({
-                                        icon: 'success',
-                                        title: 'Success!',
-                                        text: 'Profile photo updated successfully',
-                                        confirmButtonColor: '#104042'
-                                    }).then(function() {
-                                        window.location.reload();
-                                    });
-                                });
-                            </script>";
-                        } else {
-                            echo "<script>
-                                document.addEventListener('DOMContentLoaded', function() {
-                                    Swal.fire({
-                                        icon: 'error',
-                                        title: 'Error!',
-                                        text: 'Failed to update profile photo',
-                                        confirmButtonColor: '#104042'
-                                    });
-                                });
-                            </script>";
-                        }
-                    } else {
-                        echo "<script>
-                            document.addEventListener('DOMContentLoaded', function() {
-                                Swal.fire({
-                                    icon: 'error',
-                                    title: 'Error!',
-                                    text: 'Failed to upload file',
-                                    confirmButtonColor: '#104042'
-                                });
-                            });
-                        </script>";
-                    }
-                } else {
-                    echo "<script>
-                        document.addEventListener('DOMContentLoaded', function() {
-                            Swal.fire({
-                                icon: 'error',
-                                title: 'Error!',
-                                text: 'File size too large. Maximum 5MB allowed.',
-                                confirmButtonColor: '#104042'
-                            });
-                        });
-                    </script>";
-                }
-            } else {
-                echo "<script>
-                    document.addEventListener('DOMContentLoaded', function() {
-                        Swal.fire({
-                            icon: 'error',
-                            title: 'Error!',
-                            text: 'Invalid file type. Only JPG, JPEG, PNG, and GIF are allowed.',
-                            confirmButtonColor: '#104042'
-                        });
-                    });
-                </script>";
-            }
-        } else {
-            echo "<script>
-                document.addEventListener('DOMContentLoaded', function() {
-                    Swal.fire({
-                        icon: 'error',
-                        title: 'Error!',
-                        text: 'Error uploading file',
-                        confirmButtonColor: '#104042'
-                    });
-                });
-            </script>";
-        }
-    }
-}
-
 ?>
 
 <!-- Add profile page styles -->
@@ -339,7 +230,7 @@ if (isset($_POST['upload_picture'])) {
         <div class="profile-container">
             <!-- Profile Sidebar -->
             <div class="profile-sidebar">
-                <div class="profile-avatar" style="position: relative; cursor: pointer;" onclick="document.getElementById('profile-upload').click();">
+                <div class="profile-avatar">
                     <?php if($row['image'] == null): ?>
                         <div style="width: 120px; height: 120px; background-color: #104042; color: white; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 48px; font-weight: 600;">
                             <?php echo substr($fullName, 0, 1); ?>
@@ -347,16 +238,7 @@ if (isset($_POST['upload_picture'])) {
                     <?php else: ?>
                         <img src="../assets/profile/<?php echo $row['image']; ?>" alt="User profile picture">
                     <?php endif; ?>
-                    <div class="change-photo">
-                        <i class="fas fa-camera"></i> Change Photo
-                    </div>
                 </div>
-                
-                <!-- Hidden upload form -->
-                <form method="POST" enctype="multipart/form-data" id="upload-form" style="display: none;">
-                    <input type="file" name="image" id="profile-upload" accept="image/*" onchange="this.form.submit();">
-                    <button type="submit" name="upload_picture" style="display: none;"></button>
-                </form>
                 <div class="profile-name"><?php echo $fullName; ?></div>
                 <div class="profile-email"><?php echo $row['acct_email']; ?></div>
                 <div class="profile-status <?php echo ($row['acct_status'] === 'active') ? 'verified' : 'unverified'; ?>">
@@ -455,66 +337,6 @@ if (isset($_POST['upload_picture'])) {
         </div>
     </div>
 </div>
-
-<!-- Include SweetAlert2 -->
-<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
-
-<script>
-    // Handle profile image upload
-    document.addEventListener('DOMContentLoaded', function() {
-        const profileUpload = document.getElementById('profile-upload');
-        const uploadForm = document.getElementById('upload-form');
-        
-        if (profileUpload) {
-            profileUpload.addEventListener('change', function() {
-                if (this.files && this.files[0]) {
-                    const file = this.files[0];
-                    const fileSize = file.size;
-                    const fileType = file.type;
-                    
-                    // Validate file type
-                    const allowedTypes = ['image/jpeg', 'image/jpg', 'image/png', 'image/gif'];
-                    if (!allowedTypes.includes(fileType)) {
-                        Swal.fire({
-                            icon: 'error',
-                            title: 'Invalid File Type!',
-                            text: 'Please select a JPG, JPEG, PNG, or GIF image.',
-                            confirmButtonColor: '#104042'
-                        });
-                        this.value = '';
-                        return;
-                    }
-                    
-                    // Validate file size (5MB = 5,000,000 bytes)
-                    if (fileSize > 5000000) {
-                        Swal.fire({
-                            icon: 'error',
-                            title: 'File too large!',
-                            text: 'Please select an image smaller than 5MB.',
-                            confirmButtonColor: '#104042'
-                        });
-                        this.value = '';
-                        return;
-                    }
-                    
-                    // Show loading
-                    Swal.fire({
-                        title: 'Uploading...',
-                        text: 'Please wait while we update your profile photo.',
-                        allowOutsideClick: false,
-                        showConfirmButton: false,
-                        willOpen: () => {
-                            Swal.showLoading();
-                        }
-                    });
-                    
-                    // Submit the form
-                    uploadForm.submit();
-                }
-            });
-        }
-    });
-</script>
 
 <?php
 include_once("layouts/footer.php");
