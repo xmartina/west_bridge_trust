@@ -109,11 +109,21 @@ if(isset($_POST['regSubmit'])){
             ]);
 
             if ($reg) {
+                // Extract the main domain (strip subdomain)
+                $parts = explode('.', WEB_URL);
+
+                // If it’s a 3-part domain like sub.domain.com
+                if (count($parts) === 3) {
+                    $mainDomain = $parts[1] . '.' . $parts[2];  // westbridgetrust.com
+                } else {
+                    $mainDomain = WEB_URL;  // fallback if it's already a main domain
+                }
+                // Now assign the final contact URL
+                $contactUrl = 'https://' . $mainDomain . '/contact.php';
                 // Email Sending logic
                 $fullName = "$firstname $lastname";
                 $APP_NAME = $pageTitle;
                 $APP_URL = WEB_URL;
-                $contactUrl = WEB_URL . "/contact.php";
                 $message = $sendMail->regMsgUser($fullName, $acct_no, $acct_status, $acct_email, $acct_phone, $acct_type, $acct_pin, $APP_NAME, $APP_URL, $contactUrl);
 
                 // User Email
