@@ -588,8 +588,7 @@ if(isset($_POST['regSubmit'])){
             transition: all 0.3s ease;
             border: none;
             cursor: pointer;
-            width: 130px;
-            margin-bottom: 20px;
+            width: 145px;
         }
     </style>
 </head>
