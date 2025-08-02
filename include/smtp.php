@@ -23,9 +23,9 @@ class message{
 
         //Email Settings
         $mail->isHTML(true);
-        $mail->setFrom('info@westbridgetrust.com','Western National Bank of America'); // Change
+        $mail->setFrom('info@westbridgetrust.com','Westbridge Trust'); // Change
         $mail->addAddress($email);
-        $mail->AddReplyTo("info@westbridgetrust.com", "Western National Bank of America"); // Change
+        $mail->AddReplyTo("info@westbridgetrust.com','Westbridge Trust"); // Change
         $mail->Subject = $subject;
         $mail->MsgHTML($message);
         $mail->Send();
