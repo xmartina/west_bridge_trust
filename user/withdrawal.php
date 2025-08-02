@@ -228,3 +228,523 @@ if(isset($_POST['withdraw'])){
     <?php
     include_once('layouts/footer.php')
     ?>
+<?php
+$pageName = "Withdrawal";
+include_once("layouts/header.php");
+
+if($acct_stat != 'active'){
+    header("Location:./error.php");
+    exit();
+}
+?>
+
+<style>
+    .main-content {
+        background-color: #f8f9fa;
+        min-height: 100vh;
+        padding: 20px;
+    }
+    
+    .header {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        margin-bottom: 30px;
+        background: #fff;
+        padding: 20px 30px;
+        border-radius: 12px;
+        box-shadow: 0 4px 15px rgba(16, 64, 66, 0.08);
+    }
+    
+    .header h1 {
+        color: #104042;
+        margin: 0;
+        font-size: 28px;
+        font-weight: 600;
+    }
+    
+    .search-notification {
+        display: flex;
+        align-items: center;
+        gap: 20px;
+    }
+    
+    .search-bar {
+        position: relative;
+        display: flex;
+        align-items: center;
+    }
+    
+    .search-bar i {
+        position: absolute;
+        left: 15px;
+        color: rgba(16, 64, 66, 0.5);
+    }
+    
+    .search-bar input {
+        padding: 10px 15px 10px 45px;
+        border: 1px solid rgba(16, 64, 66, 0.2);
+        border-radius: 25px;
+        background-color: rgba(16, 64, 66, 0.02);
+        color: #104042;
+        font-size: 14px;
+        width: 250px;
+    }
+    
+    .user-profile {
+        display: flex;
+        align-items: center;
+        gap: 15px;
+    }
+    
+    .notification {
+        position: relative;
+        padding: 8px;
+        border-radius: 50%;
+        background-color: rgba(16, 64, 66, 0.1);
+        cursor: pointer;
+    }
+    
+    .avatar {
+        width: 40px;
+        height: 40px;
+        border-radius: 50%;
+        overflow: hidden;
+    }
+    
+    .avatar img {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+    }
+    
+    .user-name {
+        font-weight: 500;
+        color: #104042;
+    }
+    
+    .dashboard-content {
+        display: grid;
+        grid-template-columns: 2fr 1fr;
+        gap: 30px;
+    }
+    
+    .withdrawal-container {
+        background: #fff;
+        border-radius: 12px;
+        padding: 30px;
+        box-shadow: 0 4px 15px rgba(16, 64, 66, 0.08);
+    }
+    
+    .withdrawal-header {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        margin-bottom: 30px;
+        padding-bottom: 20px;
+        border-bottom: 1px solid rgba(16, 64, 66, 0.1);
+    }
+    
+    .withdrawal-title {
+        font-size: 24px;
+        font-weight: 600;
+        color: #104042;
+    }
+    
+    .balance-info {
+        text-align: right;
+    }
+    
+    .balance-label {
+        font-size: 14px;
+        color: rgba(16, 64, 66, 0.7);
+        margin-bottom: 5px;
+    }
+    
+    .balance-amount {
+        font-size: 18px;
+        font-weight: 600;
+        color: #104042;
+    }
+    
+    .withdrawal-methods {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+        gap: 20px;
+        margin-bottom: 30px;
+    }
+    
+    .method-card {
+        border: 2px solid rgba(16, 64, 66, 0.1);
+        border-radius: 12px;
+        padding: 20px;
+        text-align: center;
+        cursor: pointer;
+        transition: all 0.3s ease;
+        background: #fff;
+    }
+    
+    .method-card:hover {
+        border-color: #104042;
+        box-shadow: 0 4px 15px rgba(16, 64, 66, 0.1);
+    }
+    
+    .method-card.active {
+        border-color: #104042;
+        background: rgba(16, 64, 66, 0.02);
+    }
+    
+    .method-icon {
+        font-size: 32px;
+        color: #104042;
+        margin-bottom: 15px;
+    }
+    
+    .method-title {
+        font-size: 16px;
+        font-weight: 600;
+        color: #104042;
+        margin-bottom: 8px;
+    }
+    
+    .method-description {
+        font-size: 14px;
+        color: rgba(16, 64, 66, 0.7);
+    }
+    
+    .withdrawal-form {
+        display: none;
+    }
+    
+    .withdrawal-form.active {
+        display: block;
+    }
+    
+    .form-group {
+        margin-bottom: 20px;
+    }
+    
+    .form-group label {
+        display: block;
+        margin-bottom: 8px;
+        font-weight: 500;
+        color: #104042;
+    }
+    
+    .form-group input,
+    .form-group select,
+    .form-group textarea {
+        width: 100%;
+        padding: 12px 15px;
+        border: 1px solid rgba(16, 64, 66, 0.2);
+        border-radius: 8px;
+        background-color: rgba(16, 64, 66, 0.02);
+        color: #104042;
+        font-size: 15px;
+    }
+    
+    .form-group input:focus,
+    .form-group select:focus,
+    .form-group textarea:focus {
+        border-color: #104042;
+        box-shadow: 0 0 0 2px rgba(16, 64, 66, 0.1);
+        outline: none;
+    }
+    
+    .form-row {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 20px;
+    }
+    
+    .btn-withdraw {
+        background-color: #104042;
+        color: #fff;
+        padding: 15px 30px;
+        border-radius: 8px;
+        font-weight: 600;
+        font-size: 16px;
+        border: none;
+        cursor: pointer;
+        width: 100%;
+        margin-top: 20px;
+        transition: all 0.3s ease;
+    }
+    
+    .btn-withdraw:hover {
+        background-color: #165e61;
+    }
+    
+    .sidebar-info {
+        background: #fff;
+        border-radius: 12px;
+        padding: 25px;
+        box-shadow: 0 4px 15px rgba(16, 64, 66, 0.08);
+        height: fit-content;
+    }
+    
+    .info-title {
+        font-size: 18px;
+        font-weight: 600;
+        color: #104042;
+        margin-bottom: 20px;
+    }
+    
+    .info-item {
+        display: flex;
+        justify-content: space-between;
+        padding: 12px 0;
+        border-bottom: 1px solid rgba(16, 64, 66, 0.1);
+    }
+    
+    .info-item:last-child {
+        border-bottom: none;
+    }
+    
+    .info-label {
+        font-size: 14px;
+        color: rgba(16, 64, 66, 0.7);
+    }
+    
+    .info-value {
+        font-weight: 500;
+        color: #104042;
+    }
+    
+    @media (max-width: 992px) {
+        .dashboard-content {
+            grid-template-columns: 1fr;
+        }
+        
+        .form-row {
+            grid-template-columns: 1fr;
+        }
+    }
+</style>
+
+<div class="main-content">
+    <header class="header">
+        <h1>Withdrawal</h1>
+        <div class="search-notification">
+            <div class="search-bar">
+                <i class="fas fa-search"></i>
+                <input type="text" placeholder="Search">
+            </div>
+            <div class="user-profile">
+                <div class="notification">
+                    <i class="far fa-bell"></i>
+                </div>
+                <div class="avatar">
+                    <?php if($row['image'] == null): ?>
+                        <div style="width: 40px; height: 40px; background-color: #104042; color: white; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-weight: 600;">
+                            <?php echo substr($fullName, 0, 1); ?>
+                        </div>
+                    <?php else: ?>
+                        <img src="../assets/profile/<?php echo $row['image']; ?>" alt="User avatar">
+                    <?php endif; ?>
+                </div>
+                <div class="user-name"><?php echo $fullName; ?></div>
+            </div>
+        </div>
+    </header>
+
+    <div class="dashboard-content">
+        <div class="withdrawal-container">
+            <div class="withdrawal-header">
+                <div class="withdrawal-title">Withdraw Funds</div>
+                <div class="balance-info">
+                    <div class="balance-label">Available Balance</div>
+                    <div class="balance-amount"><?php echo $currency . number_format($acct_balance, 2); ?></div>
+                </div>
+            </div>
+            
+            <!-- Withdrawal Methods -->
+            <div class="withdrawal-methods">
+                <div class="method-card" onclick="selectMethod('bank')">
+                    <div class="method-icon">
+                        <i class="fas fa-university"></i>
+                    </div>
+                    <div class="method-title">Bank Transfer</div>
+                    <div class="method-description">Transfer to your bank account</div>
+                </div>
+                
+                <div class="method-card" onclick="selectMethod('wire')">
+                    <div class="method-icon">
+                        <i class="fas fa-globe"></i>
+                    </div>
+                    <div class="method-title">Wire Transfer</div>
+                    <div class="method-description">International wire transfer</div>
+                </div>
+                
+                <div class="method-card" onclick="selectMethod('check')">
+                    <div class="method-icon">
+                        <i class="fas fa-money-check"></i>
+                    </div>
+                    <div class="method-title">Check Request</div>
+                    <div class="method-description">Request a physical check</div>
+                </div>
+            </div>
+            
+            <!-- Bank Transfer Form -->
+            <form class="withdrawal-form" id="bank-form" method="POST">
+                <h3 style="color: #104042; margin-bottom: 20px;">Bank Transfer Details</h3>
+                
+                <div class="form-group">
+                    <label for="bank-amount">Withdrawal Amount</label>
+                    <input type="number" id="bank-amount" name="amount" placeholder="Enter amount" required step="0.01" min="1">
+                </div>
+                
+                <div class="form-row">
+                    <div class="form-group">
+                        <label for="bank-name">Bank Name</label>
+                        <input type="text" id="bank-name" name="bank_name" placeholder="Enter bank name" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="account-number">Account Number</label>
+                        <input type="text" id="account-number" name="account_number" placeholder="Enter account number" required>
+                    </div>
+                </div>
+                
+                <div class="form-row">
+                    <div class="form-group">
+                        <label for="routing-number">Routing Number</label>
+                        <input type="text" id="routing-number" name="routing_number" placeholder="Enter routing number" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="account-type">Account Type</label>
+                        <select id="account-type" name="account_type" required>
+                            <option value="">Select Account Type</option>
+                            <option value="checking">Checking</option>
+                            <option value="savings">Savings</option>
+                        </select>
+                    </div>
+                </div>
+                
+                <div class="form-group">
+                    <label for="purpose">Purpose of Withdrawal</label>
+                    <textarea id="purpose" name="purpose" rows="3" placeholder="Describe the purpose of this withdrawal" required></textarea>
+                </div>
+                
+                <button type="submit" class="btn-withdraw" name="bank_withdraw">Process Bank Transfer</button>
+            </form>
+            
+            <!-- Wire Transfer Form -->
+            <form class="withdrawal-form" id="wire-form" method="POST">
+                <h3 style="color: #104042; margin-bottom: 20px;">Wire Transfer Details</h3>
+                
+                <div class="form-group">
+                    <label for="wire-amount">Withdrawal Amount</label>
+                    <input type="number" id="wire-amount" name="amount" placeholder="Enter amount" required step="0.01" min="1">
+                </div>
+                
+                <div class="form-row">
+                    <div class="form-group">
+                        <label for="beneficiary-name">Beneficiary Name</label>
+                        <input type="text" id="beneficiary-name" name="beneficiary_name" placeholder="Enter beneficiary name" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="beneficiary-account">Beneficiary Account</label>
+                        <input type="text" id="beneficiary-account" name="beneficiary_account" placeholder="Enter account number" required>
+                    </div>
+                </div>
+                
+                <div class="form-row">
+                    <div class="form-group">
+                        <label for="swift-code">SWIFT Code</label>
+                        <input type="text" id="swift-code" name="swift_code" placeholder="Enter SWIFT code" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="country">Country</label>
+                        <input type="text" id="country" name="country" placeholder="Enter country" required>
+                    </div>
+                </div>
+                
+                <div class="form-group">
+                    <label for="wire-purpose">Purpose of Transfer</label>
+                    <textarea id="wire-purpose" name="purpose" rows="3" placeholder="Describe the purpose of this wire transfer" required></textarea>
+                </div>
+                
+                <button type="submit" class="btn-withdraw" name="wire_withdraw">Process Wire Transfer</button>
+            </form>
+            
+            <!-- Check Request Form -->
+            <form class="withdrawal-form" id="check-form" method="POST">
+                <h3 style="color: #104042; margin-bottom: 20px;">Check Request Details</h3>
+                
+                <div class="form-group">
+                    <label for="check-amount">Check Amount</label>
+                    <input type="number" id="check-amount" name="amount" placeholder="Enter amount" required step="0.01" min="1">
+                </div>
+                
+                <div class="form-group">
+                    <label for="payee-name">Payee Name</label>
+                    <input type="text" id="payee-name" name="payee_name" value="<?php echo $fullName; ?>" required>
+                </div>
+                
+                <div class="form-group">
+                    <label for="mailing-address">Mailing Address</label>
+                    <textarea id="mailing-address" name="mailing_address" rows="3" placeholder="Enter complete mailing address" required></textarea>
+                </div>
+                
+                <div class="form-group">
+                    <label for="check-purpose">Purpose</label>
+                    <textarea id="check-purpose" name="purpose" rows="2" placeholder="Purpose of check request" required></textarea>
+                </div>
+                
+                <button type="submit" class="btn-withdraw" name="check_withdraw">Request Check</button>
+            </form>
+        </div>
+        
+        <div class="sidebar-info">
+            <div class="info-title">Withdrawal Information</div>
+            
+            <div class="info-item">
+                <div class="info-label">Daily Limit</div>
+                <div class="info-value"><?php echo $currency; ?>50,000</div>
+            </div>
+            
+            <div class="info-item">
+                <div class="info-label">Processing Time</div>
+                <div class="info-value">1-3 Business Days</div>
+            </div>
+            
+            <div class="info-item">
+                <div class="info-label">Wire Transfer Fee</div>
+                <div class="info-value"><?php echo $currency; ?>25.00</div>
+            </div>
+            
+            <div class="info-item">
+                <div class="info-label">Check Fee</div>
+                <div class="info-value"><?php echo $currency; ?>10.00</div>
+            </div>
+            
+            <div style="margin-top: 20px; padding: 15px; background: rgba(175, 255, 26, 0.1); border-radius: 8px;">
+                <div style="font-size: 14px; color: #104042; line-height: 1.5;">
+                    <strong>Important:</strong> All withdrawals are subject to verification and may require additional documentation for amounts over $10,000.
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+function selectMethod(method) {
+    // Remove active class from all method cards
+    document.querySelectorAll('.method-card').forEach(card => {
+        card.classList.remove('active');
+    });
+    
+    // Hide all forms
+    document.querySelectorAll('.withdrawal-form').forEach(form => {
+        form.classList.remove('active');
+    });
+    
+    // Activate selected method
+    event.target.closest('.method-card').classList.add('active');
+    document.getElementById(method + '-form').classList.add('active');
+}
+</script>
+
+<?php
+include_once("layouts/footer.php");
+?>
