@@ -39,13 +39,25 @@ if(isset($_POST['upload_picture'])){
             'id'=>$user_id
         ]);
 
-        if(true){
-            toast_alert("success","Your Image Uploaded Successfully", "Thanks!");
+        if($stmt->rowCount() > 0){
+            echo "<script>
+                document.addEventListener('DOMContentLoaded', function() {
+                    showToast('success', 'Upload Successful!', 'Your profile photo has been updated successfully.');
+                });
+            </script>";
         }else{
-            echo "invalid";
+            echo "<script>
+                document.addEventListener('DOMContentLoaded', function() {
+                    showToast('error', 'Database Error', 'Failed to update profile photo in database.');
+                });
+            </script>";
         }
-
-
+    } else {
+        echo "<script>
+            document.addEventListener('DOMContentLoaded', function() {
+                showToast('error', 'Upload Failed', 'Failed to upload profile photo. Please try again.');
+            });
+        </script>";
     }
 }
 
@@ -326,6 +338,44 @@ if(isset($_POST['change_password'])) {
             width: 100%;
         }
     }
+    
+    /* Custom SweetAlert toast styles for top-left positioning */
+    .swal2-container.swal2-top-start {
+        padding: 20px;
+    }
+    
+    .swal2-popup.swal2-toast {
+        background-color: #104042;
+        color: #fff;
+        border-left: 4px solid #afff1a;
+        box-shadow: 0 4px 15px rgba(16, 64, 66, 0.2);
+    }
+    
+    .swal2-popup.swal2-toast .swal2-title {
+        color: #fff;
+        font-size: 14px;
+        font-weight: 600;
+    }
+    
+    .swal2-popup.swal2-toast .swal2-content {
+        color: rgba(255, 255, 255, 0.9);
+        font-size: 13px;
+    }
+    
+    .swal2-popup.swal2-toast .swal2-icon.swal2-success {
+        border-color: #afff1a;
+        color: #afff1a;
+    }
+    
+    .swal2-popup.swal2-toast .swal2-icon.swal2-error {
+        border-color: #ff6b6b;
+        color: #ff6b6b;
+    }
+    
+    .swal2-popup.swal2-toast .swal2-icon.swal2-info {
+        border-color: #afff1a;
+        color: #afff1a;
+    }
 </style>
 
 <!-- Main Content -->
@@ -504,6 +554,53 @@ if(isset($_POST['change_password'])) {
 </div>
 
 <script>
+    // Custom toast notification function with system colors
+    function showToast(type, title, message) {
+        let iconColor, borderColor;
+        
+        switch(type) {
+            case 'success':
+                iconColor = '#afff1a';
+                borderColor = '#afff1a';
+                break;
+            case 'error':
+                iconColor = '#ff6b6b';
+                borderColor = '#ff6b6b';
+                break;
+            case 'info':
+                iconColor = '#afff1a';
+                borderColor = '#afff1a';
+                break;
+            default:
+                iconColor = '#afff1a';
+                borderColor = '#afff1a';
+        }
+        
+        Swal.fire({
+            toast: true,
+            position: 'top-start',
+            icon: type,
+            title: title,
+            text: message,
+            showConfirmButton: false,
+            timer: 4000,
+            timerProgressBar: true,
+            background: '#104042',
+            color: '#fff',
+            customClass: {
+                popup: 'custom-toast-popup'
+            },
+            didOpen: (toast) => {
+                toast.style.borderLeft = `4px solid ${borderColor}`;
+                const icon = toast.querySelector('.swal2-icon');
+                if (icon) {
+                    icon.style.borderColor = iconColor;
+                    icon.style.color = iconColor;
+                }
+            }
+        });
+    }
+
     // Handle profile image upload
     document.addEventListener('DOMContentLoaded', function() {
         const profileUpload = document.getElementById('profile-upload');
@@ -512,6 +609,21 @@ if(isset($_POST['change_password'])) {
         if (profileUpload) {
             profileUpload.addEventListener('change', function() {
                 if (this.files && this.files[0]) {
+                    // Show loading notification
+                    Swal.fire({
+                        title: 'Uploading...',
+                        text: 'Please wait while we upload your profile photo',
+                        icon: 'info',
+                        allowOutsideClick: false,
+                        showConfirmButton: false,
+                        position: 'top-start',
+                        toast: true,
+                        timer: false,
+                        didOpen: () => {
+                            Swal.showLoading();
+                        }
+                    });
+                    
                     // Add a hidden submit button to the form
                     const submitBtn = document.createElement('button');
                     submitBtn.type = 'submit';
