@@ -41,7 +41,7 @@ if(isset($_POST['upload_picture'])){
 
         if(true){
             toast_alert("success","Your Image Uploaded Successfully", "Thanks!");
-            echo "<script>location.reload(true);</script>";
+            echo "<script>window.location.href = window.location.pathname;</script>";
 
         }else{
             echo "invalid";
