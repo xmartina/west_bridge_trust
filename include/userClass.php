@@ -1,8 +1,11 @@
 <?php
-include 'vendor/autoload.php';
+if (!defined('INCLUDE_PATH')) {
+    define('INCLUDE_PATH', __DIR__ . '/');
+}
+require INCLUDE_PATH . 'vendor/autoload.php';
 use PHPMailer\PHPMailer\PHPMailer;
-require_once('config.php');
-require_once($_SERVER['DOCUMENT_ROOT']."/include/smtp.php");
+require_once INCLUDE_PATH . 'config.php';
+require_once INCLUDE_PATH . 'smtp.php';
 
 class USER{
     private $conn;

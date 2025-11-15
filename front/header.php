@@ -1,12 +1,10 @@
 <?php
+if (!defined('INCLUDE_PATH')) {
+    define('INCLUDE_PATH', dirname(__DIR__) . '/include/');
+}
 
-
-const rootDir = '/home/multistream6/domains/dashboard.fnbamerica.com/public_html';
-require __DIR__."/../include/loginFunction.php";
-require rootDir."/../include/loginFunction.php";
-require_once __DIR__."/../session.php";
-require_once rootDir."/../session.php";
-// require_once("/include/UserFunction.php");
+require INCLUDE_PATH . 'loginFunction.php';
+require_once dirname(__DIR__) . '/session.php';
 
 $sql = "SELECT * FROM settings WHERE id ='1'";
 $stmt = $conn->prepare($sql);

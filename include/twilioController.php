@@ -1,5 +1,8 @@
 <?php
-require_once "vendor/autoload.php";
+if (!defined('INCLUDE_PATH')) {
+    define('INCLUDE_PATH', __DIR__ . '/');
+}
+require_once INCLUDE_PATH . 'vendor/autoload.php';
 use Twilio\Rest\Client;
 
 class twilioController

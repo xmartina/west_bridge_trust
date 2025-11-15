@@ -1,9 +1,10 @@
 <?php
 //error_reporting(E_ALL);
 //ini_set('display_errors', 1);
-const rootDir = '/home/multistream6/domains/dashboard.westbridgetrust.com/public_html/';
-require '../include/vendor/autoload.php';
-require rootDir . 'include/vendor/autoload.php';
+if (!defined('INCLUDE_PATH')) {
+    define('INCLUDE_PATH', dirname(__DIR__) . '/include/');
+}
+require INCLUDE_PATH . 'vendor/autoload.php';
 require_once('../include/config.php');
 require_once('../include/smtp.php');
 require_once('../include/userClass.php');

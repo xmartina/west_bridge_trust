@@ -1,26 +1,37 @@
 <?php
-// error_reporting(E_ALL);
-// ini_set('display_errors', 1);
+error_reporting(E_ALL);
+ini_set('display_errors', 0);
 define("WEB_TITLE","West Bridge Trust PLC"); // Change Bank Name
 define("WEB_URL","https://dashboard.westbridgetrust.com"); // Change No "/" Ending splash
 define("WEB_EMAIL","contact@westbridgetrust.com"); // Change Your Website Email
 
+if (!defined('BASE_PATH')) {
+    define('BASE_PATH', dirname(__DIR__) . '/');
+}
+if (!defined('INCLUDE_PATH')) {
+    define('INCLUDE_PATH', __DIR__ . '/');
+}
+if (!defined('ROOT_PATH')) {
+    define('ROOT_PATH', BASE_PATH);
+}
+
 $web_url = WEB_URL;
 function support_plugin(){
-    require_once 'support_plugin.php';
+    require_once INCLUDE_PATH . 'support_plugin.php';
 }
 
 function dbConnect(){
     $servername = "localhost";
-    $username = "multistream6_westbridgetrust_back";//DATABASE USERNAME
-    $password = "westbridgetrust_back";//DATABASE PASSWORD
-    $database = "multistream6_westbridgetrust_back";//DATABASE NAME
+    $username = "dashboard_westbridgetrust";//DATABASE USERNAME
+    $password = "dashboard_westbridgetrust";//DATABASE PASSWORD
+    $database = "dashboard_westbridgetrust";//DATABASE NAME
     $dns = "mysql:host=$servername;dbname=$database";
 
     try {
-        $conn = new PDO($dns, $username, $password);
-        // set the PDO error mode to exception
-        $conn->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+        $conn = new PDO($dns, $username, $password, [
+            PDO::ATTR_ERRMODE => PDO::ERRMODE_EXCEPTION,
+            PDO::ATTR_DEFAULT_FETCH_MODE => PDO::FETCH_ASSOC,
+        ]);
         return $conn;
     } catch(PDOException $e) {
         echo "Connection failed: " . $e->getMessage();

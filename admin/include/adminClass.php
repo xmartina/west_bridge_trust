@@ -1,7 +1,10 @@
 <?php
-require_once '../include/vendor/autoload.php';
+if (!defined('ADMIN_INCLUDE_PATH')) {
+    define('ADMIN_INCLUDE_PATH', dirname(__DIR__, 1) . '/../include/');
+}
+require_once ADMIN_INCLUDE_PATH . 'vendor/autoload.php';
 use PHPMailer\PHPMailer\PHPMailer;
-require_once($_SERVER['DOCUMENT_ROOT']."/include/smtp.php");
+require_once ADMIN_INCLUDE_PATH . 'smtp.php';
 //const APP_NAME = "Bank Pro";
 
 const ENV = 'online';

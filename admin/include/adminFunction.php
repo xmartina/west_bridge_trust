@@ -1,7 +1,7 @@
 <?php
 //include '../vendor/autoload.php';
 //use PHPMailer\PHPMailer\PHPMailer;
-const APP_NAME = "Bank Pro";
+const APP_NAME = "West Bridge Trust";
 
 
 function toast_alert($type,$msg, $title = false){

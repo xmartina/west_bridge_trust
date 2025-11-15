@@ -1,9 +1,7 @@
 <?php
-const rootDir = '/home/multistream6/domains/dashboard.westbridgetrust.com/public_html/';
-require rootDir . 'include/vendor/autoload.php';
+require dirname(__DIR__, 2) . '/include/vendor/autoload.php';
 ob_start();
 // Import required files and initialize session
-require_once('../include/vendor/autoload.php');
 require_once('../session.php');
 require_once("../include/loginFunction.php");
 require_once("../include/userClass.php");
@@ -13,15 +11,15 @@ require_once("../include/twilioController.php");
 
 // Session timeout check
 if(isset($_SESSION["name"])) {
-    if((time() - $_SESSION['last_login_timestamp']) > 60) { // 900 = 15 * 60
+    if(isset($_SESSION['last_login_timestamp']) && (time() - $_SESSION['last_login_timestamp']) > 900) {
         header("location:logout.php");
-    } else {
-        $_SESSION['last_login_timestamp'] = time();
+        exit;
     }
+    $_SESSION['last_login_timestamp'] = time();
 }
 
 // Redirect if not logged in
-if(!$_SESSION['acct_no']) {
+if(empty($_SESSION['acct_no'])) {
     header("location:../login.php");
     exit;
 }

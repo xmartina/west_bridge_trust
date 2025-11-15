@@ -1,6 +1,9 @@
 <?php
 // Import required files and initialize session
-require_once('../include/vendor/autoload.php');
+if (!defined('INCLUDE_PATH')) {
+    define('INCLUDE_PATH', dirname(__DIR__) . '/include/');
+}
+require_once INCLUDE_PATH . 'vendor/autoload.php';
 require_once('../session.php');
 require_once("../include/loginFunction.php");
 require_once("../include/userClass.php");

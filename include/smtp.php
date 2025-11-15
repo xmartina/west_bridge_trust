@@ -1,6 +1,8 @@
 <?php
-const rootDir = '/home/multistream6/domains/dashboard.westbridgetrust.com/public_html/';
-require rootDir . 'include/vendor/autoload.php';
+if (!defined('INCLUDE_PATH')) {
+    define('INCLUDE_PATH', __DIR__ . '/');
+}
+require INCLUDE_PATH . 'vendor/autoload.php';
 
 
 use PHPMailer\PHPMailer\PHPMailer;
