@@ -8,6 +8,14 @@ class message{
     private $conn;
     
     public function send_mail($email, $message, $subject){
+        // Ensure required constants are defined
+        if (!defined('WEB_EMAIL')) {
+            define('WEB_EMAIL', 'noreply@example.com');
+        }
+        if (!defined('WEB_TITLE')) {
+            define('WEB_TITLE', 'Website');
+        }
+        
         // Use PHP's native mail() function
         // Set email headers for HTML content
         $headers = "MIME-Version: 1.0" . "\r\n";

@@ -8,6 +8,9 @@ require_once('../include/config.php');
 require_once('../include/smtp.php');
 require_once('../include/userClass.php');
 
+// Initialize database connection BEFORE header
+$conn = dbConnect();
+
 $pageName  = "Registration";
 require_once './layout/header.php';
 

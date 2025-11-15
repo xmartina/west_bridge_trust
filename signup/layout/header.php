@@ -1,6 +1,10 @@
 <?php
 ob_start();
 require_once("../include/loginFunction.php");
+// Initialize database connection if not already set
+if (!isset($conn)) {
+    $conn = dbConnect();
+}
 $sql = "SELECT * FROM settings WHERE id ='1'";
 $stmt = $conn->prepare($sql);
 $stmt->execute();
