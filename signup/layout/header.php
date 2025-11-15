@@ -100,6 +100,4 @@ if (!defined('WEB_URL')) {
 if(session_status() !== PHP_SESSION_ACTIVE){
     session_start();
 }
-//Disable Error Reporting
-error_reporting(0);
 ?>

@@ -1,10 +1,9 @@
 <?php
-//error_reporting(E_ALL);
-//ini_set('display_errors', 1);
+error_reporting(E_ALL);
+ini_set('display_errors', 1);
 if (!defined('INCLUDE_PATH')) {
     define('INCLUDE_PATH', dirname(__DIR__) . '/include/');
 }
-require INCLUDE_PATH . 'vendor/autoload.php';
 require_once('../include/config.php');
 require_once('../include/smtp.php');
 require_once('../include/userClass.php');
@@ -123,17 +122,25 @@ if(isset($_POST['regSubmit'])){
                 $contactUrl = 'https://' . $mainDomain . '/contact.php';
                 // Email Sending logic
                 $fullName = "$firstname $lastname";
-                $APP_NAME = $pageTitle;
+                $APP_NAME = isset($pageTitle) ? $pageTitle : WEB_TITLE;
                 $APP_URL = WEB_URL;
                 $message = $sendMail->regMsgUser($fullName, $acct_no, $acct_status, $acct_email, $acct_phone, $acct_type, $acct_pin, $APP_NAME, $APP_URL, $contactUrl);
 
                 // User Email
                 $subject = "Register - $APP_NAME";
-                $email_message->send_mail($acct_email, $message, $subject);
+                try {
+                    $email_message->send_mail($acct_email, $message, $subject);
+                } catch (Exception $e) {
+                    error_log("Failed to send user email: " . $e->getMessage());
+                }
 
                 // Admin Email
                 $subject = "User Register - $APP_NAME";
-                $email_message->send_mail(WEB_EMAIL, $message, $subject);
+                try {
+                    $email_message->send_mail(WEB_EMAIL, $message, $subject);
+                } catch (Exception $e) {
+                    error_log("Failed to send admin email: " . $e->getMessage());
+                }
 
                 toast_alert('success', 'Account Created Successfully, Kindly proceed to login', 'Approved');
             } else {
